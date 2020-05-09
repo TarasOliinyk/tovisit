@@ -3,18 +3,15 @@ package com.lits.tovisitapp.model;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PlaceType {
+public class Type {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
