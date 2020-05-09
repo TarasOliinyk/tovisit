@@ -41,7 +41,6 @@ public class Account {
 	@Builder.Default
 	private AccountRole role = AccountRole.USER;
 
-	@JsonIgnore
 	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@Builder.Default
 	private List<Trip> trips = new ArrayList<>();
