@@ -40,7 +40,7 @@ public class Trip {
 	@UpdateTimestamp
 	private LocalDateTime updatedAt;
 
-	@Column(name = "account_id", insertable = false, updatable = false, nullable = false)
+	@Column(name = "account_id", insertable = false, updatable = false/*, nullable = false*/)
 	private Long accountId;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)

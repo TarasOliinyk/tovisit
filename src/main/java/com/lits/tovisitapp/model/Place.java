@@ -45,7 +45,7 @@ public class Place {
 	@Column(nullable = false)
 	private BigDecimal rating;
 
-	@Column(name = "trip_id", insertable = false, updatable = false, nullable = false)
+	@Column(name = "trip_id", insertable = false, updatable = false/*, nullable = false*/)
 	private Long tripId;
 
 	@ToString.Exclude
