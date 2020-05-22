@@ -6,7 +6,7 @@ public class SecurityConstants {
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";
     public static final String ACCOUNT_ID_PARAM = "accountId";
-    public static final String ACCOUNT_ROLE_PARAM = "accountRole";
+    //public static final String ACCOUNT_ROLE_PARAM = "accountRole";
     public static final String SIGN_UP_URL = "/app/accounts/sign-up";
 
     private SecurityConstants() {

@@ -1,6 +1,5 @@
 package com.lits.tovisitapp.controller;
 
-import com.lits.tovisitapp.dto.PermissionDto;
 import com.lits.tovisitapp.dto.RoleDto;
 import com.lits.tovisitapp.service.PermissionService;
 import com.lits.tovisitapp.service.RoleService;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("/app/roles")
@@ -38,18 +36,13 @@ public class RoleController {
 
 
     @PutMapping("/role/perm/{id}")
-    public RoleDto addPermissionsToRole(@PathVariable Long id, @RequestBody List<String> permissions) {
-        RoleDto roleDto = roleService.findRoleById(id);
-        List<PermissionDto> permissionDto = permissions
-                .stream().map(p -> new PermissionDto(p, id))
-                .map(permissionService::update).collect(toList());
-        roleDto.setPermissions(permissionDto);
-        return roleService.update(roleDto);
+    public RoleDto assignPermissionsToRole(@PathVariable String role, String permission) {
+        return roleService.assignPermissionToRole(role, permission);
     }
 
     @DeleteMapping("/role/perm/delete/{id}")
-    public void deletePermissionFromRole(@PathVariable Long id) {
-
+    public RoleDto unassignPermissionFromRole(@PathVariable String role, String permission) {
+        return roleService.unassignPermissionFromRole(role, permission);
     }
 
     @DeleteMapping("/role/delete/{id}")

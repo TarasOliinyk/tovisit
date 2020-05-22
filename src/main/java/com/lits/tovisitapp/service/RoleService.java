@@ -15,5 +15,9 @@ public interface RoleService {
 
     RoleDto update(RoleDto roleDto);
 
+    RoleDto assignPermissionToRole(String roleName, String permissionName);
+
+    RoleDto unassignPermissionFromRole(String roleName, String permissionName);
+
     void delete(Long roleId);
 }

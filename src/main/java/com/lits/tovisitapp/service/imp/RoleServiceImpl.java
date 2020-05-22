@@ -1,7 +1,9 @@
 package com.lits.tovisitapp.service.imp;
 
 import com.lits.tovisitapp.dto.RoleDto;
+import com.lits.tovisitapp.model.Permission;
 import com.lits.tovisitapp.model.Role;
+import com.lits.tovisitapp.repository.PermissionRepository;
 import com.lits.tovisitapp.repository.RoleRepository;
 import com.lits.tovisitapp.service.RoleService;
 import org.modelmapper.ModelMapper;
@@ -16,11 +18,13 @@ import static java.util.stream.Collectors.toList;
 public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
+    private final PermissionRepository permissionRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public RoleServiceImpl(RoleRepository roleRepository, ModelMapper modelMapper) {
+    public RoleServiceImpl(RoleRepository roleRepository, PermissionRepository permissionRepository, ModelMapper modelMapper) {
         this.roleRepository = roleRepository;
+        this.permissionRepository = permissionRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -51,6 +55,22 @@ public class RoleServiceImpl implements RoleService {
     public RoleDto update(RoleDto roleDto) {
         Role role = modelMapper.map(roleDto, Role.class);
         return modelMapper.map(roleRepository.save(role), RoleDto.class);
+    }
+
+    @Override
+    public RoleDto assignPermissionToRole(String roleName, String permissionName) {
+        Role role = roleRepository.findOneByName(roleName).orElseThrow();
+        Permission permission = permissionRepository.findOneByName(permissionName).orElseThrow();
+        role.getPermissions().add(permission);
+        return update(modelMapper.map(role, RoleDto.class));
+    }
+
+    @Override
+    public RoleDto unassignPermissionFromRole(String roleName, String permissionName) {
+        Role role = roleRepository.findOneByName(roleName).orElseThrow();
+        Permission permission = permissionRepository.findOneByName(permissionName).orElseThrow();
+        role.getPermissions().remove(permission);
+        return update(modelMapper.map(role, RoleDto.class));
     }
 
     @Override

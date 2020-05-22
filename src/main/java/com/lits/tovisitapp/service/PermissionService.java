@@ -5,6 +5,7 @@ import com.lits.tovisitapp.dto.PermissionDto;
 import java.util.List;
 
 public interface PermissionService {
+
     Long create(PermissionDto permissionDto);
 
     PermissionDto findPermission(Long permissionId);

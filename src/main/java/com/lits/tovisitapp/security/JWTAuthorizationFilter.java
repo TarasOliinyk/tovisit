@@ -3,6 +3,9 @@ package com.lits.tovisitapp.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.lits.tovisitapp.dto.AccountDto;
+import com.lits.tovisitapp.service.AccountService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,11 +18,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.lits.tovisitapp.security.SecurityConstants.*;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
+
+    private AccountService accountService;
 
     public JWTAuthorizationFilter(AuthenticationManager authManager) {
         super(authManager);
@@ -46,16 +50,16 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             // parse the token.
             DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(SECRET.getBytes())).build()
                     .verify(token.replace(TOKEN_PREFIX, ""));
-            String username = decodedJWT.getSubject();
-            Long userId = decodedJWT.getClaim(ACCOUNT_ID_PARAM).asLong();
 
-            List<SimpleGrantedAuthority> userRole = decodedJWT.getClaim(ACCOUNT_ROLE_PARAM).asList(String.class)
-                    .stream().map(p -> new SimpleGrantedAuthority(p)).collect(Collectors.toList());
+            String username = decodedJWT.getSubject();
+
+            AccountDto accountDto = accountService.findByUsername(username);
+            List<SimpleGrantedAuthority> authorities = accountService.getUserAuthorities(accountDto.getId());
             if (username != null) {
                 return new UsernamePasswordAuthenticationToken(
                         username,
-                        userId,
-                        userRole);
+                        accountDto.getId(),
+                        authorities);
             }
             return null;
         }

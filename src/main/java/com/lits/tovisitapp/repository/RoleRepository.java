@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface RoleRepository extends CrudRepository<Role, Long> {
     Optional<Role> findOneById(Long id);
 
+    Optional<Role> findOneByName(String name);
+
     List<Role> findAll();
 
     List<Role> findAllByIdIn(List<Long> ids);

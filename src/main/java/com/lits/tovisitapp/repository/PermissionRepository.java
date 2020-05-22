@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface PermissionRepository extends CrudRepository<Permission, Long> {
     Optional<Permission> findOneById(Long id);
+    Optional<Permission> findOneByName(String name);
 }

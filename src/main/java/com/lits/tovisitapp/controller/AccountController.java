@@ -1,7 +1,6 @@
 package com.lits.tovisitapp.controller;
 
 import com.lits.tovisitapp.dto.AccountDto;
-import com.lits.tovisitapp.dto.RoleDto;
 import com.lits.tovisitapp.service.AccountService;
 import com.lits.tovisitapp.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/app/accounts")
@@ -41,20 +39,13 @@ public class AccountController {
     }
 
     @PutMapping("/account/role/{id}")
-    public AccountDto assignRole(@PathVariable Long id, @RequestBody List<Long> roleIds) {
-        List<RoleDto> roleDto = roleService
-                .findRolesWithIds(roleIds)
-                .stream()
-                .peek(roleDTO -> roleDTO.setUserId(id))
-                .map(roleService::update)
-                .collect(Collectors.toList());
-        AccountDto accountDto = accountService.findById(id);
-        accountDto.setRole(roleDto);
-        return accountService.update(accountDto);
+    public AccountDto assignRoleToAccount(@PathVariable Long id, String name) {
+        return accountService.assignRoleToAccount(id, name);
     }
 
     @DeleteMapping("/account/role/delete/{id}")
-    public void unAssignRole(@PathVariable Long id, @RequestBody Long roleIds) {
+    public AccountDto unssignRole(@PathVariable Long id, String name) {
+        return accountService.unassignRoleFromAccount(id, name);
     }
 
     @DeleteMapping("/account/delete/{id}")
