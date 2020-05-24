@@ -1,22 +1,15 @@
 package com.lits.tovisitapp.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.lits.tovisitapp.supplementary_data.AccountRole;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@EqualsAndHashCode(exclude = {"password", "trips"})
+@EqualsAndHashCode(exclude = {"password", "trips", "roles"})
 @ToString(exclude = {"password", "trips"})
 public class Account {
 
@@ -36,13 +29,9 @@ public class Account {
 	@Column(nullable = false)
 	private String password;
 
-	@Column(nullable = false)
-	@Enumerated(value = EnumType.STRING)
-	@Builder.Default
-	private AccountRole role = AccountRole.USER;
+	@ManyToMany
+	private List<Role> roles = new ArrayList<>();
 
 	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	@Builder.Default
 	private List<Trip> trips = new ArrayList<>();
-
 }
