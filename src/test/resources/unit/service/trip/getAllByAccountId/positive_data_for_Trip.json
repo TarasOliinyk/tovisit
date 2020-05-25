@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "name": "Ukraine-1",
+    "createdAt": "2020-05-22 10:42:11",
+    "updatedAt": "2020-05-22 10:42:11",
+    "account": {
+      "id": 1,
+      "firstName": "Piter",
+      "lastName": "Pen",
+      "username": "piter",
+      "password": "123",
+      "role": "USER"
+    },
+    "places": [
+      {
+        "id": 1,
+        "googlePlaceId": "Lviv-1",
+        "parentLocation": "Lviv-1",
+        "name": "Astoria Hotel",
+        "formattedAddress": "Lviv",
+        "locationLat": 0.300000000000000,
+        "locationLng": 0.200000000000000,
+        "priceLevel": 3,
+        "rating": 3.00,
+        "types": []
+      },
+      {
+        "id": 2,
+        "googlePlaceId": "Lviv-2",
+        "parentLocation": "Lviv-2",
+        "name": "Lviv Hotel",
+        "formattedAddress": "Lviv",
+        "locationLat": 0.300000000000000,
+        "locationLng": 0.200000000000000,
+        "priceLevel": 3,
+        "rating": 3.00,
+        "types": []
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Ukraine-2",
+    "createdAt": "2020-05-22 10:42:11",
+    "updatedAt": "2020-05-22 10:42:11",
+    "account": {
+      "id": 1,
+      "firstName": "Piter",
+      "lastName": "Pen",
+      "username": "piter",
+      "password": "123",
+      "role": "USER"
+    },
+    "places": [
+      {
+        "id": 2,
+        "googlePlaceId": "Lviv-2",
+        "parentLocation": "Lviv-2",
+        "name": "Lviv Hotel",
+        "formattedAddress": "Lviv",
+        "locationLat": 0.300000000000000,
+        "locationLng": 0.200000000000000,
+        "priceLevel": 3,
+        "rating": 3.00,
+        "types": []
+      },
+      {
+        "id": 3,
+        "googlePlaceId": "Lviv-3",
+        "parentLocation": "Lviv-3",
+        "name": "Bank Hotel",
+        "formattedAddress": "Lviv",
+        "locationLat": 0.200000000000000,
+        "locationLng": 0.100000000000000,
+        "priceLevel": 4,
+        "rating": 5.00,
+        "types": []
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Ukraine-3",
+    "createdAt": "2020-05-22 10:42:11",
+    "updatedAt": "2020-05-22 10:42:11",
+    "account": {
+      "id": 1,
+      "firstName": "Piter",
+      "lastName": "Pen",
+      "username": "piter",
+      "password": "123",
+      "role": "USER"
+    },
+    "places": [
+      {
+        "id": 1,
+        "googlePlaceId": "Lviv-1",
+        "parentLocation": "Lviv-1",
+        "name": "Astoria Hotel",
+        "formattedAddress": "Lviv",
+        "locationLat": 0.300000000000000,
+        "locationLng": 0.200000000000000,
+        "priceLevel": 3,
+        "rating": 3.00,
+        "types": []
+      },
+      {
+        "id": 3,
+        "googlePlaceId": "Lviv-3",
+        "parentLocation": "Lviv-3",
+        "name": "Bank Hotel",
+        "formattedAddress": "Lviv",
+        "locationLat": 0.200000000000000,
+        "locationLng": 0.100000000000000,
+        "priceLevel": 4,
+        "rating": 5.00,
+        "types": []
+      }
+    ]
+  }
+]

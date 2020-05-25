@@ -1,0 +1,26 @@
+[
+  {
+    "id": 3,
+    "googlePlaceId": "Lviv-3",
+    "parentLocation": "Lviv-3",
+    "name": "Bank Hotel",
+    "formattedAddress": "Lviv",
+    "locationLat": 0.200000000000000,
+    "locationLng": 0.100000000000000,
+    "priceLevel": 4,
+    "rating": 5.00,
+    "types": []
+  },
+  {
+    "id": 4,
+    "googlePlaceId": "Lviv-4",
+    "parentLocation": "Lviv-4",
+    "name": "Grand Hotel",
+    "formattedAddress": "Lviv",
+    "locationLat": 0.300000000000000,
+    "locationLng": 0.200000000000000,
+    "priceLevel": 5,
+    "rating": 5.00,
+    "types": []
+  }
+]

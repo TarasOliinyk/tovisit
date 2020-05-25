@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Ukraine-1",
+    "createdAt": "2020-05-22 10:42:11",
+    "updatedAt": "2020-05-22 10:42:11",
+    "accountId": 1,
+    "placeIds": [1,2]
+  },
+  {
+    "id": 2,
+    "name": "Ukraine-2",
+    "createdAt": "2020-05-22 10:42:11",
+    "updatedAt": "2020-05-22 10:42:11",
+    "accountId": 2,
+    "placeIds": [2,3]
+  },
+  {
+    "id": 3,
+    "name": "Ukraine-3",
+    "createdAt": "2020-05-22 10:42:11",
+    "updatedAt": "2020-05-22 10:42:11",
+    "accountId": 1,
+    "placeIds": [1,3]
+  }
+]

@@ -1,23 +1,26 @@
 package com.lits.tovisitapp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.*;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.validation.constraints.*;
-import java.time.Instant;
-import java.time.LocalDate;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Data
+@Table
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -34,24 +37,34 @@ public class Trip {
 
 	@Column(nullable = false)
 	@CreationTimestamp
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime createdAt;
 
 	@Column(nullable = false)
 	@UpdateTimestamp
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime updatedAt;
 
-	@Column(name = "account_id", insertable = false, updatable = false, nullable = false)
-	private Long accountId;
+//	@Column(name = "account_id", insertable = false, updatable = false, nullable = false)
+//	private Long accountId;
 
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+//	@JoinColumn(name="account_id", nullable = false)
 	private Account account;
 
+	@JsonManagedReference
 	@OneToMany(mappedBy = "trip", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@Builder.Default
 	private List<Place> places = new ArrayList<>();
 
-	public void setAccount(Account account) {
-		this.account = account;
-		this.accountId = (account != null && account.getId() != null) ? account.getId() : null;
-	}
+//	public void setAccount(Account account) {
+//		this.account = account;
+//		this.accountId = (account != null && account.getId() != null) ? account.getId() : null;
+//	}
+
 }

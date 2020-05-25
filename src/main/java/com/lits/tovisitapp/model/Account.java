@@ -1,7 +1,8 @@
 package com.lits.tovisitapp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.lits.tovisitapp.supplementary_data.AccountRole;
+//import com.lits.tovisitapp.supplementary_data.AccountRole;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.util.Set;
 
 @Entity
 @Data
+@Table
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -37,10 +39,12 @@ public class Account {
 	private String password;
 
 	@Column(nullable = false)
-	@Enumerated(value = EnumType.STRING)
-	@Builder.Default
-	private AccountRole role = AccountRole.USER;
+//	@Enumerated(value = EnumType.STRING)
+//	@Builder.Default
+//	private AccountRole role = AccountRole.USER;
+	private String role;
 
+	@JsonManagedReference
 	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@Builder.Default
 	private List<Trip> trips = new ArrayList<>();
