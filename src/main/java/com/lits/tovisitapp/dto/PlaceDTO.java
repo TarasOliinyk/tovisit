@@ -1,5 +1,7 @@
 package com.lits.tovisitapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.lits.tovisitapp.annotation.NotBlankOrNull;
 import com.lits.tovisitapp.model.Type;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,37 +20,39 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonInclude(value = JsonInclude.Include.NON_NULL) // this will hide null variables from serialized JSON
 public class PlaceDTO {
-	@Positive
+	@Positive(message = "{idPositive}")
 	private Long id;
 
-	@NotBlank
+	@NotBlank(message = "{gPlaceIdNotBlank}")
 	private String googlePlaceId;
 
-	@NotBlank
+	@NotBlankOrNull(message = "{parentLocationNotBlankOrNull}")
 	private String parentLocation;
 
-	@NotBlank
+	@NotBlank(message = "{nameNotBlank}")
 	private String name;
 
-	@NotBlank
+	@NotBlank(message = "{fAddressNotBlank}")
 	private String formattedAddress;
 
-	@NotNull
-	private BigDecimal locationLat;
+	@NotNull(message = "{locationLatNotNull}")
+	private Double locationLat;
 
-	@NotNull
-	private BigDecimal locationLng;
+	@NotNull(message = "{locationLngNotNull}")
+	private Double locationLng;
 
-	@Range(min=1, max=5)
+	@Range(min=1, max=5, message = "{priceLevelRange}")
 	private Integer priceLevel;
 
-	@Range(min=0, max=5)
-	private BigDecimal rating;
+	@Range(min=0, max=5, message = "{ratingRange}")
+	private Double rating;
 
-	@Positive
+	@NotNull(message = "{tripIdNotNull}")
+	@Positive(message = "{tripIdPositive}")
 	private Long tripId;
 
 	@Builder.Default
-	private List<Type> types = new ArrayList<>();
+	private List<String> types = new ArrayList<>();
 }
