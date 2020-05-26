@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lits.tovisitapp.model.Role;
 import lombok.*;
 
+import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class PermissionDTO {
 
     private Long id;
 
+    @NotBlank(message = "Permission name cannot be blank or null")
     private String name;
 
     @JsonIgnore

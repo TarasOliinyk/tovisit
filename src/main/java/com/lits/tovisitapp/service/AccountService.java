@@ -17,6 +17,10 @@ public interface AccountService {
 
     AccountDTO updateAccount(AccountDTO account);
 
+    AccountDTO assignRoles(Long accountId, List<Long> roleIds);
+
+    AccountDTO unassignRole(Long accountId, Long roleId);
+
     List<SimpleGrantedAuthority> getAccountAuthorities(Long accountId);
 
     void deleteAccount(Long accountId);

@@ -3,8 +3,10 @@ package com.lits.tovisitapp.service.impl;
 import com.lits.tovisitapp.dto.AccountDTO;
 import com.lits.tovisitapp.dto.RoleDTO;
 import com.lits.tovisitapp.exceptions.account.AccountNotFoundException;
+import com.lits.tovisitapp.exceptions.role.RoleNotFoundException;
 import com.lits.tovisitapp.model.Account;
 import com.lits.tovisitapp.repository.AccountRepository;
+import com.lits.tovisitapp.repository.RoleRepository;
 import com.lits.tovisitapp.service.AccountService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -24,12 +26,14 @@ import java.util.List;
 public class AccountServiceImpl implements AccountService {
     private static Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
     private final AccountRepository accountRepository;
+    private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ModelMapper modelMapper;
 
-    public AccountServiceImpl(AccountRepository accountRepository, BCryptPasswordEncoder bCryptPasswordEncoder,
+    public AccountServiceImpl(AccountRepository accountRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder,
                               ModelMapper modelMapper) {
         this.accountRepository = accountRepository;
+        this.roleRepository = roleRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.modelMapper = modelMapper;
     }
@@ -71,6 +75,24 @@ public class AccountServiceImpl implements AccountService {
         logger.info(String.format("Update account with id %s, updated account: %s", accountDTO.getId(), accountDTO.toString()));
         Account account = modelMapper.map(accountDTO, Account.class);
         return modelMapper.map(accountRepository.save(account), AccountDTO.class);
+    }
+
+    @Override
+    public AccountDTO assignRoles(Long accountId, List<Long> roleIds) {
+        AccountDTO accountDTO = getAccountById(accountId);
+        Type listType = new TypeToken<List<RoleDTO>>(){}.getType();
+        List<RoleDTO> roleDTOs = modelMapper.map(roleRepository.findAllByIdIn(roleIds), listType);
+        accountDTO.getRoles().addAll(roleDTOs);
+        return updateAccount(accountDTO);
+    }
+
+    @Override
+    public AccountDTO unassignRole(Long accountId, Long roleId) {
+        AccountDTO accountDTO = getAccountById(accountId);
+        RoleDTO roleToRemove = modelMapper.map(roleRepository.findOneById(roleId).orElseThrow(
+                () -> new RoleNotFoundException("There is no role with id " + roleId)), RoleDTO.class);
+        accountDTO.getRoles().remove(roleToRemove);
+        return updateAccount(accountDTO);
     }
 
     @Override

@@ -1,8 +1,10 @@
 package com.lits.tovisitapp.service.impl;
 
+import com.lits.tovisitapp.dto.PermissionDTO;
 import com.lits.tovisitapp.dto.RoleDTO;
 import com.lits.tovisitapp.exceptions.role.RoleNotFoundException;
 import com.lits.tovisitapp.model.Role;
+import com.lits.tovisitapp.repository.PermissionRepository;
 import com.lits.tovisitapp.repository.RoleRepository;
 import com.lits.tovisitapp.service.RoleService;
 import org.modelmapper.ModelMapper;
@@ -18,10 +20,13 @@ import java.util.List;
 public class RoleServiceImpl implements RoleService {
     private static Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
     private final RoleRepository roleRepository;
+    private final PermissionRepository permissionRepository;
     private final ModelMapper modelMapper;
 
-    public RoleServiceImpl(RoleRepository roleRepository, ModelMapper modelMapper) {
+    public RoleServiceImpl(RoleRepository roleRepository, PermissionRepository permissionRepository,
+                           ModelMapper modelMapper) {
         this.roleRepository = roleRepository;
+        this.permissionRepository = permissionRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -65,6 +70,31 @@ public class RoleServiceImpl implements RoleService {
         logger.info(String.format("Update role with id %s, updated role: %s", roleDTO.getId(), roleDTO.toString()));
         Role role = modelMapper.map(roleDTO, Role.class);
         return modelMapper.map(roleRepository.save(role), RoleDTO.class);
+    }
+
+    private RoleDTO manipulateRolePermissions(Long roleId, List<Long> permissionIds, boolean add) {
+        RoleDTO roleDTO = getRoleById(roleId);
+        Type listType = new TypeToken<List<PermissionDTO>>(){}.getType();
+        List<PermissionDTO> permissionDTOs = modelMapper.map(permissionRepository.findAllByIdIn(permissionIds), listType);
+
+        if (add) {
+            roleDTO.getPermissions().addAll(permissionDTOs);
+        } else {
+            roleDTO.getPermissions().removeAll(permissionDTOs);
+        }
+        return updateRole(roleDTO);
+    }
+
+    @Override
+    public RoleDTO addPermissionsToRole(Long roleId, List<Long> permissionIds) {
+        logger.info(String.format("Add permissions with ids %s to role with id %s", permissionIds.toString(), roleId));
+        return manipulateRolePermissions(roleId, permissionIds, true);
+    }
+
+    @Override
+    public RoleDTO removePermissionsFromRole(Long roleId, List<Long> permissionIds) {
+        logger.info(String.format("Remove permissions with ids %s from role with id %s", permissionIds.toString(), roleId));
+        return manipulateRolePermissions(roleId, permissionIds, false);
     }
 
     @Override
