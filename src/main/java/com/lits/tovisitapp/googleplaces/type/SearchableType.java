@@ -4,7 +4,7 @@ package com.lits.tovisitapp.googleplaces.type;
 import java.util.stream.Stream;
 
 /**
- * Types that google allows to be passed as a search argument for places search:<br/>
+ * Place types that google allows to be passed as a search argument for places search:<br/>
  * <a href="https://developers.google.com/places/web-service/supported_types">Google Places API</a>
  */
 @SuppressWarnings("unused")

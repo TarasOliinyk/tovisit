@@ -49,7 +49,6 @@ public class PlaceDTO {
 	@Range(min=0, max=5, message = "{ratingRange}")
 	private Double rating;
 
-	@NotNull(message = "{tripIdNotNull}")
 	@Positive(message = "{tripIdPositive}")
 	private Long tripId;
 

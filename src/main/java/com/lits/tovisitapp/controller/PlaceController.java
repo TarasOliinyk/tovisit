@@ -20,7 +20,6 @@ public class PlaceController {
 
 	private PlaceService placeService;
 
-	@Autowired
 	public PlaceController(PlaceService placeService) {
 		this.placeService = placeService;
 	}
@@ -33,7 +32,7 @@ public class PlaceController {
 			final HttpServletResponse response) {
 		PlacesSearchResponse placeSearchResponse =
 				placeService.findNearby(circle, type, obtainParentLocation);
-		response.setHeader("pageToken", placeSearchResponse.getNextPageToken());
+		response.setHeader("nextPageToken", placeSearchResponse.getNextPageToken());
 		return placeSearchResponse.getPlaces();
 	}
 
@@ -45,7 +44,7 @@ public class PlaceController {
 			@RequestParam(required = false, defaultValue = "true") boolean obtainParentLocation,
 			final HttpServletResponse response) {
 		PlacesSearchResponse placeSearchResponse = placeService.findByText(query, circle, type, obtainParentLocation);
-		response.setHeader("pageToken", placeSearchResponse.getNextPageToken());
+		response.setHeader("nextPageToken", placeSearchResponse.getNextPageToken());
 		return placeSearchResponse.getPlaces();
 	}
 
@@ -55,7 +54,7 @@ public class PlaceController {
 			@RequestParam(required = false, defaultValue = "true") boolean obtainParentLocation,
 			final HttpServletResponse response) {
 		PlacesSearchResponse placeSearchResponse = placeService.findNextPage(pageToken, obtainParentLocation);
-		response.setHeader("pageToken", placeSearchResponse.getNextPageToken());
+		response.setHeader("nextPageToken", placeSearchResponse.getNextPageToken());
 		return placeSearchResponse.getPlaces();
 	}
 }

@@ -10,6 +10,7 @@ public interface PlaceService {
 	PlacesSearchResponse findByText(String query, PlacesSearchCircle circle, SearchableType type, boolean obtainParentLocation);
 	PlacesSearchResponse findNextPage(String nextPageToken, boolean obtainParentLocation);
 
+	PlaceDTO findPlaceById(long placeId);
 	PlaceDTO savePlace(PlaceDTO submittedPlace);
 	void deletePlace(long placeId);
 }

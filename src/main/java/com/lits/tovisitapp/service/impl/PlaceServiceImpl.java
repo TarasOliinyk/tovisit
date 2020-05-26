@@ -2,18 +2,20 @@ package com.lits.tovisitapp.service.impl;
 
 import com.lits.tovisitapp.dto.PlaceDTO;
 import com.lits.tovisitapp.exception.place.PlaceBadRequestException;
-import com.lits.tovisitapp.googleplaces.exception.GooglePlacesApiException;
 import com.lits.tovisitapp.exception.place.PlaceNotFoundException;
+import com.lits.tovisitapp.googleplaces.exception.GooglePlacesApiException;
 import com.lits.tovisitapp.googleplaces.parser.GooglePlacesResponseParser;
+import com.lits.tovisitapp.googleplaces.type.PlacesSearchCircle;
+import com.lits.tovisitapp.googleplaces.type.PlacesSearchResponse;
+import com.lits.tovisitapp.googleplaces.type.PlacesSearchStatus;
+import com.lits.tovisitapp.googleplaces.type.SearchableType;
 import com.lits.tovisitapp.model.Place;
 import com.lits.tovisitapp.model.Type;
 import com.lits.tovisitapp.repository.PlaceRepository;
 import com.lits.tovisitapp.repository.TypeRepository;
 import com.lits.tovisitapp.service.PlaceService;
-import com.lits.tovisitapp.googleplaces.type.PlacesSearchResponse;
-import com.lits.tovisitapp.googleplaces.type.PlacesSearchStatus;
-import com.lits.tovisitapp.googleplaces.type.PlacesSearchCircle;
-import com.lits.tovisitapp.googleplaces.type.SearchableType;
+import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -23,14 +25,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.DefaultUriBuilderFactory;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 @PropertySource("googlePlaces.properties")
+@Log
 public class PlaceServiceImpl implements PlaceService {
 
 	private PlaceRepository placeRepository;
@@ -60,13 +64,6 @@ public class PlaceServiceImpl implements PlaceService {
 	@Value("${nextPageSearch.sleepMs}")
 	private int nextPageSearchSleepMs;
 
-	@PostConstruct
-	private void init() {
-		uriFindPlacesNearby = uriFindPlacesNearby.replace("%apiKey%", apiKey);
-		uriFindPlacesByText = uriFindPlacesByText.replace("%apiKey%", apiKey);
-		uriFindPlaceById = uriFindPlaceById.replace("%apiKey%", apiKey);
-	}
-
 	public PlaceServiceImpl(
 			ModelMapper mapper,
 			PlaceRepository placeRepository,
@@ -88,13 +85,18 @@ public class PlaceServiceImpl implements PlaceService {
 		if (circle == null) {
 			throw new PlaceBadRequestException("Search circle cannot be null");
 		}
-		String params = "location=" + circle.getLatitude() + "," + circle.getLongitude() + "&radius=" + circle.getRadius();
+		UriComponentsBuilder uriBuilder = UriComponentsBuilder
+				.fromHttpUrl(uriFindPlacesNearby)
+				.queryParam("location", circle.getLatitude() + "," + circle.getLongitude())
+				.queryParam("radius", circle.getRadius());
 		if (type != null) {
-			params += "&type=" + type.name().toLowerCase();
+			uriBuilder = uriBuilder.queryParam("type", type.name().toLowerCase());
 		}
-		String URI = uriFindPlacesNearby.replace("%params%", params);
+		uriBuilder = uriBuilder.queryParam("key", apiKey);
 
-		return searchPlaces(URI, obtainParentLocation, false);
+		log.info("find place nearby: circle: " + circle.toString()
+				+ (type != null ? " and type: '" + type.name().toLowerCase() + "'" : ""));
+		return searchPlaces(uriBuilder.build().toString(), obtainParentLocation, false);
 	}
 
 	//<editor-fold desc="Exposed methods">
@@ -105,18 +107,28 @@ public class PlaceServiceImpl implements PlaceService {
 			SearchableType type,
 			boolean obtainParentLocation) {
 		if (query == null || query.isBlank()) {
-			throw new PlaceBadRequestException("Search query cannot be null");
+			throw new PlaceBadRequestException("Search query cannot be null or blank");
 		}
-		String params = "query=" + query;
-		if (circle != null) {
-			params += "&location=" + circle.getLatitude() + "," + circle.getLongitude() + "&radius=" + circle.getRadius();
+
+		DefaultUriBuilderFactory builderFactory = new DefaultUriBuilderFactory();
+		builderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
+
+		UriComponentsBuilder uriBuilder = UriComponentsBuilder
+				.fromHttpUrl(uriFindPlacesByText)
+				.queryParam("query", query);
+		if (circle != null)  {
+			uriBuilder = uriBuilder
+					.queryParam("location", circle.getLatitude(), circle.getLongitude())
+					.queryParam("radius", circle.getRadius());
 		}
 		if (type != null) {
-			params += "&type=" + type.name().toLowerCase();
+			uriBuilder = uriBuilder.queryParam("type", type.name().toLowerCase());
 		}
-		String URI = uriFindPlacesByText.replace("%params%", params);
-
-		return searchPlaces(URI, obtainParentLocation, false);
+		uriBuilder = uriBuilder.queryParam("key", apiKey);
+		log.info("find place by text: with query: '" + query + "'"
+				+ (circle != null ? " and circle: " + circle.toString() : "")
+				+ (type != null ? " and type: '" + type.name().toLowerCase() + "'" : ""));
+		return searchPlaces(uriBuilder.build().toString(), obtainParentLocation, false);
 	}
 
 	@Override
@@ -124,8 +136,23 @@ public class PlaceServiceImpl implements PlaceService {
 		if (pageToken == null || pageToken.isBlank()) {
 			throw new PlaceBadRequestException("Next page token cannot be null");
 		}
-		String URI = uriFindPlacesByText.replace("%params%", "pagetoken=" + pageToken);
-		return searchPlaces(URI, obtainParentLocation, true);
+		UriComponentsBuilder uriBuilder = UriComponentsBuilder
+				.fromHttpUrl(uriFindPlacesByText)
+				.queryParam("pagetoken", pageToken)
+				.queryParam("key", apiKey);
+
+		log.info("find next page: token: '" + pageToken + "'");
+		return searchPlaces(uriBuilder.build().toString(), obtainParentLocation, true);
+	}
+
+	@Override
+	public PlaceDTO findPlaceById(long placeId) {
+		if (placeId <= 0) {
+			throw new PlaceBadRequestException("Place id must be positive");
+		}
+		Place foundPlace = placeRepository.findById(placeId).orElseThrow(
+				() -> new PlaceNotFoundException("Place with id " + placeId + " not found"));
+		return mapper.map(foundPlace, PlaceDTO.class);
 	}
 
 	@Override
@@ -151,14 +178,12 @@ public class PlaceServiceImpl implements PlaceService {
 
 	@Override
 	public void deletePlace(long placeId) {
-		if (placeId <= 0) {
-			throw new PlaceBadRequestException("Place id must be positive");
-		}
+
 		placeRepository.deleteById(placeId);
 	}
 	//</editor-fold>
 
-	//<editor-fold desc="inner methods">
+	//<editor-fold desc="Inner methods">
 	private PlacesSearchResponse searchPlaces(String URI, boolean obtainParentLocation, boolean isNextPageRequest) {
 		PlacesSearchResponse response;
 		int tries = nextPageSearchTries;
@@ -203,9 +228,14 @@ public class PlaceServiceImpl implements PlaceService {
 	}
 
 	private String obtainParentLocation(String googlePlaceId) {
-		String URI = uriFindPlaceById.replace("%placeId%", googlePlaceId);
+		UriComponentsBuilder uriBuilder = UriComponentsBuilder
+				.fromHttpUrl(uriFindPlaceById)
+				.queryParam("placeid", googlePlaceId)
+				.queryParam("fields", "address_component")
+				.queryParam("key", apiKey);
 
-		String placeDetailsResponse = executeRequestWithRetriesOnError(URI);
+		log.info("obtain parent location for place: " + googlePlaceId);
+		String placeDetailsResponse = executeRequestWithRetriesOnError(uriBuilder.build().toString());
 		PlacesSearchStatus status = responseParser.extractStatus(placeDetailsResponse);
 		switch (status) {
 			case OVER_QUERY_LIMIT:

@@ -22,6 +22,7 @@ public class GooglePlacesResponseJsonParser implements GooglePlacesResponseParse
 	private Configuration conf = Configuration.defaultConfiguration().addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);
 
 	public PlacesSearchStatus extractStatus(String placesSearchResponseJson) {
+		System.out.println("json: " + placesSearchResponseJson);
 		return PlacesSearchStatus.valueOf(
 				JsonPath.using(conf).parse(placesSearchResponseJson).read("$.status", String.class));
 	}
