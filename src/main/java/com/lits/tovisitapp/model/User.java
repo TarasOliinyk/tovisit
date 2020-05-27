@@ -1,24 +1,20 @@
 package com.lits.tovisitapp.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.lits.tovisitapp.supplementary_data.AccountRole;
-import lombok.*;
+import com.lits.tovisitapp.data.UserRole;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @EqualsAndHashCode(exclude = {"password", "trips"})
 @ToString(exclude = {"password", "trips"})
-public class Account {
+@Table(name = "users")
+public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,12 +33,19 @@ public class Account {
 	private String password;
 
 	@Column(nullable = false)
-	@Enumerated(value = EnumType.STRING)
-	@Builder.Default
-	private AccountRole role = AccountRole.USER;
+	@Enumerated(EnumType.STRING)
+	public UserRole role = UserRole.ROLE_USER;
 
-	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	@Builder.Default
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Trip> trips = new ArrayList<>();
 
+	public User() {
+	}
+
+	public User(String firstName, String lastName, String username, String password) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.password = password;
+	}
 }
