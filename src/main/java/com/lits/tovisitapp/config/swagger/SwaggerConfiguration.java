@@ -26,6 +26,8 @@ import java.util.List;
 @EnableSwagger2
 public class SwaggerConfiguration {
 
+    // ToDo: Investigate the possibility to substitute current version of Swagger w/ version 3
+
     @Bean
     public LinkDiscoverers discoverers() {
         List<LinkDiscoverer> plugins = new ArrayList<>();

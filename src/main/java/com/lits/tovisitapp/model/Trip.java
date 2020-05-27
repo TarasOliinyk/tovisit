@@ -15,8 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode(exclude = {"account", "places", "createdAt", "updatedAt"})
-@ToString(exclude = {"account", "places"})
+@EqualsAndHashCode(exclude = {"user", "places", "createdAt", "updatedAt"})
+@ToString(exclude = {"user", "places"})
 public class Trip {
 
 	@Id
@@ -34,18 +34,18 @@ public class Trip {
 	@UpdateTimestamp
 	private LocalDateTime updatedAt;
 
-	@Column(name = "account_id", insertable = false, updatable = false, nullable = false)
-	private Long accountId;
+	@Column(name = "user_id", insertable = false, updatable = false, nullable = false)
+	private Long userId;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	private Account account;
+	private User user;
 
 	@OneToMany(mappedBy = "trip", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@Builder.Default
 	private List<Place> places = new ArrayList<>();
 
-	public void setAccount(Account account) {
-		this.account = account;
-		this.accountId = (account != null && account.getId() != null) ? account.getId() : null;
+	public void setUser(User user) {
+		this.user = user;
+		this.userId = (user != null && user.getId() != null) ? user.getId() : null;
 	}
 }

@@ -1,5 +1,6 @@
 package com.lits.tovisitapp.model;
 
+import com.lits.tovisitapp.data.UserRole;
 import lombok.*;
 
 import javax.persistence.*;
@@ -8,10 +9,9 @@ import java.util.List;
 
 @Entity
 @Data
-@NoArgsConstructor
-@EqualsAndHashCode(exclude = {"password", "trips", "roles"})
+@EqualsAndHashCode(exclude = {"password", "trips"})
 @ToString(exclude = {"password", "trips"})
-public class Account {
+public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,9 +29,10 @@ public class Account {
 	@Column(nullable = false)
 	private String password;
 
-	@ManyToMany
-	private List<Role> roles = new ArrayList<>();
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	public UserRole role = UserRole.ROLE_USER;
 
-	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Trip> trips = new ArrayList<>();
 }

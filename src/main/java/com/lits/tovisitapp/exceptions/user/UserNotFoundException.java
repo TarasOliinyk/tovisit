@@ -1,12 +1,12 @@
-package com.lits.tovisitapp.exceptions.role;
+package com.lits.tovisitapp.exceptions.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class RoleNotFoundException extends RuntimeException {
+public class UserNotFoundException extends RuntimeException {
 
-    public RoleNotFoundException(String message) {
+    public UserNotFoundException(String message) {
         super(message);
     }
 }

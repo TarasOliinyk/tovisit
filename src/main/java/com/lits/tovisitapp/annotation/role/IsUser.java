@@ -1,4 +1,4 @@
-package com.lits.tovisitapp.annotation;
+package com.lits.tovisitapp.annotation.role;
 
 import com.lits.tovisitapp.data.UserRole;
 import org.springframework.security.access.annotation.Secured;
