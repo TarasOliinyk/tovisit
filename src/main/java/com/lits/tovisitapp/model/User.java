@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(exclude = {"password", "trips"})
 @ToString(exclude = {"password", "trips"})
-public class Account {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +23,7 @@ public class Account {
     private String username;
     private String password;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "accountId")
-    @Fetch(FetchMode.SELECT)
-    public List<Role> role = new ArrayList<>();
-
-    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Trip> trips = new ArrayList<>();
 
 }

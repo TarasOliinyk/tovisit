@@ -1,6 +1,6 @@
 package com.lits.tovisitapp.security;
 
-import com.lits.tovisitapp.service.AccountService;
+import com.lits.tovisitapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -25,14 +25,14 @@ import static com.lits.tovisitapp.security.SecurityConstants.SIGN_UP_URL;
 )
 public class WebSecurity extends WebSecurityConfigurerAdapter {
     private final UserDetailsServiceImpl userDetailsService;
-    private final AccountService accountService;
+    private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public WebSecurity(UserDetailsServiceImpl userDetailsService, AccountService accountService,
+    public WebSecurity(UserDetailsServiceImpl userDetailsService, UserService userService,
                        BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDetailsService = userDetailsService;
-        this.accountService = accountService;
+        this.userService = userService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
@@ -44,8 +44,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().permitAll().and()
-                .addFilter(new JWTAuthenticationFilter(accountService, authenticationManager()))
+                .addFilter(new JWTAuthenticationFilter(userService, authenticationManager()))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
                 // this disables session creation on Spring Security
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

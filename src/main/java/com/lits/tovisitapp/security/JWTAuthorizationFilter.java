@@ -3,9 +3,7 @@ package com.lits.tovisitapp.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.lits.tovisitapp.dto.AccountDto;
-import com.lits.tovisitapp.service.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.usertype.UserType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,52 +15,49 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
+import java.util.Arrays;
 
 import static com.lits.tovisitapp.security.SecurityConstants.*;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
-    private AccountService accountService;
 
     public JWTAuthorizationFilter(AuthenticationManager authManager) {
         super(authManager);
     }
-
     @Override
-    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
-            throws IOException, ServletException {
-        var header = req.getHeader(HEADER_STRING);
-
+    protected void doFilterInternal(HttpServletRequest req,
+                                    HttpServletResponse res,
+                                    FilterChain chain) throws IOException, ServletException {
+        String header = req.getHeader(HEADER_STRING);
         if (header == null || !header.startsWith(TOKEN_PREFIX)) {
             chain.doFilter(req, res);
             return;
         }
-
-        var authentication = getAuthentication(req);
+        UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(req, res);
     }
-
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-        var token = request.getHeader(HEADER_STRING);
+        String token = request.getHeader(HEADER_STRING);
         if (token != null) {
             // parse the token.
-            DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(SECRET.getBytes())).build()
+            DecodedJWT decoded = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
+                    .build()
                     .verify(token.replace(TOKEN_PREFIX, ""));
 
-            String username = decodedJWT.getSubject();
+            String user = decoded.getSubject();
+            String role = decoded.getClaims().get(USER_AUTHORITY_PARAM).asString();
 
-            AccountDto accountDto = accountService.findByUsername(username);
-            List<SimpleGrantedAuthority> authorities = accountService.getUserAuthorities(accountDto.getId());
-            if (username != null) {
-                return new UsernamePasswordAuthenticationToken(
-                        username,
-                        accountDto.getId(),
-                        authorities);
+            UserContextHolder.setUserId(decoded.getClaims().get(USER_ID_PARAM).asLong());
+           // UserContextHolder.setRole(UserType.valueOf(role));
+            if (user != null) {
+                return new UsernamePasswordAuthenticationToken(user, null,
+                        Arrays.asList(new SimpleGrantedAuthority(role)));
             }
             return null;
         }
         return null;
     }
 }
+

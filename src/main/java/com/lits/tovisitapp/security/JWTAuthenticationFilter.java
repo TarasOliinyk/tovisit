@@ -2,8 +2,8 @@ package com.lits.tovisitapp.security;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lits.tovisitapp.dto.AccountDto;
-import com.lits.tovisitapp.service.AccountService;
+import com.lits.tovisitapp.dto.UserDto;
+import com.lits.tovisitapp.service.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,11 +23,11 @@ import static com.lits.tovisitapp.security.SecurityConstants.*;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    private AccountService accountService;
+    private UserService userService;
     private AuthenticationManager authenticationManager;
 
-    public JWTAuthenticationFilter(AccountService accountService, AuthenticationManager authenticationManager) {
-        this.accountService = accountService;
+    public JWTAuthenticationFilter(UserService userService, AuthenticationManager authenticationManager) {
+        this.userService = userService;
         this.authenticationManager = authenticationManager;
     }
 
@@ -35,12 +35,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
 
         try {
-            var accountDto = new ObjectMapper().readValue(request.getInputStream(), AccountDto.class);
-            var auth = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(accountDto.getUsername(),
-                            accountDto.getPassword(),
-                            new ArrayList<>()));
-            return auth;
+            UserDto userDto = new ObjectMapper().readValue(request.getInputStream(), UserDto.class);
+            return authenticationManager.authenticate( new UsernamePasswordAuthenticationToken(userDto.getUsername(),
+                    userDto.getPassword(),
+                    new ArrayList<>()));
         } catch (Exception e) {
 
             if (e instanceof BadCredentialsException) {
@@ -55,12 +53,11 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
                                             Authentication auth) {
         var user = (User) auth.getPrincipal();
-        AccountDto accountDto = accountService.findByUsername(user.getUsername());
-        accountDto.setPassword(null);
+        UserDto userDto = userService.findByUsername(user.getUsername());
 
         String token = JWT.create()
                 .withSubject(user.getUsername())
-                .withClaim(ACCOUNT_ID_PARAM, accountDto.getId())
+                .withClaim(USER_ID_PARAM, userDto.getId())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(SECRET.getBytes()));
 
