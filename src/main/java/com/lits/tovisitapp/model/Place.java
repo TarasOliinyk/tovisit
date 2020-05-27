@@ -1,5 +1,8 @@
 package com.lits.tovisitapp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -42,17 +45,19 @@ public class Place {
 	@Column(nullable = false)
 	private BigDecimal rating;
 
-	@Column(name = "trip_id", insertable = false, updatable = false, nullable = false)
-	private Long tripId;
+//	@Column(name = "trip_id", insertable = false, updatable = false, nullable = false)
+//	private Long tripId;
 
+//	@JsonManagedReference
+	@JsonBackReference
 	@ToString.Exclude
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	private Trip trip;
 
-	public void setTrip(Trip trip) {
-		this.trip = trip;
-		this.tripId = (trip != null && trip.getId() != null) ? trip.getId() : null;
-	}
+//	public void setTrip(Trip trip) {
+//		this.trip = trip;
+//		this.tripId = (trip != null && trip.getId() != null) ? trip.getId() : null;
+//	}
 
 	@ManyToMany(mappedBy = "places", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@Builder.Default
