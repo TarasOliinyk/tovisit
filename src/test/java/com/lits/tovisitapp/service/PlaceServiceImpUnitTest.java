@@ -12,7 +12,7 @@ import com.lits.tovisitapp.model.Place;
 import com.lits.tovisitapp.model.Type;
 import com.lits.tovisitapp.repository.PlaceRepository;
 import com.lits.tovisitapp.repository.TypeRepository;
-import com.lits.tovisitapp.util.PlacesTestUtil;
+import com.lits.tovisitapp.util.PlaceTestUtil;
 import lombok.SneakyThrows;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -48,13 +48,12 @@ import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ToVisitApplication.class)
-// disable database on test to speed up context building
-@EnableAutoConfiguration(exclude = {
+@EnableAutoConfiguration(exclude = {// disable database on test to speed up context building
 		DataSourceAutoConfiguration.class,
 		DataSourceTransactionManagerAutoConfiguration.class,
 		HibernateJpaAutoConfiguration.class})
 @PropertySource("classpath:googlePlaces.properties")
-public class PlacesServiceImpUnitTest {
+public class PlaceServiceImpUnitTest {
 	@MockBean
 	private PlaceRepository placeRepository;
 	@MockBean
@@ -63,10 +62,9 @@ public class PlacesServiceImpUnitTest {
 	private HttpClient httpClient;
 
 	@Autowired
-	private PlaceService placeService;
-
-	@Autowired
 	private ModelMapper mapper;
+	@Autowired
+	private PlaceService placeService;
 
 	@Value("${uri.findPlacesNearby}")
 	private String uriFindPlacesNearby;
@@ -80,7 +78,10 @@ public class PlacesServiceImpUnitTest {
 	@Value("${apiKey}")
 	private String apiKey;
 
-	private PlacesTestUtil util = new PlacesTestUtil();
+	// small helpers to make this class look better
+	private PlaceTestUtil util = new PlaceTestUtil();
+
+	// to test whether DTO's are valid
 	private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
 	//<editor-fold desc="FindByText - Negative cases">
@@ -455,7 +456,7 @@ public class PlacesServiceImpUnitTest {
 	}
 	//</editor-fold>
 
-
+	//<editor-fold desc="Find place by id">
 	@Test
 	public void getPlaceById_BadId() {
 		Assertions.assertThatThrownBy(
@@ -493,7 +494,9 @@ public class PlacesServiceImpUnitTest {
 
 		Assertions.assertThat(foundPlace).isNotNull();
 	}
+	//</editor-fold>
 
+	//<editor-fold desc="Save place">
 	@Test
 	public void savePlace_NullPlace_BadRequest() {
 		Assertions.assertThatThrownBy(
@@ -531,7 +534,9 @@ public class PlacesServiceImpUnitTest {
 		Assertions.assertThat(savedPlaceDTO).isNotNull();
 		Assertions.assertThat(savedPlaceDTO.getId()).isEqualTo(1);
 	}
+	//</editor-fold>
 
+	//<editor-fold desc="Delete place">
 	@Test
 	public void deletePlace_BadId() {
 		Assertions.assertThatThrownBy(
@@ -551,4 +556,5 @@ public class PlacesServiceImpUnitTest {
 		placeService.deletePlace(1);
 		verify(placeRepository, times(1)).deleteById(1L);
 	}
+	//</editor-fold>
 }

@@ -15,9 +15,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class PlacesTestUtil {
+public class PlaceTestUtil {
 
-
+	/**
+	 * To load JSON from file into a string
+	 */
 	public String textFileToString(String path) {
 		try {
 			URI uri = ClassLoader.getSystemResource(path).toURI();
@@ -27,6 +29,9 @@ public class PlacesTestUtil {
 		}
 	}
 
+	/**
+	 * Place details responses, key are Google ids, Values are JSONs
+	 */
 	public Map<String, String> detailsCoffeeInLvivNoType() {
 		return Stream.of(
 				"ChIJ5U2t6mvdOkcRsQgxhqKvdgw",
@@ -54,6 +59,9 @@ public class PlacesTestUtil {
 						s -> textFileToString("places/googleResponses/details/coffeeInLviv_NoType/" + s + ".json")));
 	}
 
+	/**
+	 * Place details responses, key are Google ids, Values are JSONs
+	 */
 	public Map<String, String> detailsLvivCenter500mNoTypes() {
 		return Stream.of(
 				"ChIJ39JkeG3dOkcRAOjUgCx4lwo",
@@ -81,7 +89,9 @@ public class PlacesTestUtil {
 						s -> textFileToString("places/googleResponses/details/LvivCenter500mCafeType/" + s + ".json")));
 	}
 
-
+	/**
+	 * This method builds "complete" HttpResponse, didn't found more elegant way to do this
+	 */
 	public HttpResponse<Object> buildResponse(HttpRequest request, URI uri, String body) {
 		return new HttpResponse<>() {
 			@Override
@@ -119,6 +129,9 @@ public class PlacesTestUtil {
 		};
 	}
 
+	/**
+	 * Calculates distance in meters between two lat-lng points, used to check placeNearby results
+	 */
 	public double metersBetweenCoordinates(double lat1, double lon1, double lat2, double lon2) {
 		final int R = 6371; // Radius of the earth
 		double latDistance = Math.toRadians(lat2 - lat1);

@@ -79,6 +79,7 @@ public class PlaceServiceImpl implements PlaceService {
 		this.responseParser = responseParser;
 	}
 
+	//<editor-fold desc="Exposed methods">
 	@Override
 	public PlacesSearchResponse findNearby(
 			PlacesSearchCircle circle,
@@ -111,7 +112,6 @@ public class PlaceServiceImpl implements PlaceService {
 		return searchPlaces(uriBuilder.build(true).toUri(), obtainParentLocation, pageToken != null);
 	}
 
-	//<editor-fold desc="Exposed methods">
 	@Override
 	public PlacesSearchResponse findByText(
 			String query,
