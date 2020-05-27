@@ -14,7 +14,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +21,6 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @EqualsAndHashCode(exclude = {"user", "places", "createdAt", "updatedAt"})
 @ToString(exclude = {"user", "places"})
 public class Trip {
@@ -58,7 +55,6 @@ public class Trip {
 
 	@JsonManagedReference
 	@OneToMany(mappedBy = "trip", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	@Builder.Default
 	private List<Place> places = new ArrayList<>();
 
 	public void setUser(User user) {

@@ -1,16 +1,17 @@
 package com.lits.tovisitapp.model;
 
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@EqualsAndHashCode(exclude = {"id", "places"})
 public class Type {
 
 	@Id
@@ -20,11 +21,6 @@ public class Type {
 	@Column(nullable = false, unique = true)
 	private String name;
 
-	@ToString.Exclude
-	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-	@JoinTable(name = "place_type",
-			joinColumns = @JoinColumn(name = "type_id"),
-			inverseJoinColumns = @JoinColumn(name = "place_id"))
-	@Builder.Default
-	private List<Place> places = new ArrayList<>();
+	@ManyToMany(mappedBy = "types", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	private Set<Place> places = new HashSet<>();
 }

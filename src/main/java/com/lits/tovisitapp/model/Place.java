@@ -8,13 +8,13 @@ import lombok.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Place {
 
 	@Id
@@ -33,20 +33,20 @@ public class Place {
 	@Column(nullable = false)
 	private String formattedAddress;
 
-	@Column(nullable = false, precision=15, scale=15)
-	private BigDecimal locationLat;
-
-	@Column(nullable = false, precision=15, scale=15)
-	private BigDecimal locationLng;
+	@Column(nullable = false)
+	private Double locationLat;
 
 	@Column(nullable = false)
+	private Double locationLng;
+
+	@Column
 	private Integer priceLevel;
 
-	@Column(nullable = false)
-	private BigDecimal rating;
+	@Column
+	private Double rating;
 
-//	@Column(name = "trip_id", insertable = false, updatable = false, nullable = false)
-//	private Long tripId;
+	@Column(name = "trip_id", insertable = false, updatable = false, nullable = false)
+	private Long tripId;
 
 //	@JsonManagedReference
 	@JsonBackReference
@@ -54,12 +54,15 @@ public class Place {
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	private Trip trip;
 
-//	public void setTrip(Trip trip) {
-//		this.trip = trip;
-//		this.tripId = (trip != null && trip.getId() != null) ? trip.getId() : null;
-//	}
+	public void setTrip(Trip trip) {
+		this.trip = trip;
+		this.tripId = (trip != null && trip.getId() != null) ? trip.getId() : null;
+	}
 
-	@ManyToMany(mappedBy = "places", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@Builder.Default
-	private List<Type> types = new ArrayList<>();
+	@ToString.Exclude
+	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+	@JoinTable(name = "place_type",
+			joinColumns = @JoinColumn(name = "type_id"),
+			inverseJoinColumns = @JoinColumn(name = "place_id"))
+	private Set<Type> types = new HashSet<>();
 }

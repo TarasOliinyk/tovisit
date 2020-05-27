@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.Date;
 
+import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 import static com.lits.tovisitapp.config.security.SecurityConstants.*;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
