@@ -19,8 +19,6 @@ import java.util.Set;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @EqualsAndHashCode(exclude = {"account", "places", "createdAt", "updatedAt"})
 @ToString(exclude = {"account", "places"})
 public class Trip {
@@ -47,7 +45,6 @@ public class Trip {
 	private Account account;
 
 	@OneToMany(mappedBy = "trip", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	@Builder.Default
 	private List<Place> places = new ArrayList<>();
 
 	public void setAccount(Account account) {

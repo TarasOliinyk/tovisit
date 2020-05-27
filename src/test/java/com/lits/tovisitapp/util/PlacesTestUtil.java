@@ -1,14 +1,17 @@
 package com.lits.tovisitapp.util;
 
+import javax.net.ssl.SSLSession;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
+import java.net.http.HttpClient;
+import java.net.http.HttpHeaders;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -67,5 +70,42 @@ public class PlacesTestUtil {
 				.collect(Collectors.toMap(
 						s -> s,
 						s -> textFileToString("places/googleResponses/details/" + s + ".json")));
+	}
+
+	public HttpResponse<Object> buildResponse(HttpRequest request, URI uri, String body) {
+		return new HttpResponse<>() {
+			@Override
+			public int statusCode() {
+				return 200;
+			}
+			@Override
+			public HttpRequest request() {
+				return request;
+			}
+			@Override
+			public Optional<HttpResponse<Object>> previousResponse() {
+				return Optional.empty();
+			}
+			@Override
+			public HttpHeaders headers() {
+				return null;
+			}
+			@Override
+			public String body() {
+				return body;
+			}
+			@Override
+			public Optional<SSLSession> sslSession() {
+				return Optional.empty();
+			}
+			@Override
+			public URI uri() {
+				return uri;
+			}
+			@Override
+			public HttpClient.Version version() {
+				return HttpClient.Version.HTTP_1_1;
+			}
+		};
 	}
 }

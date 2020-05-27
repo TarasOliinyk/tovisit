@@ -1,52 +1,63 @@
 package com.lits.tovisitapp.service;
 
+import com.lits.tovisitapp.ToVisitApplication;
 import com.lits.tovisitapp.dto.PlaceDTO;
 import com.lits.tovisitapp.exception.place.PlaceBadRequestException;
 import com.lits.tovisitapp.googleplaces.exception.GooglePlacesApiException;
-import com.lits.tovisitapp.googleplaces.parser.impl.GooglePlacesResponseJsonParser;
 import com.lits.tovisitapp.googleplaces.type.PlacesSearchResponse;
 import com.lits.tovisitapp.model.Place;
 import com.lits.tovisitapp.repository.PlaceRepository;
 import com.lits.tovisitapp.repository.TypeRepository;
-import com.lits.tovisitapp.service.impl.PlaceServiceImpl;
 import com.lits.tovisitapp.util.PlacesTestUtil;
+import lombok.SneakyThrows;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = ToVisitApplication.class)
+// this disables database to speed up context building
+@EnableAutoConfiguration(exclude = {
+		DataSourceAutoConfiguration.class,
+		DataSourceTransactionManagerAutoConfiguration.class,
+		HibernateJpaAutoConfiguration.class})
 public class PlacesServiceImpUnitTest {
+	@MockBean
+	private PlaceRepository placeRepository;
+	@MockBean
+	private TypeRepository typeRepository;
+	@MockBean
+	private HttpClient httpClient;
+
+	@Autowired
+	private PlaceService placeService;
 
 	private PlacesTestUtil util = new PlacesTestUtil("googlePlaces.properties");
 	private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-
-	@Mock
-	private PlaceRepository placeRepository;
-	@Mock
-	private TypeRepository typeRepository;
-	@Mock
-	private RestTemplate httpClient;
-
-	private PlaceService placeService;
 
 	@Before
 	public void init() {
@@ -56,24 +67,6 @@ public class PlacesServiceImpUnitTest {
 				map().setTripId(source.getTripId());
 			}
 		});
-
-		placeService = new PlaceServiceImpl(
-				mapper, placeRepository, typeRepository, httpClient, new GooglePlacesResponseJsonParser());
-
-		// Inject @Values
-		ReflectionTestUtils.setField(placeService, "uriFindPlacesNearby",
-				util.getProperty("uri.findPlacesNearby"));
-		ReflectionTestUtils.setField(placeService, "uriFindPlacesByText",
-				util.getProperty("uri.findPlacesByText"));
-		ReflectionTestUtils.setField(placeService, "uriFindPlaceById",
-				util.getProperty("uri.findPlaceById"));
-		ReflectionTestUtils.setField(placeService, "apiKey", util.getProperty("apiKey"));
-		ReflectionTestUtils.setField(placeService, "retriesOnErrors",
-				Integer.parseInt(util.getProperty("retriesOnErrors")));
-		ReflectionTestUtils.setField(placeService, "nextPageSearchTries",
-				Integer.parseInt(util.getProperty("nextPageSearch.tries")));
-		ReflectionTestUtils.setField(placeService, "nextPageSearchSleepMs",
-				Integer.parseInt(util.getProperty("nextPageSearch.sleepMs")));
 	}
 
 	// findByText - negative cases
@@ -93,15 +86,16 @@ public class PlacesServiceImpUnitTest {
 	}
 
 	@Test
+	@SneakyThrows
 	public void findByText_OkQuery_ServiceUnavailable() {
 		// prepare
-		String mockedUri = UriComponentsBuilder
+		URI mockedUri = UriComponentsBuilder
 				.fromHttpUrl(util.getProperty("uri.findPlacesByText"))
 				.queryParam("query", "coffee in lviv")
 				.queryParam("key", util.getProperty("apiKey"))
-				.build().toString();
-		when(httpClient.exchange(eq(mockedUri), eq(HttpMethod.GET), eq(null), eq(String.class)))
-				.thenThrow(HttpClientErrorException.class);
+				.build().toUri();
+		HttpRequest request = HttpRequest.newBuilder(mockedUri).GET().build();
+		when(httpClient.send(eq(request), any())).thenThrow(IOException.class);
 
 		Assertions.assertThatThrownBy(
 				() -> placeService.findByText("coffee in lviv", null, null, false))
@@ -109,18 +103,18 @@ public class PlacesServiceImpUnitTest {
 	}
 
 	@Test
+	@SneakyThrows
 	public void findByText_EmptyResultQuery_NoObtainParent_NoCircle_NoType_EmptyResults() {
 		// prepare
-		String mockedUri = UriComponentsBuilder
+		URI mockedUri = UriComponentsBuilder
 				.fromHttpUrl(util.getProperty("uri.findPlacesByText"))
 				.queryParam("query", "kawabunga")
 				.queryParam("key", util.getProperty("apiKey"))
-				.build().toString();
-		ResponseEntity<String> mockedResponse = new ResponseEntity<>(
-				util.textFileToString("places/googleResponses/byText/emptyResults.json"),
-				new HttpHeaders(), HttpStatus.OK);
-		when(httpClient.exchange(eq(mockedUri), eq(HttpMethod.GET), eq(null), eq(String.class)))
-				.thenReturn(mockedResponse);
+				.build().toUri();
+		HttpRequest request = HttpRequest.newBuilder(mockedUri).GET().build();
+		String responseBody = util.textFileToString("places/googleResponses/byText/emptyResults.json");
+		HttpResponse<Object> mockedResponse = util.buildResponse(request, mockedUri, responseBody);
+		when(httpClient.send(eq(request), any())).thenReturn(mockedResponse);
 
 		// execute
 		PlacesSearchResponse response =
@@ -135,18 +129,18 @@ public class PlacesServiceImpUnitTest {
 	// findByText - positive cases
 
 	@Test
+	@SneakyThrows
 	public void findByText_OkQuery_NoObtainParent_NoCircle_NoType_Success() {
 		// prepare
-		String mockedUri = UriComponentsBuilder
+		URI mockedUri = UriComponentsBuilder
 				.fromHttpUrl(util.getProperty("uri.findPlacesByText"))
 				.queryParam("query", "coffee in lviv")
 				.queryParam("key", util.getProperty("apiKey"))
-				.build().toString();
-		ResponseEntity<String> mockedResponse = new ResponseEntity<>(
-				util.textFileToString("places/googleResponses/byText/coffeInLviv_NoCircle_NoType_Page1.json"),
-				new HttpHeaders(), HttpStatus.OK);
-		when(httpClient.exchange(eq(mockedUri), eq(HttpMethod.GET), eq(null), eq(String.class)))
-				.thenReturn(mockedResponse);
+				.build().toUri();
+		HttpRequest request = HttpRequest.newBuilder(mockedUri).GET().build();
+		String responseBody = util.textFileToString("places/googleResponses/byText/coffeInLviv_NoCircle_NoType_Page1.json");
+		HttpResponse<Object> mockedResponse = util.buildResponse(request, mockedUri, responseBody);
+		when(httpClient.send(eq(request), any())).thenReturn(mockedResponse);
 
 		// execute
 		PlacesSearchResponse response =
@@ -163,31 +157,32 @@ public class PlacesServiceImpUnitTest {
 	}
 
 	@Test
+	@SneakyThrows
 	public void findByText_OkQuery_ObtainParent_NoCircle_NoType_Success() {
 		// prepare
 		// mock initial request
-		String mockedUri = UriComponentsBuilder.fromHttpUrl(util.getProperty("uri.findPlacesByText"))
+		URI mockedUri = UriComponentsBuilder
+				.fromHttpUrl(util.getProperty("uri.findPlacesByText"))
 				.queryParam("query", "coffee in lviv")
 				.queryParam("key", util.getProperty("apiKey"))
-				.build().toString();
-		ResponseEntity<String> mockedResponse = new ResponseEntity<>(
-				util.textFileToString("places/googleResponses/byText/coffeInLviv_NoCircle_NoType_Page1.json"),
-				new HttpHeaders(), HttpStatus.OK);
-		when(httpClient.exchange(eq(mockedUri), eq(HttpMethod.GET), eq(null), eq(String.class)))
-				.thenReturn(mockedResponse);
+				.build().toUri();
+		HttpRequest request = HttpRequest.newBuilder(mockedUri).GET().build();
+		String responseBody = util.textFileToString("places/googleResponses/byText/coffeInLviv_NoCircle_NoType_Page1.json");
+		HttpResponse<Object> mockedResponse = util.buildResponse(request, mockedUri, responseBody);
+		when(httpClient.send(eq(request), any())).thenReturn(mockedResponse);
+
 		// mock places details requests
-		util.parentCallResponses().forEach((googleId, responseJson) -> {
-			String pCallMockedUri = UriComponentsBuilder
+		for (var entry : util.parentCallResponses().entrySet()) {
+			URI pdMockedUri = UriComponentsBuilder
 					.fromHttpUrl(util.getProperty("uri.findPlaceById"))
-					.queryParam("placeid", googleId)
+					.queryParam("placeid", entry.getKey())
 					.queryParam("fields", "address_component")
 					.queryParam("key", util.getProperty("apiKey"))
-					.build().toString();
-			ResponseEntity<String> pCallMockedResponse =
-					new ResponseEntity<>(responseJson, new HttpHeaders(), HttpStatus.OK);
-			when(httpClient.exchange(eq(pCallMockedUri), eq(HttpMethod.GET), eq(null), eq(String.class)))
-					.thenReturn(pCallMockedResponse);
-		});
+					.build().toUri();
+			HttpRequest pdRequest = HttpRequest.newBuilder(pdMockedUri).GET().build();
+			HttpResponse<Object> pdResponse = util.buildResponse(pdRequest, pdMockedUri, entry.getValue());
+			when(httpClient.send(eq(pdRequest), any())).thenReturn(pdResponse);
+		}
 
 		// execute
 		PlacesSearchResponse response =
@@ -210,7 +205,7 @@ public class PlacesServiceImpUnitTest {
 		[V] find by text: +q null
 		[V] find by text: +q empty
 		[V] find by text: +q empty results
-		[V] find by text: +q google returned 500
+		[V] find by text: +q google returned error
 
 	positive:
 		[V] find by text: +q -circle -type -parent
@@ -223,7 +218,7 @@ public class PlacesServiceImpUnitTest {
 	negative:
 		[ ] find nearby: +circle null
 		[ ] find nearby: +circle empty result
-		[ ] find nearby: +circle google returned 500
+		[ ] find nearby: +circle google returned error
 
 	positive:
 		[ ] find nearby: +circle -type -parent
@@ -235,7 +230,7 @@ public class PlacesServiceImpUnitTest {
 	negative:
 		[ ] find next page: +token null
 		[ ] find next page: +token empty
-		[ ] find next page: +token google returned 500
+		[ ] find next page: +token google returned error
 
 	positive:
 		[ ] find next page: +token -parent
@@ -253,6 +248,7 @@ public class PlacesServiceImpUnitTest {
 	----------------
 	negative:
 		[ ] bad id
+		[ ] place not found
 	positive:
 		[ ] place found
 

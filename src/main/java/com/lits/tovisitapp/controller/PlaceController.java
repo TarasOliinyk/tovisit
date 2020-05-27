@@ -1,17 +1,22 @@
 package com.lits.tovisitapp.controller;
 
 import com.lits.tovisitapp.dto.PlaceDTO;
-import com.lits.tovisitapp.service.PlaceService;
-import com.lits.tovisitapp.googleplaces.type.SearchableType;
-import com.lits.tovisitapp.googleplaces.type.PlacesSearchResponse;
 import com.lits.tovisitapp.googleplaces.type.PlacesSearchCircle;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.lits.tovisitapp.googleplaces.type.PlacesSearchResponse;
+import com.lits.tovisitapp.googleplaces.type.SearchableType;
+import com.lits.tovisitapp.service.PlaceService;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+
+import static com.lits.tovisitapp.config.Constants.PAGE_TOKEN_NOT_BLANK;
+import static com.lits.tovisitapp.config.Constants.SEARCH_QUERY_NOT_BLANK;
 
 @RestController
 @RequestMapping("/places")
@@ -38,7 +43,7 @@ public class PlaceController {
 
 	@GetMapping("/byText")
 	public List<PlaceDTO> findByText(
-			@RequestParam @NotBlank(message = "{searchQueryNotBlank}") String query,
+			@RequestParam @NotBlank(message = SEARCH_QUERY_NOT_BLANK) String query,
 			@RequestParam(required = false) PlacesSearchCircle circle,
 			@RequestParam(required = false) SearchableType type,
 			@RequestParam(required = false, defaultValue = "true") boolean obtainParentLocation,
@@ -50,7 +55,7 @@ public class PlaceController {
 
 	@GetMapping("/nextPage")
 	public List<PlaceDTO> findNextPage(
-			@RequestParam @NotBlank(message = "{pageTokenNotBlank}") String pageToken,
+			@RequestParam @NotBlank(message = PAGE_TOKEN_NOT_BLANK) String pageToken,
 			@RequestParam(required = false, defaultValue = "true") boolean obtainParentLocation,
 			final HttpServletResponse response) {
 		PlacesSearchResponse placeSearchResponse = placeService.findNextPage(pageToken, obtainParentLocation);

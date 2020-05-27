@@ -15,32 +15,35 @@ import com.lits.tovisitapp.repository.PlaceRepository;
 import com.lits.tovisitapp.repository.TypeRepository;
 import com.lits.tovisitapp.service.PlaceService;
 import lombok.extern.java.Log;
-import lombok.extern.log4j.Log4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.ResourceAccessException;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.util.StringUtils;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.lits.tovisitapp.googleplaces.type.PlacesSearchStatus.*;
+
 @Service
-@PropertySource("googlePlaces.properties")
+@PropertySource("classpath:googlePlaces.properties")
 @Log
 public class PlaceServiceImpl implements PlaceService {
 
 	private PlaceRepository placeRepository;
 	private TypeRepository typeRepository;
 	private ModelMapper mapper;
-	private RestTemplate httpClient;
+	private HttpClient httpClient;
 	private GooglePlacesResponseParser responseParser;
 
 	@Value("${uri.findPlacesNearby}")
@@ -68,7 +71,7 @@ public class PlaceServiceImpl implements PlaceService {
 			ModelMapper mapper,
 			PlaceRepository placeRepository,
 			TypeRepository typeRepository,
-			RestTemplate httpClient,
+			HttpClient httpClient,
 			GooglePlacesResponseParser responseParser) {
 		this.mapper = mapper;
 		this.placeRepository = placeRepository;
@@ -96,7 +99,7 @@ public class PlaceServiceImpl implements PlaceService {
 
 		log.info("find place nearby: circle: " + circle.toString()
 				+ (type != null ? " and type: '" + type.name().toLowerCase() + "'" : ""));
-		return searchPlaces(uriBuilder.build().toString(), obtainParentLocation, false);
+		return searchPlaces(uriBuilder.build(true).toUri(), obtainParentLocation, false);
 	}
 
 	//<editor-fold desc="Exposed methods">
@@ -106,7 +109,7 @@ public class PlaceServiceImpl implements PlaceService {
 			PlacesSearchCircle circle,
 			SearchableType type,
 			boolean obtainParentLocation) {
-		if (query == null || query.isBlank()) {
+		if (!StringUtils.hasText(query)) {
 			throw new PlaceBadRequestException("Search query cannot be null or blank");
 		}
 
@@ -128,12 +131,12 @@ public class PlaceServiceImpl implements PlaceService {
 		log.info("find place by text: with query: '" + query + "'"
 				+ (circle != null ? " and circle: " + circle.toString() : "")
 				+ (type != null ? " and type: '" + type.name().toLowerCase() + "'" : ""));
-		return searchPlaces(uriBuilder.build().toString(), obtainParentLocation, false);
+		return searchPlaces(uriBuilder.build().toUri(), obtainParentLocation, false);
 	}
 
 	@Override
 	public PlacesSearchResponse findNextPage(String pageToken, boolean obtainParentLocation) {
-		if (pageToken == null || pageToken.isBlank()) {
+		if (!StringUtils.hasText(pageToken)) {
 			throw new PlaceBadRequestException("Next page token cannot be null");
 		}
 		UriComponentsBuilder uriBuilder = UriComponentsBuilder
@@ -142,7 +145,7 @@ public class PlaceServiceImpl implements PlaceService {
 				.queryParam("key", apiKey);
 
 		log.info("find next page: token: '" + pageToken + "'");
-		return searchPlaces(uriBuilder.build().toString(), obtainParentLocation, true);
+		return searchPlaces(uriBuilder.build().toUri(), obtainParentLocation, true);
 	}
 
 	@Override
@@ -168,7 +171,8 @@ public class PlaceServiceImpl implements PlaceService {
 			Set<Type> updatedTypes = submittedPlace.getTypes().stream().map(st ->
 					foundTypes.stream()
 							.filter(ft -> ft.getName().equalsIgnoreCase(st.getName()))
-							.findFirst().orElse(st)).collect(Collectors.toSet());
+							.findFirst().orElse(st))
+					.collect(Collectors.toSet());
 			submittedPlace.setTypes(updatedTypes);
 		}
 
@@ -184,39 +188,32 @@ public class PlaceServiceImpl implements PlaceService {
 	//</editor-fold>
 
 	//<editor-fold desc="Inner methods">
-	private PlacesSearchResponse searchPlaces(String URI, boolean obtainParentLocation, boolean isNextPageRequest) {
+	private PlacesSearchResponse searchPlaces(URI uri, boolean obtainParentLocation, boolean isNextPageRequest) {
 		PlacesSearchResponse response;
 		int tries = nextPageSearchTries;
-		loop: do {
+		do {
 			--tries;
-			String responseJson = executeRequestWithRetriesOnError(URI);
+			String responseJson = executeRequestWithRetriesOnError(uri);
 			PlacesSearchStatus status = responseParser.extractStatus(responseJson);
 			response = PlacesSearchResponse.builder()
 					.nextPageToken(responseParser.extractNextPageToken(responseJson))
 					.places(responseParser.extractPlaces(responseJson))
 					.build();
-
-			switch (status) {
-				case INVALID_REQUEST:
-					// next page request can return 'invalid request' when page's data not ready yet, should wait and retry
-					if (isNextPageRequest && tries > 0) {
-						try {
-							Thread.sleep(nextPageSearchSleepMs);
-							continue;
-						} catch (InterruptedException ie) {
-							throw new GooglePlacesApiException("Interrupted while retrieving places");
-						}
+			if (status == INVALID_REQUEST) {
+				if (isNextPageRequest && tries > 0) {
+					try {
+						Thread.sleep(nextPageSearchSleepMs);
+						continue;
+					} catch (InterruptedException ie) {
+						throw new GooglePlacesApiException("Interrupted while retrieving places");
 					}
-				case OVER_QUERY_LIMIT:
-				case REQUEST_DENIED:
-				case UNKNOWN_ERROR:
-				default:
+				} else {
 					throw new GooglePlacesApiException("Error while retrieving places: " + status.description);
-				case NOT_FOUND:
-				case ZERO_RESULTS:
-				case OK:
-					break loop;
+				}
+			} else if (status != NOT_FOUND && status != ZERO_RESULTS && status != OK) {
+				throw new GooglePlacesApiException("Error while retrieving places: " + status.description);
 			}
+			break;
 		} while (true);
 
 		if (obtainParentLocation) {
@@ -235,37 +232,41 @@ public class PlaceServiceImpl implements PlaceService {
 				.queryParam("key", apiKey);
 
 		log.info("obtain parent location for place: " + googlePlaceId);
-		String placeDetailsResponse = executeRequestWithRetriesOnError(uriBuilder.build().toString());
+		String placeDetailsResponse = executeRequestWithRetriesOnError(uriBuilder.build().toUri());
 		PlacesSearchStatus status = responseParser.extractStatus(placeDetailsResponse);
-		switch (status) {
-			case OVER_QUERY_LIMIT:
-			case REQUEST_DENIED:
-			case INVALID_REQUEST:
-			case UNKNOWN_ERROR:
-			default:
-				throw new GooglePlacesApiException("Error while retrieving place details: " + status.description);
-			case NOT_FOUND:
-			case ZERO_RESULTS:
-				throw new PlaceNotFoundException("Place id: " + googlePlaceId + " not found");
-			case OK:
-				// acceptable status
-				break;
+
+		if (status == NOT_FOUND || status == ZERO_RESULTS) {
+			throw new PlaceNotFoundException("Place id: " + googlePlaceId + " not found");
+		} else if (status != OK) {
+			throw new GooglePlacesApiException("Error while retrieving place details: " + status.description);
 		}
+
 		return responseParser.extractParentLocation(placeDetailsResponse);
 	}
 
-	private String executeRequestWithRetriesOnError(String URI) {
+	private String executeRequestWithRetriesOnError(URI uri) {
 		int tries = retriesOnErrors;
 		do {
 			--tries;
-			ResponseEntity<String> responseEntity;
+			HttpRequest request = HttpRequest.newBuilder(uri).GET().build();
+			HttpResponse<String> response;
 			try {
-				responseEntity = httpClient.exchange(URI, HttpMethod.GET, null, String.class);
-				return responseEntity.getBody();
-			} catch (HttpClientErrorException | ResourceAccessException e) {
-				if (tries == 0 || e instanceof HttpClientErrorException && ((HttpClientErrorException)e).getRawStatusCode() < 500 ) {
-					throw new GooglePlacesApiException("Error while making http request to GooglePlaces", e);
+				System.out.println("real uri: " + uri.toString());
+				response = httpClient.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+				if (response.statusCode() >= 500) {
+					throw new IOException(response.statusCode() + " while calling GooglePlaces");
 				}
+				if (response.statusCode() >= 400) {
+					throw new GooglePlacesApiException(response.statusCode() + " while calling GooglePlaces");
+				}
+				return response.body();
+			} catch (IOException e) {
+				if (tries == 0) {
+					throw new GooglePlacesApiException("Tries exhausted while calling GooglePlaces", e);
+				}
+				log.info("retrying request: " + uri.toString());
+			} catch (InterruptedException e) {
+				throw new RuntimeException("Interrupted while waiting for response from google", e);
 			}
 		} while (true);
 	}

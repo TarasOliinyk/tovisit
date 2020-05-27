@@ -13,8 +13,6 @@ import java.util.Set;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Place {
 
 	@Id
@@ -33,17 +31,17 @@ public class Place {
 	@Column(nullable = false)
 	private String formattedAddress;
 
-	@Column(nullable = false, precision=18, scale=15)
-	private BigDecimal locationLat;
+	@Column(nullable = false)
+	private Double locationLat;
 
-	@Column(nullable = false, precision=18, scale=15)
-	private BigDecimal locationLng;
+	@Column(nullable = false)
+	private Double locationLng;
 
 	@Column
 	private Integer priceLevel;
 
-	@Column(precision=2, scale=1)
-	private BigDecimal rating;
+	@Column
+	private Double rating;
 
 	@Column(name = "trip_id", insertable = false, updatable = false, nullable = false)
 	private Long tripId;
@@ -57,13 +55,10 @@ public class Place {
 		this.tripId = (trip != null && trip.getId() != null) ? trip.getId() : null;
 	}
 
-	// When using Set instead of List, JPA will create junction table "place_type" with PRIMARY KEY (`type_id`, `place_id`)
-	// Thus, allowing only unique Place-Type relations
 	@ToString.Exclude
 	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinTable(name = "place_type",
 			joinColumns = @JoinColumn(name = "type_id"),
 			inverseJoinColumns = @JoinColumn(name = "place_id"))
-	@Builder.Default
 	private Set<Type> types = new HashSet<>();
 }

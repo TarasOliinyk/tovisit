@@ -1,15 +1,17 @@
 package com.lits.tovisitapp.model;
 
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@EqualsAndHashCode(exclude = {"id", "places"})
 public class Type {
 
 	@Id
@@ -20,22 +22,5 @@ public class Type {
 	private String name;
 
 	@ManyToMany(mappedBy = "types", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@Builder.Default
-	@ToString.Exclude
 	private Set<Place> places = new HashSet<>();
-
-	@Override
-	// Implementing custom .equals with name only, because it's the only unique and not-null property
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Type type = (Type) o;
-		return name.equals(type.name);
-	}
-
-	@Override
-	// Implementing custom .hashCode with name only because it's the only unique and not-null property
-	public int hashCode() {
-		return Objects.hash(name);
-	}
 }

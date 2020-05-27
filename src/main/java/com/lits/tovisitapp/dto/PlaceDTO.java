@@ -2,7 +2,6 @@ package com.lits.tovisitapp.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.lits.tovisitapp.annotation.NotBlankOrNull;
-import com.lits.tovisitapp.model.Type;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,44 +11,45 @@ import org.hibernate.validator.constraints.Range;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.lits.tovisitapp.config.Constants.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonInclude(value = JsonInclude.Include.NON_NULL) // this will hide null variables from serialized JSON
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class PlaceDTO {
-	@Positive(message = "{idPositive}")
+	@Positive(message = ID_POSITIVE)
 	private Long id;
 
-	@NotBlank(message = "{gPlaceIdNotBlank}")
+	@NotBlank(message = GOOGLE_PLACE_PLACE_ID_NOT_BLANK)
 	private String googlePlaceId;
 
-	@NotBlankOrNull(message = "{parentLocationNotBlankOrNull}")
+	@NotBlankOrNull(message = PARENT_LOCATION_NOT_BLANK_OR_NULL)
 	private String parentLocation;
 
-	@NotBlank(message = "{nameNotBlank}")
+	@NotBlank(message = NAME_NOT_BLANK)
 	private String name;
 
-	@NotBlank(message = "{fAddressNotBlank}")
+	@NotBlank(message = FORMATTED_ADDRESS_NOT_BLANK)
 	private String formattedAddress;
 
-	@NotNull(message = "{locationLatNotNull}")
+	@NotNull(message = LOCATION_LAN_NOT_NULL)
 	private Double locationLat;
 
-	@NotNull(message = "{locationLngNotNull}")
+	@NotNull(message = LOCATION_LNG_NOT_NULL)
 	private Double locationLng;
 
-	@Range(min=1, max=5, message = "{priceLevelRange}")
+	@Range(min=1, max=5, message = PRICE_LEVEL_RANGE)
 	private Integer priceLevel;
 
-	@Range(min=0, max=5, message = "{ratingRange}")
+	@Range(min=0, max=5, message = RATING_RANGE)
 	private Double rating;
 
-	@Positive(message = "{tripIdPositive}")
+	@Positive(message = TRIP_ID_POSITIVE)
 	private Long tripId;
 
 	@Builder.Default

@@ -14,8 +14,6 @@ import java.util.Set;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @EqualsAndHashCode(exclude = {"password", "trips"})
 @ToString(exclude = {"password", "trips"})
 public class Account {
@@ -38,11 +36,9 @@ public class Account {
 
 	@Column(nullable = false)
 	@Enumerated(value = EnumType.STRING)
-	@Builder.Default
 	private AccountRole role = AccountRole.USER;
 
 	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	@Builder.Default
 	private List<Trip> trips = new ArrayList<>();
 
 }
