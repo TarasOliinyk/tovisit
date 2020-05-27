@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
@@ -84,68 +83,64 @@ public class PlaceServiceImpl implements PlaceService {
 	public PlacesSearchResponse findNearby(
 			PlacesSearchCircle circle,
 			SearchableType type,
+			String pageToken,
 			boolean obtainParentLocation) {
-		if (circle == null) {
-			throw new PlaceBadRequestException("Search circle cannot be null");
+		if ((circle == null && !StringUtils.hasText(pageToken)) || (circle != null && StringUtils.hasText(pageToken))) {
+			throw new PlaceBadRequestException("Search circle or page token required, but not both");
 		}
-		UriComponentsBuilder uriBuilder = UriComponentsBuilder
-				.fromHttpUrl(uriFindPlacesNearby)
-				.queryParam("location", circle.getLatitude() + "," + circle.getLongitude())
-				.queryParam("radius", circle.getRadius());
-		if (type != null) {
-			uriBuilder = uriBuilder.queryParam("type", type.name().toLowerCase());
+		// construct URI
+		UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(uriFindPlacesNearby);
+		if (circle != null) {
+			uriBuilder = uriBuilder
+					.queryParam("location", circle.getLatitude() + "," + circle.getLongitude())
+					.queryParam("radius", circle.getRadius());
+			if (type != null) {
+				uriBuilder = uriBuilder.queryParam("type", type.name().toLowerCase());
+			}
+			log.info("find place nearby: circle: " + circle.toString()
+					+ (type != null ? " and type: '" + type.name().toLowerCase() + "'" : ""));
+		} else {
+			if (type != null) {
+				throw new PlaceBadRequestException("Type is forbidden when pageToken passed");
+			}
+			uriBuilder = uriBuilder.queryParam("pagetoken", pageToken);
+			log.info("find place nearby: page token: " + pageToken);
 		}
 		uriBuilder = uriBuilder.queryParam("key", apiKey);
 
-		log.info("find place nearby: circle: " + circle.toString()
-				+ (type != null ? " and type: '" + type.name().toLowerCase() + "'" : ""));
-		return searchPlaces(uriBuilder.build(true).toUri(), obtainParentLocation, false);
+		return searchPlaces(uriBuilder.build(true).toUri(), obtainParentLocation, pageToken != null);
 	}
 
 	//<editor-fold desc="Exposed methods">
 	@Override
 	public PlacesSearchResponse findByText(
 			String query,
-			PlacesSearchCircle circle,
 			SearchableType type,
+			String pageToken,
 			boolean obtainParentLocation) {
-		if (!StringUtils.hasText(query)) {
-			throw new PlaceBadRequestException("Search query cannot be null or blank");
+		if ((!StringUtils.hasText(query) && !StringUtils.hasText(pageToken))
+				|| (StringUtils.hasText(query) && StringUtils.hasText(pageToken))) {
+			throw new PlaceBadRequestException("Search query or page token required, but not both");
 		}
-
-		DefaultUriBuilderFactory builderFactory = new DefaultUriBuilderFactory();
-		builderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
-
-		UriComponentsBuilder uriBuilder = UriComponentsBuilder
-				.fromHttpUrl(uriFindPlacesByText)
-				.queryParam("query", query);
-		if (circle != null)  {
-			uriBuilder = uriBuilder
-					.queryParam("location", circle.getLatitude(), circle.getLongitude())
-					.queryParam("radius", circle.getRadius());
-		}
-		if (type != null) {
-			uriBuilder = uriBuilder.queryParam("type", type.name().toLowerCase());
+		// construct URI
+		UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(uriFindPlacesByText);
+		if (StringUtils.hasText(query)) {
+			uriBuilder = uriBuilder.queryParam("query", query);
+			if (type != null) {
+				uriBuilder = uriBuilder.queryParam("type", type.name().toLowerCase());
+			}
+			log.info("find place by text: query: '" + query + "'"
+					+ (type != null ? " and type: '" + type.name().toLowerCase() + "'" : ""));
+		} else {
+			if (type != null) {
+				throw new PlaceBadRequestException("Type is forbidden when pageToken passed");
+			}
+			uriBuilder = uriBuilder.queryParam("pagetoken", pageToken);
+			log.info("find place by text: page token: " + pageToken);
 		}
 		uriBuilder = uriBuilder.queryParam("key", apiKey);
-		log.info("find place by text: with query: '" + query + "'"
-				+ (circle != null ? " and circle: " + circle.toString() : "")
-				+ (type != null ? " and type: '" + type.name().toLowerCase() + "'" : ""));
-		return searchPlaces(uriBuilder.build().toUri(), obtainParentLocation, false);
-	}
 
-	@Override
-	public PlacesSearchResponse findNextPage(String pageToken, boolean obtainParentLocation) {
-		if (!StringUtils.hasText(pageToken)) {
-			throw new PlaceBadRequestException("Next page token cannot be null");
-		}
-		UriComponentsBuilder uriBuilder = UriComponentsBuilder
-				.fromHttpUrl(uriFindPlacesByText)
-				.queryParam("pagetoken", pageToken)
-				.queryParam("key", apiKey);
-
-		log.info("find next page: token: '" + pageToken + "'");
-		return searchPlaces(uriBuilder.build().toUri(), obtainParentLocation, true);
+		return searchPlaces(uriBuilder.build().toUri(), obtainParentLocation, pageToken != null);
 	}
 
 	@Override

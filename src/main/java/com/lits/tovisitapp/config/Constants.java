@@ -14,8 +14,8 @@ public final class Constants {
 	public static final String TRIP_ID_POSITIVE="TripId must be positive";
 
 	// controller.PlaceController
-	public static final String SEARCH_QUERY_NOT_BLANK="Search query cannot be blank";
-	public static final String PAGE_TOKEN_NOT_BLANK="Page token cannot be blank";
+	public static final String SEARCH_QUERY_NOT_BLANK_OR_NULL="Search query cannot be blank, null allowed";
+	public static final String PAGE_TOKEN_NOT_BLANK_OR_NULL="Page token cannot be blank, null allowed";
 
 	// used by googleplaces.typePlacesSearchCircle
 	public static final double CIRCLE_LAT_MIN = -85D;
