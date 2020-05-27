@@ -3,12 +3,9 @@ package com.lits.tovisitapp.model;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Data
@@ -45,7 +42,7 @@ public class Place {
 	@Column(nullable = false)
 	private BigDecimal rating;
 
-	@Column(name = "trip_id", insertable = false, updatable = false/*, nullable = false*/)
+	@Column(name = "trip_id", insertable = false, updatable = false, nullable = false)
 	private Long tripId;
 
 	@ToString.Exclude

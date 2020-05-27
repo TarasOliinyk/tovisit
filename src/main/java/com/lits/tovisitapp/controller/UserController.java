@@ -1,43 +1,71 @@
 package com.lits.tovisitapp.controller;
 
-import com.lits.tovisitapp.dto.UserDto;
+import com.lits.tovisitapp.annotation.role.IsAdmin;
+import com.lits.tovisitapp.data.UserRole;
+import com.lits.tovisitapp.dto.UserDTO;
 import com.lits.tovisitapp.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
-@RestController
-@RequestMapping("/app/users")
+@RestController()
+@RequestMapping("/users")
+@Validated
 public class UserController {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
-    public Long singUp(@RequestBody UserDto userDto) {
-        return userService.create(userDto);
+    public ResponseEntity<UserDTO> singUp(@RequestBody @Valid UserDTO userDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userDTO));
     }
 
-    @GetMapping("/user/{id}")
-    public UserDto findByID(@PathVariable Long id){
-        return userService.findById(id);
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public void login(@RequestBody @Valid UserDTO userDTO) {
+        // Login processing (JWT token generation) is handled by JWTAuthenticationFilter, this endpoint is created for
+        // exposing it to Swagger
     }
 
-    @GetMapping("/user/all")
-    public List<UserDto> findAll(){
-        return userService.findAll();
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> getUser(@PathVariable(name = "id")
+                                           @Positive(message = "User id cannot be negative") Long id) {
+        return ResponseEntity.status(HttpStatus.FOUND).body(userService.getUserById(id));
     }
 
-    @PutMapping("/user/{id}")
-    public UserDto update (@RequestBody UserDto userDto){
-        return userService.update(userDto);
+    @GetMapping("/list")
+    public List<UserDTO> getAllUsers() {
+        return userService.getAllUsers();
     }
 
+    @IsAdmin
+    @PutMapping("/{userId}/addRole")
+    public ResponseEntity<UserDTO> assignRole(@PathVariable(name = "userId")
+                                              @Positive(message = "User id cannot be negative") Long userId,
+                                              @RequestBody UserRole role) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.assignRole(userId, role));
+    }
 
-    @DeleteMapping("/user/{id}")
-    public void delete(@PathVariable Long id){
-        userService.delete(id);
+    @IsAdmin
+    @GetMapping("/{userId}/getRole")
+    public ResponseEntity<UserRole> getUserRole(@PathVariable(name = "userId")
+                                                @Positive(message = "User id cannot be negative") Long userId) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getUserRole(userId));
+    }
+
+    @IsAdmin
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void deleteUser(@PathVariable(name = "id") @Positive(message = "User id cannot be negative") Long id) {
+        userService.deleteUser(id);
     }
 }

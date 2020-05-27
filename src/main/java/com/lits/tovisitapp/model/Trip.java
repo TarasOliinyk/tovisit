@@ -1,11 +1,10 @@
 package com.lits.tovisitapp.model;
 
 import lombok.*;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +33,8 @@ public class Trip {
 	@UpdateTimestamp
 	private LocalDateTime updatedAt;
 
-	@Column(name = "account_id", insertable = false, updatable = false/*, nullable = false*/)
-	private Long accountId;
+	@Column(name = "user_id", insertable = false, updatable = false, nullable = false)
+	private Long userId;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	private User user;
@@ -46,6 +45,6 @@ public class Trip {
 
 	public void setUser(User user) {
 		this.user = user;
-		this.accountId = (user != null && user.getId() != null) ? user.getId() : null;
+		this.userId = (user != null && user.getId() != null) ? user.getId() : null;
 	}
 }

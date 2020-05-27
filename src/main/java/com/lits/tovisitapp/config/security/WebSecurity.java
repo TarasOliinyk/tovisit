@@ -1,5 +1,6 @@
-package com.lits.tovisitapp.security;
+package com.lits.tovisitapp.config.security;
 
+import com.lits.tovisitapp.repository.UserRepository;
 import com.lits.tovisitapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +16,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import static com.lits.tovisitapp.security.SecurityConstants.SIGN_UP_URL;
+import javax.servlet.http.HttpServletResponse;
+
+import static com.lits.tovisitapp.config.security.SecurityConstants.*;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
@@ -24,27 +27,34 @@ import static com.lits.tovisitapp.security.SecurityConstants.SIGN_UP_URL;
         jsr250Enabled = true
 )
 public class WebSecurity extends WebSecurityConfigurerAdapter {
-    private final UserDetailsServiceImpl userDetailsService;
-    private final UserService userService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public WebSecurity(UserDetailsServiceImpl userDetailsService, UserService userService,
-                       BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.userDetailsService = userDetailsService;
-        this.userService = userService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
+    private UserDetailsServiceImpl userDetailsService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .cors().and().csrf().disable().authorizeRequests()
-                .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
-
-                .anyRequest().authenticated()
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.cors().and().csrf().disable()
+                .authorizeRequests().antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
                 .and()
-                .addFilter(new JWTAuthenticationFilter(userService, authenticationManager()))
+                .authorizeRequests().antMatchers(SWAGGER_AUTH_WHITELIST).permitAll()
+                .antMatchers("/**").authenticated()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint((request, response, e) -> {
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    response.getWriter().write(e.getMessage());
+                })
+                .and()
+                .addFilter(new JWTAuthenticationFilter(authenticationManager(), userService, userRepository))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
                 // this disables session creation on Spring Security
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -52,14 +62,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(bCryptPasswordEncoder);
-
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
         return source;
