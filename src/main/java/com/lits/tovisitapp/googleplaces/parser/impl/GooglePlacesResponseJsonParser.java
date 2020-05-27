@@ -41,10 +41,14 @@ public class GooglePlacesResponseJsonParser implements GooglePlacesResponseParse
 		}
 		for (Object rawPlace : rawPlaces) {
 			DocumentContext rawPlaceContext = JsonPath.using(conf).parse(rawPlace);
+			String address = rawPlaceContext.read("$.formatted_address", String.class);
+			if (address == null) {
+				address = rawPlaceContext.read("$.vicinity", String.class);
+			}
 			PlaceDTO place = PlaceDTO.builder()
 					.googlePlaceId(rawPlaceContext.read("$.place_id", String.class))
 					.name(rawPlaceContext.read("$.name", String.class))
-					.formattedAddress(rawPlaceContext.read("$.formatted_address", String.class))
+					.formattedAddress(address)
 					.types(Arrays.asList(rawPlaceContext.read("$.types", String[].class)))
 					.locationLat(rawPlaceContext.read("$.geometry.location.lat", Double.class))
 					.locationLng(rawPlaceContext.read("$.geometry.location.lng", Double.class))

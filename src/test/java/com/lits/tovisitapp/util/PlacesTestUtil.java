@@ -12,29 +12,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Properties;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PlacesTestUtil {
-	private Properties props;
 
-	public PlacesTestUtil(String propertiesFile) {
-		props = new Properties();
-		var propsStream = PlacesTestUtil.class.getClassLoader().getResourceAsStream(propertiesFile);
-		if (propsStream == null) {
-			throw new RuntimeException("could not load " + propertiesFile);
-		}
-		try {
-			props.load(propsStream);
-		} catch (IOException e) {
-			throw new RuntimeException("could not load " + propertiesFile, e);
-		}
-	}
-
-	public String getProperty(String propertyName) {
-		return props.getProperty(propertyName);
-	}
 
 	public String textFileToString(String path) {
 		try {
@@ -45,7 +27,7 @@ public class PlacesTestUtil {
 		}
 	}
 
-	public Map<String, String> parentCallResponses() {
+	public Map<String, String> detailsCoffeeInLvivNoType() {
 		return Stream.of(
 				"ChIJ5U2t6mvdOkcRsQgxhqKvdgw",
 				"ChIJ4WIU6G7dOkcRdId98AdAOEM",
@@ -69,8 +51,36 @@ public class PlacesTestUtil {
 				"ChIJD5h9sFzdOkcRT0ZKoAxDMyQ")
 				.collect(Collectors.toMap(
 						s -> s,
-						s -> textFileToString("places/googleResponses/details/" + s + ".json")));
+						s -> textFileToString("places/googleResponses/details/coffeeInLviv_NoType/" + s + ".json")));
 	}
+
+	public Map<String, String> detailsLvivCenter500mNoTypes() {
+		return Stream.of(
+				"ChIJ39JkeG3dOkcRAOjUgCx4lwo",
+				"ChIJCznqLWzdOkcRcLFAoTrxcCM",
+				"ChIJeeKGRm7dOkcRvF2oZX__VlM",
+				"ChIJfbGqM2zdOkcRENjictwEkpE",
+				"ChIJgUQd1GjdOkcRr1SYSqLr1rE",
+				"ChIJia2Ji27dOkcRr7kSnJwu-8Y",
+				"ChIJJ5xc0m3dOkcRvy8HrBsJt8s",
+				"ChIJK2CoImzdOkcRtY18SYV1LZ4",
+				"ChIJk6WtXGzdOkcRGqLG3w2Q7Pg",
+				"ChIJKwDQB27dOkcRKxLn9djaGps",
+				"ChIJlb-OOG7dOkcR5eDP9ys5-Ws",
+				"ChIJrfN-u27dOkcRc9yYTzu3e-k",
+				"ChIJrWRVzW3dOkcR95jZRGCbtIs",
+				"ChIJRxsA6G7dOkcRMRJZd9zZWNs",
+				"ChIJs--2vW3dOkcRQpB3AkElOg0",
+				"ChIJTRlLlG3dOkcRQwiyfGeiZU4",
+				"ChIJvUvgu23dOkcRDY8RgeG9soI",
+				"ChIJWVuDzW3dOkcRqmUAKw3mOhU",
+				"ChIJyz0Wam_dOkcRr4q6xqfAU-Y",
+				"ChIJZxADPGzdOkcR8F19RSXX8zM")
+				.collect(Collectors.toMap(
+						s -> s,
+						s -> textFileToString("places/googleResponses/details/LvivCenter500mCafeType/" + s + ".json")));
+	}
+
 
 	public HttpResponse<Object> buildResponse(HttpRequest request, URI uri, String body) {
 		return new HttpResponse<>() {
@@ -107,5 +117,18 @@ public class PlacesTestUtil {
 				return HttpClient.Version.HTTP_1_1;
 			}
 		};
+	}
+
+	public double metersBetweenCoordinates(double lat1, double lon1, double lat2, double lon2) {
+		final int R = 6371; // Radius of the earth
+		double latDistance = Math.toRadians(lat2 - lat1);
+		double lonDistance = Math.toRadians(lon2 - lon1);
+		double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+				+ Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+				* Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		double distance = R * c * 1000; // convert to meters
+		distance = Math.pow(distance, 2);
+		return Math.sqrt(distance);
 	}
 }

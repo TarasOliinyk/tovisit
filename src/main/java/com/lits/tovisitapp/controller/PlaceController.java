@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-import static com.lits.tovisitapp.config.Constants.PAGE_TOKEN_NOT_BLANK_OR_NULL;
-import static com.lits.tovisitapp.config.Constants.SEARCH_QUERY_NOT_BLANK_OR_NULL;
+import static com.lits.tovisitapp.config.PlaceConstants.PAGE_TOKEN_NOT_BLANK_OR_NULL;
+import static com.lits.tovisitapp.config.PlaceConstants.SEARCH_QUERY_NOT_BLANK_OR_NULL;
 
 @RestController
 @RequestMapping("/places")

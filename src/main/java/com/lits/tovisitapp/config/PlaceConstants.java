@@ -1,6 +1,6 @@
 package com.lits.tovisitapp.config;
 
-public final class Constants {
+public final class PlaceConstants {
 	// dto.PlaceDTO
 	public static final String ID_POSITIVE = "Id must be positive integer";
 	public static final String GOOGLE_PLACE_PLACE_ID_NOT_BLANK = "GooglePlaceId cannot be blank";
@@ -17,7 +17,7 @@ public final class Constants {
 	public static final String SEARCH_QUERY_NOT_BLANK_OR_NULL="Search query cannot be blank, null allowed";
 	public static final String PAGE_TOKEN_NOT_BLANK_OR_NULL="Page token cannot be blank, null allowed";
 
-	// used by googleplaces.typePlacesSearchCircle
+	// googleplaces.typePlacesSearchCircle
 	public static final double CIRCLE_LAT_MIN = -85D;
 	public static final double CIRCLE_LAT_MAX = 85D;
 	public static final double CIRCLE_LNG_MIN = -180D;

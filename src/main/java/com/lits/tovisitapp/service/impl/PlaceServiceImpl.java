@@ -177,7 +177,12 @@ public class PlaceServiceImpl implements PlaceService {
 
 	@Override
 	public void deletePlace(long placeId) {
-
+		if (placeId <= 0) {
+			throw new PlaceBadRequestException("Place id must be positive");
+		}
+		if (!placeRepository.existsById(placeId)) {
+			throw new PlaceNotFoundException("Place with id " + placeId + " not exists");
+		}
 		placeRepository.deleteById(placeId);
 	}
 	//</editor-fold>

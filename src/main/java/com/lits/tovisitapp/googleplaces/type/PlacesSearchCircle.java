@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import static com.lits.tovisitapp.config.Constants.*;
+import static com.lits.tovisitapp.config.PlaceConstants.*;
 
 @Data
 @Builder

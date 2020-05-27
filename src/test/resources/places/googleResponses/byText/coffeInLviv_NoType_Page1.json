@@ -1,0 +1,1047 @@
+{
+	"html_attributions": [],
+	"next_page_token": "CoQC-wAAAPaqht6_N7kpdnrV65ttlFZiwJnKQK1H4zX-B2rhCJOnBNt6vPtmQ_djzgZN6kpOCTsEc-88XiH1raPrQxLftiTm5-7lKDl-RRkhGNsTWMD1ucsLmLeniSNgCIEfl0lTh5Sc4vuAw-7ySpSYUB5Yt-O4riXHGP5lFH8clCjKb0jWd07lUHdE9MIi2JKD04ImF7XA405M1mz6K2MAyihGi32YtP2OaYquDHCuwhZVO_porO0E7pIAW2DTopXNxeW24XXKhm0UFx9l0lJfFtG87kiUJkhISSpertrqhVfSvn2br4Z2aHmP2jX22RGYWrS4ml0Fx6iyu-oSeyGPodVEG6kSEID-kHPCGL9hY9tf9JxP0JMaFGboOXWDhDFyuAnD7VDh42r9n2mo",
+	"results": [
+		{
+			"business_status": "OPERATIONAL",
+			"formatted_address": "вул. Личаківська 1.3, Lviv, Lviv oblast, Ukraine, 79000",
+			"geometry": {
+				"location": {
+					"lat": 49.83982930000001,
+					"lng": 24.0371015
+				},
+				"viewport": {
+					"northeast": {
+						"lat": 49.84115092989273,
+						"lng": 24.03845237989272
+					},
+					"southwest": {
+						"lat": 49.83845127010729,
+						"lng": 24.03575272010728
+					}
+				}
+			},
+			"icon": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+			"id": "e2299c0b568b47aab1511b223cb9c8a80e873829",
+			"name": "Frans.ua Bakery & Cafe",
+			"opening_hours": {
+				"open_now": true
+			},
+			"photos": [
+				{
+					"height": 2250,
+					"html_attributions": [
+						"<a href=\"https://maps.google.com/maps/contrib/104885226136525338020\">Сергей Колосовский</a>"
+					],
+					"photo_reference": "CmRaAAAAMQYTCRSR7GQBkE7kbH-n-MK2xXEGhLT7Jdba9JA6OARTTcvYl87Pd_AxhJmHPwYAdlDwzM_L8BE7v8ViF5X-xi3w_NYDtlIaXhbJzS3nlp-fQP-eW4OvXqFDY52uDXjVEhClN4WntKm7Q1fb4_kXcwQ2GhRCJctRzCT0g-CskxaDBvuTY9M1WA",
+					"width": 4000
+				}
+			],
+			"place_id": "ChIJ5U2t6mvdOkcRsQgxhqKvdgw",
+			"plus_code": {
+				"compound_code": "R2QP+WR Lviv, Lviv Oblast",
+				"global_code": "8GX6R2QP+WR"
+			},
+			"price_level": 2,
+			"rating": 4.2,
+			"reference": "ChIJ5U2t6mvdOkcRsQgxhqKvdgw",
+			"types": [
+				"cafe",
+				"restaurant",
+				"food",
+				"point_of_interest",
+				"store",
+				"establishment"
+			],
+			"user_ratings_total": 834
+		},
+		{
+			"business_status": "OPERATIONAL",
+			"formatted_address": "Chaikovs'koho Street, 5, Lviv, Lviv Oblast, Ukraine, 79000",
+			"geometry": {
+				"location": {
+					"lat": 49.837806,
+					"lng": 24.0307806
+				},
+				"viewport": {
+					"northeast": {
+						"lat": 49.83918912989272,
+						"lng": 24.03210552989272
+					},
+					"southwest": {
+						"lat": 49.83648947010727,
+						"lng": 24.02940587010728
+					}
+				}
+			},
+			"icon": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+			"id": "48d2123b0a3b9baaa0c428bab558146c49b277ae",
+			"name": "Francois",
+			"opening_hours": {
+				"open_now": true
+			},
+			"photos": [
+				{
+					"height": 3096,
+					"html_attributions": [
+						"<a href=\"https://maps.google.com/maps/contrib/112828004627958344332\">Kristina V</a>"
+					],
+					"photo_reference": "CmRaAAAAZ_rGzndLgioXi6vj96y1UNFCfUGDfBkYanxFbzxbNtnmD5KLharIk5BXkU7W00GI3CJQwewzfvBILG5y5zSwJ0v6EDx3Rara3ZgQvAsp2qUh8ElIeQnbtErXzuRdl8CbEhDvvXiYImFNdZXHvpTdNEcGGhSeSgh2DVtg1Ht0Ef8IZOSGuRWnYw",
+					"width": 4128
+				}
+			],
+			"place_id": "ChIJ4WIU6G7dOkcRdId98AdAOEM",
+			"plus_code": {
+				"compound_code": "R2QJ+48 Lviv, Lviv Oblast",
+				"global_code": "8GX6R2QJ+48"
+			},
+			"price_level": 2,
+			"rating": 4.2,
+			"reference": "ChIJ4WIU6G7dOkcRdId98AdAOEM",
+			"types": [
+				"cafe",
+				"food",
+				"point_of_interest",
+				"store",
+				"establishment"
+			],
+			"user_ratings_total": 734
+		},
+		{
+			"business_status": "OPERATIONAL",
+			"formatted_address": "Rynok Square, 10, Lviv, Lviv Oblast, Ukraine, 79000",
+			"geometry": {
+				"location": {
+					"lat": 49.8416412,
+					"lng": 24.0327917
+				},
+				"viewport": {
+					"northeast": {
+						"lat": 49.84244649999999,
+						"lng": 24.03457137989272
+					},
+					"southwest": {
+						"lat": 49.8392253,
+						"lng": 24.03187172010728
+					}
+				}
+			},
+			"icon": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+			"id": "324e98c542c6c6cde1afd711bc2ccf232a10bf6e",
+			"name": "Lviv Coffee Manufacture",
+			"opening_hours": {
+				"open_now": false
+			},
+			"photos": [
+				{
+					"height": 4160,
+					"html_attributions": [
+						"<a href=\"https://maps.google.com/maps/contrib/107274953746597223579\">Алиса Селезньова</a>"
+					],
+					"photo_reference": "CmRaAAAAnKEI56apq2lUi3I0ERUbqZJYvjMT7Lhpn3mEPND4BLhNQUpO63HeyzT_HgsGUNEyhU4Ubl_wMtH1tHxN0liAqAsk7gIzOx2Xm8kY_SLOFjFJLgJnAGt5FG6K39LyFNbcEhBuxOzZn6sFGj8YBf0tlI2TGhQYOofqeitFLal5xM1mxpGsHAdKNg",
+					"width": 3120
+				}
+			],
+			"place_id": "ChIJVaQAVGzdOkcR9IjL6lVjkk4",
+			"plus_code": {
+				"compound_code": "R2RM+M4 Lviv, Lviv Oblast",
+				"global_code": "8GX6R2RM+M4"
+			},
+			"price_level": 2,
+			"rating": 4.7,
+			"reference": "ChIJVaQAVGzdOkcR9IjL6lVjkk4",
+			"types": [
+				"cafe",
+				"food",
+				"point_of_interest",
+				"store",
+				"establishment"
+			],
+			"user_ratings_total": 14523
+		},
+		{
+			"business_status": "OPERATIONAL",
+			"formatted_address": "Akademika Hnatyuka Street, 5/7, Lviv, Lviv Oblast, Ukraine, 79000",
+			"geometry": {
+				"location": {
+					"lat": 49.8412523,
+					"lng": 24.0261069
+				},
+				"viewport": {
+					"northeast": {
+						"lat": 49.84266562989272,
+						"lng": 24.02747362989272
+					},
+					"southwest": {
+						"lat": 49.83996597010728,
+						"lng": 24.02477397010728
+					}
+				}
+			},
+			"icon": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+			"id": "f5a692ba7a661c0e9b7fae29363a2c9728ab85e2",
+			"name": "Aroma Kava",
+			"opening_hours": {
+				"open_now": true
+			},
+			"photos": [
+				{
+					"height": 3464,
+					"html_attributions": [
+						"<a href=\"https://maps.google.com/maps/contrib/115126128924377925082\">Маргарита Зайнуллина</a>"
+					],
+					"photo_reference": "CmRaAAAA1M8mWPbO0U6YcmlikC5cnjk0Q3NJTFna5GtaDuI5A0RJoeeHmg55WQeA6aAGQ1REDYiTNmMzTqTXSNc4WcROuVwLEopY4akqVeuEsiPHU_52_oRekLtHook333jGDrkQEhCEJjDlKeYQbTQtWylQOZ9XGhQxmYfkB_o7nTc40C6JH7_CDtvRtA",
+					"width": 4618
+				}
+			],
+			"place_id": "ChIJkdwvGnLdOkcRAd0WeWDFkIw",
+			"plus_code": {
+				"compound_code": "R2RG+GC Lviv, Lviv Oblast",
+				"global_code": "8GX6R2RG+GC"
+			},
+			"price_level": 2,
+			"rating": 4.3,
+			"reference": "ChIJkdwvGnLdOkcRAd0WeWDFkIw",
+			"types": [
+				"cafe",
+				"food",
+				"point_of_interest",
+				"store",
+				"establishment"
+			],
+			"user_ratings_total": 1673
+		},
+		{
+			"business_status": "OPERATIONAL",
+			"formatted_address": "Katedralna Square, 6, Lviv, Lviv Oblast, Ukraine, 79000",
+			"geometry": {
+				"location": {
+					"lat": 49.840444,
+					"lng": 24.03068
+				},
+				"viewport": {
+					"northeast": {
+						"lat": 49.84179382989272,
+						"lng": 24.03202982989272
+					},
+					"southwest": {
+						"lat": 49.83909417010727,
+						"lng": 24.02933017010728
+					}
+				}
+			},
+			"icon": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+			"id": "4b72ba32e2599033b76d0ccbdd327b565602fb97",
+			"name": "Svit Kavy",
+			"opening_hours": {
+				"open_now": false
+			},
+			"photos": [
+				{
+					"height": 3000,
+					"html_attributions": [
+						"<a href=\"https://maps.google.com/maps/contrib/114350914633839495590\">Tanya Gromova</a>"
+					],
+					"photo_reference": "CmRaAAAAURCN_LbVBT_njkiJOWZJNVaQhblSjlbBQYR7OeFhlcTPMC-kO_NCj8r-36aI51JCPI5mX9IUcftDThxwfMCdkOPmQ--zIoJYYajh9VORCASbWZ4eL3TjpWj4JAWlUDPGEhDfLZ4MVEy1fDmtcVwBJHUtGhSOajITgB-IO1euY7Xz-JD8S-fL_Q",
+					"width": 4000
+				}
+			],
+			"place_id": "ChIJJ5xc0m3dOkcRvy8HrBsJt8s",
+			"plus_code": {
+				"compound_code": "R2RJ+57 Lviv, Lviv Oblast",
+				"global_code": "8GX6R2RJ+57"
+			},
+			"price_level": 2,
+			"rating": 4.6,
+			"reference": "ChIJJ5xc0m3dOkcRvy8HrBsJt8s",
+			"types": [
+				"cafe",
+				"food",
+				"point_of_interest",
+				"store",
+				"establishment"
+			],
+			"user_ratings_total": 2444
+		},
+		{
+			"business_status": "OPERATIONAL",
+			"formatted_address": "Rynok Square, 29, Lviv, Lviv Oblast, Ukraine, 79000",
+			"geometry": {
+				"location": {
+					"lat": 49.8415928,
+					"lng": 24.0300566
+				},
+				"viewport": {
+					"northeast": {
+						"lat": 49.84294262989272,
+						"lng": 24.03140642989272
+					},
+					"southwest": {
+						"lat": 49.84024297010728,
+						"lng": 24.02870677010727
+					}
+				}
+			},
+			"icon": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+			"id": "39d9a8b04d5ae1aa137987ef9f5e3afb07408e35",
+			"name": "Na bambetli",
+			"opening_hours": {
+				"open_now": false
+			},
+			"photos": [
+				{
+					"height": 960,
+					"html_attributions": [
+						"<a href=\"https://maps.google.com/maps/contrib/108430856146965385747\">Кав&#39;ярня &quot;На бамбетлі&quot;</a>"
+					],
+					"photo_reference": "CmRaAAAAsjiPGdeTAYO5eGvwVHxhyDLB5ZJSERQ1CSVb0D9OnxcjvYJJPsO3IUntuyYIBXMQMFkeQLS1e6YEGPa3y0hpPiCa_VuyYLWxgUgso475QOAWcER3wMqi7t4HnGwr1bMQEhDXsG8LmMiSrb7MRyKsedeZGhQgri-yT98lDFlxIyYVJl6wNSzs5Q",
+					"width": 960
+				}
+			],
+			"place_id": "ChIJV-EEvm3dOkcRnVLmQj7vMXE",
+			"plus_code": {
+				"compound_code": "R2RJ+J2 Lviv, Lviv Oblast",
+				"global_code": "8GX6R2RJ+J2"
+			},
+			"price_level": 2,
+			"rating": 4.7,
+			"reference": "ChIJV-EEvm3dOkcRnVLmQj7vMXE",
+			"types": [
+				"cafe",
+				"food",
+				"point_of_interest",
+				"store",
+				"establishment"
+			],
+			"user_ratings_total": 1738
+		},
+		{
+			"business_status": "OPERATIONAL",
+			"formatted_address": "Sichovykh Striltsiv St, 17, Lviv, Lviv Oblast, Ukraine, 79000",
+			"geometry": {
+				"location": {
+					"lat": 49.8396481,
+					"lng": 24.0234757
+				},
+				"viewport": {
+					"northeast": {
+						"lat": 49.84104402989271,
+						"lng": 24.02474687989272
+					},
+					"southwest": {
+						"lat": 49.83834437010727,
+						"lng": 24.02204722010728
+					}
+				}
+			},
+			"icon": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+			"id": "c91549c4aa6fc151495a2cd5a964d2213f7b53af",
+			"name": "Urban Coffee",
+			"opening_hours": {
+				"open_now": false
+			},
+			"photos": [
+				{
+					"height": 2448,
+					"html_attributions": [
+						"<a href=\"https://maps.google.com/maps/contrib/101055648856442526394\">Ксенія Климович</a>"
+					],
+					"photo_reference": "CmRaAAAAit-HeSzLL5MzKb-5xTKjcwBy0viskKQgNM8Sd2aNa-ykq6cWZESn-0zMCbbw6tpLUUu2SAcArumq19ZSxcB68ZDe4yI3r_D6qTyMhJYh7UPxQO_DjYWNj02vKTNNMOLhEhASyKehxHW-YiFCICc_0pS_GhRVZZMAbBOGsr_oPn7XBymKrXrt_A",
+					"width": 3264
+				}
+			],
+			"place_id": "ChIJ6RUwuXHdOkcRG8iHFg79MJE",
+			"plus_code": {
+				"compound_code": "R2QF+V9 Lviv, Lviv Oblast",
+				"global_code": "8GX6R2QF+V9"
+			},
+			"price_level": 2,
+			"rating": 4.5,
+			"reference": "ChIJ6RUwuXHdOkcRG8iHFg79MJE",
+			"types": [
+				"cafe",
+				"food",
+				"point_of_interest",
+				"store",
+				"establishment"
+			],
+			"user_ratings_total": 215
+		},
+		{
+			"business_status": "OPERATIONAL",
+			"formatted_address": "Tadeusha Kostyushka Street, 2, Lviv, Lviv Oblast, Ukraine, 79000",
+			"geometry": {
+				"location": {
+					"lat": 49.8392905,
+					"lng": 24.0252948
+				},
+				"viewport": {
+					"northeast": {
+						"lat": 49.84062792989273,
+						"lng": 24.02662897989272
+					},
+					"southwest": {
+						"lat": 49.83792827010728,
+						"lng": 24.02392932010727
+					}
+				}
+			},
+			"icon": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+			"id": "57dc885aac9a841c0c5e2baf83dbd670e2a90ba6",
+			"name": "Black Honey",
+			"opening_hours": {
+				"open_now": false
+			},
+			"photos": [
+				{
+					"height": 3036,
+					"html_attributions": [
+						"<a href=\"https://maps.google.com/maps/contrib/112842281852659921721\">Сергей Каминский</a>"
+					],
+					"photo_reference": "CmRaAAAAuoKaBIvG5bBDYhW5elMZHHrN_-VgQPMBJZuVkc_wXCDO1bUbNExFLckTqsVC6J7LY9m5OOdGCD_dfGo5X9so3MzLYecuj8wrJEmn8TNN9AN-SFedaPVHkpy6tdKN-9_3EhCEVXgjYD5sRQ9BCkCp4H65GhRrWHH0O1fmbDrW_PrrcHr-yCKsmA",
+					"width": 4048
+				}
+			],
+			"place_id": "ChIJUWut3nHdOkcRo-6XC3YvrzY",
+			"plus_code": {
+				"compound_code": "R2QG+P4 Lviv, Lviv Oblast",
+				"global_code": "8GX6R2QG+P4"
+			},
+			"price_level": 2,
+			"rating": 4.7,
+			"reference": "ChIJUWut3nHdOkcRo-6XC3YvrzY",
+			"types": [
+				"cafe",
+				"food",
+				"point_of_interest",
+				"establishment"
+			],
+			"user_ratings_total": 922
+		},
+		{
+			"business_status": "OPERATIONAL",
+			"formatted_address": "Nekrasova Street, 17, Lviv, Lviv Oblast, Ukraine, 79000",
+			"geometry": {
+				"location": {
+					"lat": 49.83850899999999,
+					"lng": 24.049554
+				},
+				"viewport": {
+					"northeast": {
+						"lat": 49.83981307989272,
+						"lng": 24.05087437989272
+					},
+					"southwest": {
+						"lat": 49.83711342010727,
+						"lng": 24.04817472010728
+					}
+				}
+			},
+			"icon": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+			"id": "3fdb40f79abc5e30bf3d71f7b2d9605c7e9635c4",
+			"name": "Lviv Croissants",
+			"opening_hours": {
+				"open_now": true
+			},
+			"photos": [
+				{
+					"height": 1080,
+					"html_attributions": [
+						"<a href=\"https://maps.google.com/maps/contrib/114566982808862518989\">ПЕТРО ДЖУГА</a>"
+					],
+					"photo_reference": "CmRaAAAAbfSTnlS9ReATDS2f7aBJzmpRDf-Ztn5jDNHv4fGdqzjh-2ZJjyKuqPVVjox48FsbZ5PF0-kQcZvlaFTq3hyoVETRJqhy9AMu5yswJtKG57hiG8rwmVOeeSV4BBWVizUPEhCnuD6ZU0eRmEgPUY_lFwJzGhSLPb0utUgoipMZJiMpomwUDbub8Q",
+					"width": 1920
+				}
+			],
+			"place_id": "ChIJtbGK2EDdOkcRcQ6C1IBpF-Y",
+			"plus_code": {
+				"compound_code": "R2QX+CR Lviv, Lviv Oblast",
+				"global_code": "8GX6R2QX+CR"
+			},
+			"price_level": 2,
+			"rating": 4.5,
+			"reference": "ChIJtbGK2EDdOkcRcQ6C1IBpF-Y",
+			"types": [
+				"cafe",
+				"restaurant",
+				"food",
+				"point_of_interest",
+				"store",
+				"establishment"
+			],
+			"user_ratings_total": 635
+		},
+		{
+			"business_status": "OPERATIONAL",
+			"formatted_address": "Staroievreiska Street, 5, Lviv, Lviv Oblast, Ukraine, 79000",
+			"geometry": {
+				"location": {
+					"lat": 49.8404362,
+					"lng": 24.0314679
+				},
+				"viewport": {
+					"northeast": {
+						"lat": 49.84162617989272,
+						"lng": 24.03219367989272
+					},
+					"southwest": {
+						"lat": 49.83892652010728,
+						"lng": 24.02949402010728
+					}
+				}
+			},
+			"icon": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+			"id": "038b3ffd888c8f9362ff29a6d797a540baf0b2c8",
+			"name": "Львівські Круасани",
+			"opening_hours": {
+				"open_now": true
+			},
+			"photos": [
+				{
+					"height": 2909,
+					"html_attributions": [
+						"<a href=\"https://maps.google.com/maps/contrib/118033164359901596711\">Андрій Рембіш</a>"
+					],
+					"photo_reference": "CmRaAAAASIiwEDAjGkY0kSwV9zT2NPVwrckv9mfSV2ii0LUOTMmiyW1rMVpoLhhtHcbRopoINoop0POrCwW9GIlX3T2fK8fUBLhm1WGpv7vJ-aEZaJNuKjgZQKZaYKRBwFnQBB-wEhBugwUXdt8H4hTCwQ62r86oGhSw2B1QU_V-K0hQOrFa6RbbjAxcwg",
+					"width": 3838
+				}
+			],
+			"place_id": "ChIJfbGqM2zdOkcRENjictwEkpE",
+			"plus_code": {
+				"compound_code": "R2RJ+5H Lviv, Lviv Oblast",
+				"global_code": "8GX6R2RJ+5H"
+			},
+			"price_level": 2,
+			"rating": 4.5,
+			"reference": "ChIJfbGqM2zdOkcRENjictwEkpE",
+			"types": [
+				"cafe",
+				"restaurant",
+				"food",
+				"point_of_interest",
+				"store",
+				"establishment"
+			],
+			"user_ratings_total": 1826
+		},
+		{
+			"business_status": "OPERATIONAL",
+			"formatted_address": "Halytska St, 12, Lviv, Lviv Oblast, Ukraine, 79000",
+			"geometry": {
+				"location": {
+					"lat": 49.8400297,
+					"lng": 24.0312589
+				},
+				"viewport": {
+					"northeast": {
+						"lat": 49.84121212989272,
+						"lng": 24.03294417989272
+					},
+					"southwest": {
+						"lat": 49.83851247010728,
+						"lng": 24.03024452010728
+					}
+				}
+			},
+			"icon": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+			"id": "21ebfbe7650ae6c72d3cca9b90dfca15e39ab286",
+			"name": "Urban Coffee",
+			"opening_hours": {
+				"open_now": false
+			},
+			"photos": [
+				{
+					"height": 4128,
+					"html_attributions": [
+						"<a href=\"https://maps.google.com/maps/contrib/116201313137417490161\">Lida Gavriluk</a>"
+					],
+					"photo_reference": "CmRaAAAAPHYah2uudQs9Kl5FpvxA_hwJ4T6Izk0NgaxPCMFmNyWKjfMXHdPYVskgKCvHFSs9ePvjFPMKISqXGwuF9CL82I9zZ1WGAlHpyKomnR-VBpliIUkA_fxQPHMEfMh8w4g3EhDvbFGaqS_ODKpQejamMGMZGhRCzCqe9GQhtb4eXdlevjbqvWERBA",
+					"width": 2322
+				}
+			],
+			"place_id": "ChIJCznqLWzdOkcRcLFAoTrxcCM",
+			"plus_code": {
+				"compound_code": "R2RJ+2G Lviv, Lviv Oblast",
+				"global_code": "8GX6R2RJ+2G"
+			},
+			"price_level": 2,
+			"rating": 4.5,
+			"reference": "ChIJCznqLWzdOkcRcLFAoTrxcCM",
+			"types": [
+				"cafe",
+				"food",
+				"point_of_interest",
+				"store",
+				"establishment"
+			],
+			"user_ratings_total": 381
+		},
+		{
+			"business_status": "OPERATIONAL",
+			"formatted_address": "Soborna Square, 2, Lviv, Lviv Oblast, Ukraine, 79000",
+			"geometry": {
+				"location": {
+					"lat": 49.8393938,
+					"lng": 24.0335818
+				},
+				"viewport": {
+					"northeast": {
+						"lat": 49.84066032989272,
+						"lng": 24.03489737989273
+					},
+					"southwest": {
+						"lat": 49.83796067010728,
+						"lng": 24.03219772010728
+					}
+				}
+			},
+			"icon": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+			"id": "f0f5969aaaf89ad255fb5aa726d9d56c85d91bcd",
+			"name": "SelfieCoffee",
+			"opening_hours": {
+				"open_now": false
+			},
+			"photos": [
+				{
+					"height": 3264,
+					"html_attributions": [
+						"<a href=\"https://maps.google.com/maps/contrib/109886450751176819709\">A Google User</a>"
+					],
+					"photo_reference": "CmRaAAAAcojFmC63q1pGnk0HbDgzM8VCiXYun07Vy4VVEYFdyAqgfi-PbuUNUubG2lCsyUqurSxwPLQA8WZrNdMGxJWjRRCXnuACdOajN5DXbyByfAEyDiHwQDgWWlK27EA3F75YEhBkxzKpe2c3I47uJbptsA5sGhSIrgeUnir9NdRIrFRpL4X_74whlQ",
+					"width": 1836
+				}
+			],
+			"place_id": "ChIJsY1uBm7dOkcRU2hzlVrdzt4",
+			"plus_code": {
+				"compound_code": "R2QM+QC Lviv, Lviv Oblast",
+				"global_code": "8GX6R2QM+QC"
+			},
+			"rating": 4.6,
+			"reference": "ChIJsY1uBm7dOkcRU2hzlVrdzt4",
+			"types": [
+				"cafe",
+				"food",
+				"point_of_interest",
+				"store",
+				"establishment"
+			],
+			"user_ratings_total": 133
+		},
+		{
+			"business_status": "OPERATIONAL",
+			"formatted_address": "Valova St, 16, Lviv, Lviv Oblast, Ukraine, 79000",
+			"geometry": {
+				"location": {
+					"lat": 49.8398864,
+					"lng": 24.0335396
+				},
+				"viewport": {
+					"northeast": {
+						"lat": 49.84128647989272,
+						"lng": 24.03485942989272
+					},
+					"southwest": {
+						"lat": 49.83858682010727,
+						"lng": 24.03215977010728
+					}
+				}
+			},
+			"icon": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+			"id": "6d88c00c5504aecce4954138b983d9b314ffab4b",
+			"name": "Lviv coffee manufacture (Valova)",
+			"opening_hours": {
+				"open_now": false
+			},
+			"photos": [
+				{
+					"height": 3456,
+					"html_attributions": [
+						"<a href=\"https://maps.google.com/maps/contrib/110727590462074233723\">Fatih Soylu</a>"
+					],
+					"photo_reference": "CmRaAAAAKgVKWJQYy8Cz-6YgwYF0oJ7Ca51rCysJXIoWnEopTzdSDs2qqVeGn-Xwu1gwlaAzpjy5DtOcyTwuEvsq-jy6gq2gv_Jlu817vkLaWpmh_CRKMj9RQYHYlLyULnDZY1C1EhDNAWRw9SQ--1Uz4gklbiDvGhQAWMJETFJqjPqNDz6LF6VT_37gug",
+					"width": 4608
+				}
+			],
+			"place_id": "ChIJgfKDEGzdOkcR6hbpazbHJb0",
+			"plus_code": {
+				"compound_code": "R2QM+XC Lviv, Lviv Oblast",
+				"global_code": "8GX6R2QM+XC"
+			},
+			"price_level": 2,
+			"rating": 4.6,
+			"reference": "ChIJgfKDEGzdOkcR6hbpazbHJb0",
+			"types": [
+				"cafe",
+				"food",
+				"point_of_interest",
+				"store",
+				"establishment"
+			],
+			"user_ratings_total": 1357
+		},
+		{
+			"business_status": "OPERATIONAL",
+			"formatted_address": "подземный переход, Ploshcha Mytna, 1, Lviv, Lviv Oblast, Ukraine, 79000",
+			"geometry": {
+				"location": {
+					"lat": 49.8397272,
+					"lng": 24.0360419
+				},
+				"viewport": {
+					"northeast": {
+						"lat": 49.84107702989272,
+						"lng": 24.03739172989272
+					},
+					"southwest": {
+						"lat": 49.83837737010728,
+						"lng": 24.03469207010728
+					}
+				}
+			},
+			"icon": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+			"id": "2996fccbcd0301b380679a768a1fe87e76cb3e05",
+			"name": "Saturdays Coffee",
+			"opening_hours": {
+				"open_now": false
+			},
+			"photos": [
+				{
+					"height": 2976,
+					"html_attributions": [
+						"<a href=\"https://maps.google.com/maps/contrib/112391262783837147530\">Ivan Orel</a>"
+					],
+					"photo_reference": "CmRaAAAAYQNetcp4UTS8iKscfFeNiwUigOO_2CDb_PhRS1ATbtcIcAK19szdcgbvcZFLY67gOT2jP3dSp3VLKrLQM4m6sFg1bmRrGTGEExkGzHG2AOZq1qxF9JVsWpN3E6R6-PdwEhABPENpWTWLzsQk4oKA6aWUGhSpTliX-jEAm-fvl3-2Ye2nm2FLXg",
+					"width": 3968
+				}
+			],
+			"place_id": "ChIJdR6O7WvdOkcRWBDqy8ywoyc",
+			"plus_code": {
+				"compound_code": "R2QP+VC Lviv, Lviv Oblast",
+				"global_code": "8GX6R2QP+VC"
+			},
+			"price_level": 2,
+			"rating": 4.9,
+			"reference": "ChIJdR6O7WvdOkcRWBDqy8ywoyc",
+			"types": [
+				"cafe",
+				"food",
+				"point_of_interest",
+				"store",
+				"establishment"
+			],
+			"user_ratings_total": 215
+		},
+		{
+			"business_status": "OPERATIONAL",
+			"formatted_address": "Ivana Fedorova St, 20, Lviv, Lviv Oblast, Ukraine, 79000",
+			"geometry": {
+				"location": {
+					"lat": 49.841577,
+					"lng": 24.033715
+				},
+				"viewport": {
+					"northeast": {
+						"lat": 49.84314822989272,
+						"lng": 24.0360703
+					},
+					"southwest": {
+						"lat": 49.84044857010728,
+						"lng": 24.0329299
+					}
+				}
+			},
+			"icon": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+			"id": "3ee3de05570746ecc50067dec5378c792ed96b50",
+			"name": "Golden Ducat",
+			"opening_hours": {
+				"open_now": false
+			},
+			"photos": [
+				{
+					"height": 3000,
+					"html_attributions": [
+						"<a href=\"https://maps.google.com/maps/contrib/116491161496208086712\">Valeria Fresh</a>"
+					],
+					"photo_reference": "CmRaAAAAVDfvq2XdWhfyiCWSdRPcQCoRlAt7ai1c-mw921LifDM8qitOI8RiE3IkvAME2QSp4M0l8RhP8RVe7X4hFv_SiIqeIGAeIhV59GhEiQ29camusXwbVtzrQnKYndrXMBbiEhB2dYtpXDj839PKB-sdm0stGhTsSFAN4KgGvbbefMZegnnrPT7QIw",
+					"width": 3000
+				}
+			],
+			"place_id": "ChIJa_dIWWzdOkcRd1_SP-1nrV4",
+			"plus_code": {
+				"compound_code": "R2RM+JF Lviv, Lviv Oblast",
+				"global_code": "8GX6R2RM+JF"
+			},
+			"price_level": 2,
+			"rating": 4.4,
+			"reference": "ChIJa_dIWWzdOkcRd1_SP-1nrV4",
+			"types": [
+				"cafe",
+				"food",
+				"point_of_interest",
+				"store",
+				"establishment"
+			],
+			"user_ratings_total": 679
+		},
+		{
+			"business_status": "OPERATIONAL",
+			"formatted_address": "Ruska Street, 4, Lviv, Lviv Oblast, Ukraine, 79000",
+			"geometry": {
+				"location": {
+					"lat": 49.8414385,
+					"lng": 24.0331507
+				},
+				"viewport": {
+					"northeast": {
+						"lat": 49.84307897989272,
+						"lng": 24.0364006
+					},
+					"southwest": {
+						"lat": 49.84037932010727,
+						"lng": 24.03193899999999
+					}
+				}
+			},
+			"icon": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+			"id": "ec8d74ef8daa5c7b4e65b16c4e0d85046d4905a9",
+			"name": "Pid Synʹoyu Flyazhkoyu",
+			"opening_hours": {
+				"open_now": false
+			},
+			"photos": [
+				{
+					"height": 2736,
+					"html_attributions": [
+						"<a href=\"https://maps.google.com/maps/contrib/104532312000565568013\">V. Sh.</a>"
+					],
+					"photo_reference": "CmRaAAAAI5eVz7fFlEwF3oJfGYLiNQH58fruvBHazn9cgD90kJeN_ezmEHHEK1HLINnwdLHtJVQJeqA8QxjCujP9CfRAGLzhUs_0JzhEHJNfI86NvnJUJSMwS8tGTDfilTkUC-QcEhB9yTw9E6z6LyAzmPISkhwuGhRmPVOba8l3_HeK1iGM2CE8JuUa7A",
+					"width": 3648
+				}
+			],
+			"place_id": "ChIJD5mGWmzdOkcRfcwx9CM1rHY",
+			"plus_code": {
+				"compound_code": "R2RM+H7 Lviv, Lviv Oblast",
+				"global_code": "8GX6R2RM+H7"
+			},
+			"price_level": 2,
+			"rating": 4.4,
+			"reference": "ChIJD5mGWmzdOkcRfcwx9CM1rHY",
+			"types": [
+				"cafe",
+				"food",
+				"point_of_interest",
+				"store",
+				"establishment"
+			],
+			"user_ratings_total": 669
+		},
+		{
+			"business_status": "OPERATIONAL",
+			"formatted_address": "Valova St, 5, Lviv, Lviv Oblast, Ukraine, 79000",
+			"geometry": {
+				"location": {
+					"lat": 49.8396893,
+					"lng": 24.0315426
+				},
+				"viewport": {
+					"northeast": {
+						"lat": 49.84095837989272,
+						"lng": 24.03278637989272
+					},
+					"southwest": {
+						"lat": 49.83825872010727,
+						"lng": 24.03008672010728
+					}
+				}
+			},
+			"icon": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+			"id": "6e51e122d08cb0e048657541041a835e0e085405",
+			"name": "KREDENS CAFE",
+			"opening_hours": {
+				"open_now": false
+			},
+			"photos": [
+				{
+					"height": 3456,
+					"html_attributions": [
+						"<a href=\"https://maps.google.com/maps/contrib/109622750582078011867\">Kredens Cafe</a>"
+					],
+					"photo_reference": "CmRaAAAA51T3UknF6oEncGUEJIeiUVCKOjHKswrshj8HgSCHjySg1SUGp1fNqQLMkt1RRWa4Zfxx6ryqioOmu_pnI4trM1DyNg413y8SGNqfDlfbyeo-hvRJGWzGXOXh5_tyRYX8EhCbPwyTEiAa88dISpEr5J-4GhSQnsjV80vBLSe3Y593c38l4f4vkg",
+					"width": 5184
+				}
+			],
+			"place_id": "ChIJp0SYJ2zdOkcRx9e3scZ_Z5E",
+			"plus_code": {
+				"compound_code": "R2QJ+VJ Lviv, Lviv Oblast",
+				"global_code": "8GX6R2QJ+VJ"
+			},
+			"price_level": 2,
+			"rating": 4.5,
+			"reference": "ChIJp0SYJ2zdOkcRx9e3scZ_Z5E",
+			"types": [
+				"cafe",
+				"food",
+				"point_of_interest",
+				"store",
+				"establishment"
+			],
+			"user_ratings_total": 1071
+		},
+		{
+			"business_status": "OPERATIONAL",
+			"formatted_address": "Pekarska Street, 50, Lviv, Lviv Oblast, Ukraine, 79000",
+			"geometry": {
+				"location": {
+					"lat": 49.8371831,
+					"lng": 24.0422781
+				},
+				"viewport": {
+					"northeast": {
+						"lat": 49.83866642989272,
+						"lng": 24.04371872989272
+					},
+					"southwest": {
+						"lat": 49.83596677010728,
+						"lng": 24.04101907010728
+					}
+				}
+			},
+			"icon": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+			"id": "17b2b905206dc65a5e2d69ad9dca0d5383f8e3a8",
+			"name": "La Cafe Coffee",
+			"opening_hours": {
+				"open_now": false
+			},
+			"photos": [
+				{
+					"height": 4000,
+					"html_attributions": [
+						"<a href=\"https://maps.google.com/maps/contrib/100188129507437325322\">Yasya Lutsenko</a>"
+					],
+					"photo_reference": "CmRaAAAABXD6evQUR1dh6tdbgeeQfVPkO2HHvNSgwBMh0vIu5KBDytxwgcT2XaypHO829vq8DDQKwSVV5m5BVpGoqR86zEIHjG8VmXcBScun6YIfH_ujqI3VRubDBiGENHriMHnHEhDBMC3ctK0mZBETmToirHbxGhQKKb2mAepFOWDSCgeEsvpAJlJS_g",
+					"width": 3000
+				}
+			],
+			"place_id": "ChIJf_2D-UHdOkcRIpNriRPS9jE",
+			"plus_code": {
+				"compound_code": "R2PR+VW Lviv, Lviv Oblast",
+				"global_code": "8GX6R2PR+VW"
+			},
+			"price_level": 1,
+			"rating": 4.6,
+			"reference": "ChIJf_2D-UHdOkcRIpNriRPS9jE",
+			"types": [
+				"cafe",
+				"food",
+				"point_of_interest",
+				"establishment"
+			],
+			"user_ratings_total": 99
+		},
+		{
+			"business_status": "OPERATIONAL",
+			"formatted_address": "Kniazia Romana St, 6, Lviv, Lviv Oblast, Ukraine, 79000",
+			"geometry": {
+				"location": {
+					"lat": 49.83862939999999,
+					"lng": 24.0322011
+				},
+				"viewport": {
+					"northeast": {
+						"lat": 49.84001867989272,
+						"lng": 24.03369512989272
+					},
+					"southwest": {
+						"lat": 49.83731902010727,
+						"lng": 24.03099547010728
+					}
+				}
+			},
+			"icon": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+			"id": "84f7c57497d3ca0778a71beaee56f3576d9110a4",
+			"name": "Fixage",
+			"opening_hours": {
+				"open_now": false
+			},
+			"photos": [
+				{
+					"height": 3464,
+					"html_attributions": [
+						"<a href=\"https://maps.google.com/maps/contrib/104715270239851348213\">Damian Radziak</a>"
+					],
+					"photo_reference": "CmRaAAAAmJsAwNKIHOpVux4h-7llNlZ6d_C0k8g7tEUJy755fuVU7cMlBqY2WqjV0iNlWP5d6mKJzvfP_AODkuJIxOHpJsOUEViM7hC8-GqlO_mQnsgsZ4JsVhh8ghqQbZPeoZV2EhALTYULkPoMYPJ3CuDJgIBHGhTq5CL6c0ClGpMg-sXcEdyg_tGdzQ",
+					"width": 4618
+				}
+			],
+			"place_id": "ChIJrfN-u27dOkcRc9yYTzu3e-k",
+			"plus_code": {
+				"compound_code": "R2QJ+FV Lviv, Lviv Oblast",
+				"global_code": "8GX6R2QJ+FV"
+			},
+			"price_level": 2,
+			"rating": 4.6,
+			"reference": "ChIJrfN-u27dOkcRc9yYTzu3e-k",
+			"types": [
+				"cafe",
+				"museum",
+				"food",
+				"point_of_interest",
+				"store",
+				"establishment"
+			],
+			"user_ratings_total": 547
+		},
+		{
+			"business_status": "OPERATIONAL",
+			"formatted_address": "Zelena St, 42, Lviv, Lviv Oblast, Ukraine, 79000",
+			"geometry": {
+				"location": {
+					"lat": 49.8314209,
+					"lng": 24.0422933
+				},
+				"viewport": {
+					"northeast": {
+						"lat": 49.83280742989272,
+						"lng": 24.04371187989272
+					},
+					"southwest": {
+						"lat": 49.83010777010728,
+						"lng": 24.04101222010727
+					}
+				}
+			},
+			"icon": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+			"id": "53fb84688b61f63d5146a7ff0f0549bf8f43371e",
+			"name": "2cups",
+			"opening_hours": {
+				"open_now": false
+			},
+			"photos": [
+				{
+					"height": 4160,
+					"html_attributions": [
+						"<a href=\"https://maps.google.com/maps/contrib/111411745566762201506\">Khrystyna Kolyada</a>"
+					],
+					"photo_reference": "CmRaAAAA91fyfY7FuwEsjNyy97v_nb2SyCpGAHqKB2-fntf3s0KbuVQTIc5zrCciXblyQGS5WimuFinX6c1dMSCKaxqW_iV--AAUnK7gpeOIQr5mtOzINPn1qOIOQgfU2VDGA1vzEhDCJbP38VWI3lVklIkywzEsGhQQR4ZnOlXh3XgBLIwAUTiJKvVcfQ",
+					"width": 3120
+				}
+			],
+			"place_id": "ChIJD5h9sFzdOkcRT0ZKoAxDMyQ",
+			"plus_code": {
+				"compound_code": "R2JR+HW Lviv, Lviv Oblast",
+				"global_code": "8GX6R2JR+HW"
+			},
+			"price_level": 2,
+			"rating": 4.5,
+			"reference": "ChIJD5h9sFzdOkcRT0ZKoAxDMyQ",
+			"types": [
+				"cafe",
+				"food",
+				"point_of_interest",
+				"establishment"
+			],
+			"user_ratings_total": 369
+		}
+	],
+	"status": "OK"
+}
