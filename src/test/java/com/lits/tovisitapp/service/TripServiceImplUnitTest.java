@@ -38,6 +38,8 @@ public class TripServiceImplUnitTest {
     private UserRepository userRepository;
     @Mock
     private PlaceRepository placeRepository;
+    @Mock
+    private PlaceService placeService;
     @InjectMocks
     private ModelMapper modelMapper;
     @InjectMocks
@@ -45,7 +47,7 @@ public class TripServiceImplUnitTest {
 
     @Before
     public void init() {
-        tripService = new TripServiceImpl(modelMapper, tripRepository, userRepository, placeRepository);
+        tripService = new TripServiceImpl(modelMapper, tripRepository, userRepository, placeRepository, placeService);
     }
 
     @Test

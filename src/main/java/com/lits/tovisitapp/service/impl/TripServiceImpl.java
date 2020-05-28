@@ -12,6 +12,7 @@ import com.lits.tovisitapp.model.User;
 import com.lits.tovisitapp.repository.PlaceRepository;
 import com.lits.tovisitapp.repository.TripRepository;
 import com.lits.tovisitapp.repository.UserRepository;
+import com.lits.tovisitapp.service.PlaceService;
 import com.lits.tovisitapp.service.TripService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -29,12 +30,14 @@ public class TripServiceImpl implements TripService {
     private final TripRepository tripRepository;
     private final UserRepository userRepository;
     private final PlaceRepository placeRepository;
+    private final PlaceService placeService;
 
-    public TripServiceImpl(ModelMapper modelMapper, TripRepository tripRepository, UserRepository userRepository, PlaceRepository placeRepository) {
+    public TripServiceImpl(ModelMapper modelMapper, TripRepository tripRepository, UserRepository userRepository, PlaceRepository placeRepository, PlaceService placeService) {
         this.modelMapper = modelMapper;
         this.tripRepository = tripRepository;
         this.userRepository = userRepository;
         this.placeRepository = placeRepository;
+        this.placeService = placeService;
     }
 
     @Override
@@ -68,12 +71,7 @@ public class TripServiceImpl implements TripService {
     @Override
     public List<TripDTO> getAll() {
         List<Trip> trips = tripRepository.findAll();
-        List<TripDTO> tripDtos = trips.stream().map(trip -> {
-//            List<Long> placeIds = trip.getPlaces().stream().map(Place::getId).collect(Collectors.toList());
-            TripDTO tripDto = modelMapper.map(trip, TripDTO.class);
-//            shortTripDTO.setPlaceIds(placeIds);
-            return tripDto;
-        }).collect(Collectors.toList());
+        List<TripDTO> tripDtos = trips.stream().map(trip -> modelMapper.map(trip, TripDTO.class)).collect(Collectors.toList());
         return tripDtos;
     }
 
@@ -81,23 +79,16 @@ public class TripServiceImpl implements TripService {
     public List<TripDTO> getAllByUserId(Long userId) {
         User account = userRepository.findOneById(userId).orElseThrow(() -> new UserNotFoundException(format("User with id = %d doesn't exist", userId)));
         List<Trip> trips = tripRepository.findAllByUserId(userId);
-        List<TripDTO> tripDtos = trips.stream().map(trip -> {
-//            List<Long> placeIds = trip.getPlaces().stream().map(Place::getId).collect(Collectors.toList());
-            TripDTO tripDto = modelMapper.map(trip, TripDTO.class);
-//            shortTripDTO.setPlaceIds(placeIds);
-            return tripDto;
-        }).collect(Collectors.toList());
+        List<TripDTO> tripDtos = trips.stream().map(trip -> modelMapper.map(trip, TripDTO.class)).collect(Collectors.toList());
         return tripDtos;
     }
 
     @Override
-    @Transactional
-    public TripPlaceDTO addPlacesToTrip(Long tripId, List<PlaceDTO> createPlaceDtos) {
+    public TripPlaceDTO addPlacesToTrip(Long tripId, List<PlaceDTO> placeDtos) {
         Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new TripNotFoundException(format("Trip with id = %d doesn't exist", tripId)));
-        for (PlaceDTO createPlaceDto : createPlaceDtos) {
-            createPlaceDto.setTripId(tripId);
-            Place place = modelMapper.map(createPlaceDto, Place.class);
-            placeRepository.save(place);
+        for (PlaceDTO placeDto : placeDtos) {
+            placeDto.setTripId(tripId);
+            placeService.savePlace(placeDto);
         }
         return modelMapper.map(trip, TripPlaceDTO.class);
     }
@@ -114,6 +105,5 @@ public class TripServiceImpl implements TripService {
         } else
             throw new PlaceNotFoundException(format("Place with id = %d doesn't exist at trip with id = %d", placeId, tripId));
     }
-
 
 }

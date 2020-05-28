@@ -34,7 +34,7 @@ public class TripControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
     @MockBean
     private TripService tripService;
 
