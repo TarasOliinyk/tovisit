@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class TripDto {
 
     private Long id;
-    @NotBlank(message = "Trip can not be created/updated because name is blank")
+    @NotBlank(message = "Trip can not be created/updated because name is blank.")
     private String name;
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
@@ -26,7 +26,7 @@ public class TripDto {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
-    @NotNull(message = "Trip can not be created/updated because account_id is null")
-    @Positive(message = "Trip can not be created/updated because account_id must be positive")
+    @NotNull(message = "Trip can not be created/updated because account_id is null.")
+    @Positive(message = "Trip can not be created/updated because account_id must be positive.")
     private Long accountId;
 }

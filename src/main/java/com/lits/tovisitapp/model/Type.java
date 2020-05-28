@@ -10,7 +10,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Type {
 
 	@Id
@@ -25,6 +24,5 @@ public class Type {
 	@JoinTable(name = "place_type",
 			joinColumns = @JoinColumn(name = "type_id"),
 			inverseJoinColumns = @JoinColumn(name = "place_id"))
-	@Builder.Default
 	private List<Place> places = new ArrayList<>();
 }
