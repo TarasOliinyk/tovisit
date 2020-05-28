@@ -1,16 +1,9 @@
 {
-  "id": 5,
-  "name": "Ukraine-5",
+  "id": 1,
+  "name": "Ukraine-1",
   "createdAt": "2020-05-22 10:42:11",
   "updatedAt": "2020-05-22 10:42:11",
-  "account": {
-    "id": 3,
-    "firstName": "Piter",
-    "lastName": "Pen",
-    "username": "piter",
-    "password": "123",
-    "role": "USER"
-  },
+  "accountId": 3,
   "places": [
     {
       "id": 1,

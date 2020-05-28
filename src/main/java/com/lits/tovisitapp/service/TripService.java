@@ -1,9 +1,8 @@
 package com.lits.tovisitapp.service;
 
-import com.lits.tovisitapp.dto.FullTripDTO;
 import com.lits.tovisitapp.dto.PlaceDTO;
-import com.lits.tovisitapp.dto.ShortTripDTO;
 import com.lits.tovisitapp.dto.TripDTO;
+import com.lits.tovisitapp.dto.TripPlaceDTO;
 
 import java.util.List;
 
@@ -15,16 +14,13 @@ public interface TripService {
 
     void delete(Long id);
 
-    FullTripDTO getOne(Long id);
+    TripPlaceDTO getOne(Long id);
 
-    List<ShortTripDTO> getAll();
+    List<TripDTO> getAll();
 
-    List<ShortTripDTO> getAllByUserId(Long userId);
+    List<TripDTO> getAllByUserId(Long userId);
 
-    FullTripDTO addPlacesToTrip(Long tripId, List<PlaceDTO> placeDTOs);
+    TripPlaceDTO addPlacesToTrip(Long tripId, List<PlaceDTO> placeDTOs);
 
-    FullTripDTO deletePlaceFromTrip(Long tripId, Long placeId);
-
-    FullTripDTO addPlaceToTrip(Long tripId, PlaceDTO placeDTO);
-
+    TripPlaceDTO deletePlaceFromTrip(Long tripId, Long placeId);
 }

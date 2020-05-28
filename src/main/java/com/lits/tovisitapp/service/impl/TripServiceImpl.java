@@ -1,18 +1,22 @@
 package com.lits.tovisitapp.service.impl;
 
-import com.lits.tovisitapp.dto.FullTripDTO;
 import com.lits.tovisitapp.dto.PlaceDTO;
-import com.lits.tovisitapp.dto.ShortTripDTO;
 import com.lits.tovisitapp.dto.TripDTO;
+import com.lits.tovisitapp.dto.TripPlaceDTO;
+import com.lits.tovisitapp.exceptions.place.PlaceNotFoundException;
 import com.lits.tovisitapp.exceptions.trip.TripNotFoundException;
+import com.lits.tovisitapp.exceptions.user.UserNotFoundException;
 import com.lits.tovisitapp.model.Place;
 import com.lits.tovisitapp.model.Trip;
+import com.lits.tovisitapp.model.User;
+import com.lits.tovisitapp.repository.PlaceRepository;
 import com.lits.tovisitapp.repository.TripRepository;
-import com.lits.tovisitapp.service.PlaceService;
+import com.lits.tovisitapp.repository.UserRepository;
 import com.lits.tovisitapp.service.TripService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,135 +27,93 @@ public class TripServiceImpl implements TripService {
 
     private final ModelMapper modelMapper;
     private final TripRepository tripRepository;
+    private final UserRepository userRepository;
+    private final PlaceRepository placeRepository;
 
-    private PlaceService placeService;
-
-    public TripServiceImpl(ModelMapper modelMapper, TripRepository tripRepository, PlaceService placeService) {
+    public TripServiceImpl(ModelMapper modelMapper, TripRepository tripRepository, UserRepository userRepository, PlaceRepository placeRepository) {
         this.modelMapper = modelMapper;
         this.tripRepository = tripRepository;
-        this.placeService = placeService;
+        this.userRepository = userRepository;
+        this.placeRepository = placeRepository;
     }
 
     @Override
     public TripDTO create(TripDTO tripDto) {
+        User user = userRepository.findOneById(tripDto.getUserId()).orElseThrow(() -> new UserNotFoundException(format("User with id = %d doesn't exist", tripDto.getUserId())));
         Trip trip = modelMapper.map(tripDto, Trip.class);
         return modelMapper.map(tripRepository.save(trip), TripDTO.class);
     }
 
     @Override
-    public TripDTO update(TripDTO newTripDto) {
-        Trip newTrip = modelMapper.map(newTripDto, Trip.class);
+    public TripDTO update(TripDTO newTripDTO) {
+        Trip trip = tripRepository.findById(newTripDTO.getId()).orElseThrow(() -> new TripNotFoundException(format("Trip with id = %d doesn't exist", newTripDTO.getId())));
+        User user = userRepository.findOneById(newTripDTO.getUserId()).orElseThrow(() -> new UserNotFoundException(format("User with id = %d doesn't exist", newTripDTO.getUserId())));
+        Trip newTrip = modelMapper.map(newTripDTO, Trip.class);
         return modelMapper.map(tripRepository.save(newTrip), TripDTO.class);
     }
 
     @Override
     public void delete(Long id) {
+        Trip trip = tripRepository.findById(id).orElseThrow(() -> new TripNotFoundException(format("Trip with id = %d doesn't exist", id)));
         tripRepository.deleteById(id);
     }
 
     @Override
-    public FullTripDTO getOne(Long id) {
+    @Transactional
+    public TripPlaceDTO getOne(Long id) {
         Trip trip = tripRepository.findById(id).orElseThrow(() -> new TripNotFoundException(format("Trip with id = %d doesn't exist", id)));
-        return modelMapper.map(trip, FullTripDTO.class);
+        return modelMapper.map(trip, TripPlaceDTO.class);
     }
 
     @Override
-    public List<ShortTripDTO> getAll() {
+    public List<TripDTO> getAll() {
         List<Trip> trips = tripRepository.findAll();
-
-        List<ShortTripDTO> shortTripDtos = trips.stream().map(trip -> {
-            List<Long> placeIds = trip.getPlaces().stream().map(Place::getId).collect(Collectors.toList());
-            ShortTripDTO shortTripDto = modelMapper.map(trip, ShortTripDTO.class);
-            shortTripDto.setPlaceIds(placeIds);
-            return shortTripDto;
+        List<TripDTO> tripDtos = trips.stream().map(trip -> {
+//            List<Long> placeIds = trip.getPlaces().stream().map(Place::getId).collect(Collectors.toList());
+            TripDTO tripDto = modelMapper.map(trip, TripDTO.class);
+//            shortTripDTO.setPlaceIds(placeIds);
+            return tripDto;
         }).collect(Collectors.toList());
-
-        return shortTripDtos;
+        return tripDtos;
     }
 
     @Override
-    public List<ShortTripDTO> getAllByUserId(Long accountId) {
-        List<Trip> trips = tripRepository.findAllByUserId(accountId);
-
-        List<ShortTripDTO> shortTripDtos = trips.stream().map(trip -> {
-            List<Long> placeIds = trip.getPlaces().stream().map(Place::getId).collect(Collectors.toList());
-            ShortTripDTO shortTripDto = modelMapper.map(trip, ShortTripDTO.class);
-            shortTripDto.setPlaceIds(placeIds);
-            return shortTripDto;
+    public List<TripDTO> getAllByUserId(Long userId) {
+        User account = userRepository.findOneById(userId).orElseThrow(() -> new UserNotFoundException(format("User with id = %d doesn't exist", userId)));
+        List<Trip> trips = tripRepository.findAllByUserId(userId);
+        List<TripDTO> tripDtos = trips.stream().map(trip -> {
+//            List<Long> placeIds = trip.getPlaces().stream().map(Place::getId).collect(Collectors.toList());
+            TripDTO tripDto = modelMapper.map(trip, TripDTO.class);
+//            shortTripDTO.setPlaceIds(placeIds);
+            return tripDto;
         }).collect(Collectors.toList());
-
-        return shortTripDtos;
+        return tripDtos;
     }
 
     @Override
-    public FullTripDTO addPlacesToTrip(Long tripId, List<PlaceDTO> placeDTOs) {
+    @Transactional
+    public TripPlaceDTO addPlacesToTrip(Long tripId, List<PlaceDTO> createPlaceDtos) {
         Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new TripNotFoundException(format("Trip with id = %d doesn't exist", tripId)));
-
-        placeDTOs.forEach(p -> {
-            p.setTripId(tripId);
-            placeService.savePlace(p);
-        });
-
-        return modelMapper.map(trip, FullTripDTO.class);
+        for (PlaceDTO createPlaceDto : createPlaceDtos) {
+            createPlaceDto.setTripId(tripId);
+            Place place = modelMapper.map(createPlaceDto, Place.class);
+            placeRepository.save(place);
+        }
+        return modelMapper.map(trip, TripPlaceDTO.class);
     }
-
-//    @Override
-//    @Transactional
-//    public FullTripDTO addPlacesToTrip(Long tripId, List<PlaceForTripDTO> placeForTripDtos) {
-//
-//        Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new TripNotFoundException(format("Trip with id = %d doesn't exist", tripId)));
-//
-//        List<Place> newPlaces = placeForTripDtos.stream().map(placeForTripDto -> {
-//            placeForTripDto.setTrip(trip);
-//            return modelMapper.map(placeForTripDto, Place.class);
-//        }).collect(Collectors.toList());
-//
-//        List<Place> places = trip.getPlaces();
-//        for (Place place : newPlaces) {
-//            places.add(place);
-//        }
-//
-//        tripRepository.save(trip);
-//
-//        return modelMapper.map(trip, FullTripDTO.class);
-//    }
 
     @Override
-    public FullTripDTO addPlaceToTrip(Long tripId, PlaceDTO placeDTO) {
+    @Transactional
+    public TripPlaceDTO deletePlaceFromTrip(Long tripId, Long placeId) {
         Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new TripNotFoundException(format("Trip with id = %d doesn't exist", tripId)));
-
-        placeDTO.setTripId(tripId);
-        placeService.savePlace(placeDTO);
-
-        return modelMapper.map(trip, FullTripDTO.class);
+        Place placeForDeleting = placeRepository.findById(placeId).orElseThrow(() -> new PlaceNotFoundException(format("Place with id = %d doesn't exist", placeId)));
+        if (trip.getPlaces().contains(placeForDeleting)) {
+            trip.getPlaces().remove(placeForDeleting);
+            tripRepository.save(trip);
+            return modelMapper.map(trip, TripPlaceDTO.class);
+        } else
+            throw new PlaceNotFoundException(format("Place with id = %d doesn't exist at trip with id = %d", placeId, tripId));
     }
-
-//    @Override
-//    public FullTripDTO addPlaceToTrip(Long tripId, PlaceForTripDTO placeForTripDto) {
-//        Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new TripNotFoundException(format("Trip with id = %d doesn't exist", tripId)));
-//        Place newPlace = modelMapper.map(placeForTripDto, Place.class);
-//        newPlace.setTrip(trip);
-//        trip.getPlaces().add(newPlace);
-//        tripRepository.save(trip);
-//
-//        return modelMapper.map(trip, FullTripDTO.class);
-//    }
-
-    @Override
-    public FullTripDTO deletePlaceFromTrip(Long tripId, Long placeId) {
-        Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new TripNotFoundException(format("Trip with id = %d doesn't exist", tripId)));
-        trip = tripRepository.save(trip);
-        return modelMapper.map(trip, FullTripDTO.class);
-    }
-
-//    @Override
-//    public FullTripDTO deletePlaceFromTrip(Long tripId, Long placeId) {
-//        Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new TripNotFoundException(format("Trip with id = %d doesn't exist", tripId)));
-//        List<Place> places = trip.getPlaces().stream().filter(place -> place.getId() != placeId).collect(Collectors.toList());
-//        trip.setPlaces(places);
-//        tripRepository.save(trip);
-//        return modelMapper.map(trip, FullTripDTO.class);
-//    }
 
 
 }

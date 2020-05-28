@@ -1,16 +1,9 @@
 {
-  "id": 5,
-  "name": "Ukraine-5",
+  "id": 1,
+  "name": "Ukraine-1",
   "createdAt": "2020-05-22 10:42:11",
   "updatedAt": "2020-05-22 10:42:11",
-  "account": {
-    "id": 3,
-    "firstName": "Piter",
-    "lastName": "Pen",
-    "username": "piter",
-    "password": "123",
-    "role": "USER"
-  },
+  "accountId": 3,
   "places": [
     {
       "id": 1,
@@ -45,6 +38,30 @@
       "locationLat": 0.400000000000000,
       "locationLng": 0.300000000000000,
       "priceLevel": 4,
+      "rating": 5.0,
+      "types": []
+    },
+    {
+      "id": 4,
+      "googlePlaceId": "Lviv-4",
+      "parentLocation": "Lviv-4",
+      "name": "Bank Hotel",
+      "formattedAddress": "Lviv",
+      "locationLat": 0.300000000000000,
+      "locationLng": 0.200000000000000,
+      "priceLevel": 5,
+      "rating": 5.0,
+      "types": []
+    },
+    {
+      "id": 5,
+      "googlePlaceId": "Lviv-5",
+      "parentLocation": "Lviv-5",
+      "name": "Rius Hotel",
+      "formattedAddress": "Lviv",
+      "locationLat": 0.500000000000000,
+      "locationLng": 0.600000000000000,
+      "priceLevel": 5,
       "rating": 5.0,
       "types": []
     }
