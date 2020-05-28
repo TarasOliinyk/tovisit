@@ -1,7 +1,8 @@
-package com.lits.tovisitapp.controller;
+package com.lits.tovisitapp.integration.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lits.tovisitapp.controller.TripController;
 import com.lits.tovisitapp.dto.TripDTO;
 import com.lits.tovisitapp.dto.TripPlaceDTO;
 import com.lits.tovisitapp.model.Trip;

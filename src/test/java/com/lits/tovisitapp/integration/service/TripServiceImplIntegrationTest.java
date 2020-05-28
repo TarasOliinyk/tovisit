@@ -1,9 +1,10 @@
-package com.lits.tovisitapp.service;
+package com.lits.tovisitapp.integration.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.lits.tovisitapp.dto.PlaceDTO;
 import com.lits.tovisitapp.dto.TripDTO;
 import com.lits.tovisitapp.dto.TripPlaceDTO;
+import com.lits.tovisitapp.service.TripService;
 import com.lits.tovisitapp.utils.AssertTrips;
 import com.lits.tovisitapp.utils.ParseDataUtils;
 import org.junit.Assert;

@@ -1,4 +1,4 @@
-package com.lits.tovisitapp.service;
+package com.lits.tovisitapp.unit.sevice;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.lits.tovisitapp.dto.TripDTO;
@@ -9,6 +9,8 @@ import com.lits.tovisitapp.model.User;
 import com.lits.tovisitapp.repository.PlaceRepository;
 import com.lits.tovisitapp.repository.TripRepository;
 import com.lits.tovisitapp.repository.UserRepository;
+import com.lits.tovisitapp.service.PlaceService;
+import com.lits.tovisitapp.service.TripService;
 import com.lits.tovisitapp.service.impl.TripServiceImpl;
 import com.lits.tovisitapp.utils.AssertTrips;
 import com.lits.tovisitapp.utils.ParseDataUtils;

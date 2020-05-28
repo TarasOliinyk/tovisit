@@ -11,8 +11,11 @@ import com.lits.tovisitapp.googleplaces.type.SearchableType;
 import com.lits.tovisitapp.model.Place;
 import com.lits.tovisitapp.model.Type;
 import com.lits.tovisitapp.repository.PlaceRepository;
+import com.lits.tovisitapp.repository.TripRepository;
 import com.lits.tovisitapp.repository.TypeRepository;
+import com.lits.tovisitapp.repository.UserRepository;
 import com.lits.tovisitapp.service.PlaceService;
+import com.lits.tovisitapp.service.UserService;
 import com.lits.tovisitapp.utils.PlaceTestUtil;
 import lombok.SneakyThrows;
 import org.assertj.core.api.Assertions;
@@ -49,7 +52,8 @@ import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ToVisitApplication.class)
-@EnableAutoConfiguration(exclude = {// disable database on test to speed up context building
+@EnableAutoConfiguration(exclude = {
+		// disable database on unit test to speed up context building
 		DataSourceAutoConfiguration.class,
 		DataSourceTransactionManagerAutoConfiguration.class,
 		HibernateJpaAutoConfiguration.class,
@@ -63,6 +67,13 @@ public class PlaceServiceImpUnitTest {
 	@MockBean
 	private HttpClient httpClient;
 
+	@MockBean
+	private UserService userService;
+	@MockBean
+	private UserRepository userRepository;
+	@MockBean
+	private TripRepository tripRepository;
+
 	@Autowired
 	private ModelMapper mapper;
 	@Autowired
@@ -70,13 +81,10 @@ public class PlaceServiceImpUnitTest {
 
 	@Value("${uri.findPlacesNearby}")
 	private String uriFindPlacesNearby;
-
 	@Value("${uri.findPlacesByText}")
 	private String uriFindPlacesByText;
-
 	@Value("${uri.findPlaceById}")
 	private String uriFindPlaceById;
-
 	@Value("${apiKey}")
 	private String apiKey;
 
@@ -519,7 +527,6 @@ public class PlaceServiceImpUnitTest {
 				.tripId(1L)
 				.types(Collections.singletonList("cafe"))
 				.build();
-		Place submittedPlace = mapper.map(submittedPlaceDTO, Place.class);
 		Place savedPlace = mapper.map(submittedPlaceDTO, Place.class);
 		savedPlace.setId(1L);
 
@@ -529,7 +536,9 @@ public class PlaceServiceImpUnitTest {
 		when(typeRepository.findByNameIn(eq(Collections.singletonList("cafe"))))
 				.thenReturn(Collections.singletonList(savedType));
 
-		when(placeRepository.save(eq(submittedPlace))).thenReturn(savedPlace);
+		when(placeRepository
+				.save(argThat((Place p) -> p.getGooglePlaceId().equals("ChIJ2QYZRGzdOkcR0rFWJPG9En4"))))
+				.thenReturn(savedPlace);
 
 		PlaceDTO savedPlaceDTO = placeService.savePlace(submittedPlaceDTO);
 
