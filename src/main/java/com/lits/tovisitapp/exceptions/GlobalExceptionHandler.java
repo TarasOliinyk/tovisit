@@ -1,4 +1,4 @@
-package com.lits.tovisitapp.exception;
+package com.lits.tovisitapp.exceptions;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

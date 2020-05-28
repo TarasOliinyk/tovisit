@@ -1,8 +1,8 @@
 package com.lits.tovisitapp.service.impl;
 
 import com.lits.tovisitapp.dto.PlaceDTO;
-import com.lits.tovisitapp.exception.place.PlaceBadRequestException;
-import com.lits.tovisitapp.exception.place.PlaceNotFoundException;
+import com.lits.tovisitapp.exceptions.place.PlaceBadRequestException;
+import com.lits.tovisitapp.exceptions.place.PlaceNotFoundException;
 import com.lits.tovisitapp.googleplaces.exception.GooglePlacesApiException;
 import com.lits.tovisitapp.googleplaces.parser.GooglePlacesResponseParser;
 import com.lits.tovisitapp.googleplaces.type.PlacesSearchCircle;
@@ -251,7 +251,6 @@ public class PlaceServiceImpl implements PlaceService {
 			HttpRequest request = HttpRequest.newBuilder(uri).GET().build();
 			HttpResponse<String> response;
 			try {
-				System.out.println("real uri: " + uri.toString());
 				response = httpClient.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
 				if (response.statusCode() >= 500) {
 					throw new IOException(response.statusCode() + " while calling GooglePlaces");

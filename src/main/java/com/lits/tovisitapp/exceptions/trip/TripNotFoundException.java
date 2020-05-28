@@ -1,4 +1,4 @@
-package com.lits.tovisitapp.exceptions;
+package com.lits.tovisitapp.exceptions.trip;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

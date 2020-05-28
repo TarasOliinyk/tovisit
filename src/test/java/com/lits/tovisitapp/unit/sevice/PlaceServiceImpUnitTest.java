@@ -1,9 +1,9 @@
-package com.lits.tovisitapp.service;
+package com.lits.tovisitapp.unit.sevice;
 
 import com.lits.tovisitapp.ToVisitApplication;
 import com.lits.tovisitapp.dto.PlaceDTO;
-import com.lits.tovisitapp.exception.place.PlaceBadRequestException;
-import com.lits.tovisitapp.exception.place.PlaceNotFoundException;
+import com.lits.tovisitapp.exceptions.place.PlaceBadRequestException;
+import com.lits.tovisitapp.exceptions.place.PlaceNotFoundException;
 import com.lits.tovisitapp.googleplaces.exception.GooglePlacesApiException;
 import com.lits.tovisitapp.googleplaces.type.PlacesSearchCircle;
 import com.lits.tovisitapp.googleplaces.type.PlacesSearchResponse;
@@ -12,7 +12,8 @@ import com.lits.tovisitapp.model.Place;
 import com.lits.tovisitapp.model.Type;
 import com.lits.tovisitapp.repository.PlaceRepository;
 import com.lits.tovisitapp.repository.TypeRepository;
-import com.lits.tovisitapp.util.PlaceTestUtil;
+import com.lits.tovisitapp.service.PlaceService;
+import com.lits.tovisitapp.utils.PlaceTestUtil;
 import lombok.SneakyThrows;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -51,7 +52,8 @@ import static org.mockito.Mockito.*;
 @EnableAutoConfiguration(exclude = {// disable database on test to speed up context building
 		DataSourceAutoConfiguration.class,
 		DataSourceTransactionManagerAutoConfiguration.class,
-		HibernateJpaAutoConfiguration.class})
+		HibernateJpaAutoConfiguration.class,
+		})
 @PropertySource("classpath:googlePlaces.properties")
 public class PlaceServiceImpUnitTest {
 	@MockBean
@@ -133,7 +135,7 @@ public class PlaceServiceImpUnitTest {
 				.queryParam("key", apiKey)
 				.build().toUri();
 		HttpRequest request = HttpRequest.newBuilder(mockedUri).GET().build();
-		String responseBody = util.textFileToString("places/googleResponses/byText/emptyResults.json");
+		String responseBody = util.textFileToString("unit/service/place/googleResponses/byText/emptyResults.json");
 		HttpResponse<Object> mockedResponse = util.buildResponse(request, mockedUri, responseBody);
 		when(httpClient.send(eq(request), any())).thenReturn(mockedResponse);
 
@@ -154,7 +156,7 @@ public class PlaceServiceImpUnitTest {
 				.queryParam("key", apiKey)
 				.build().toUri();
 		HttpRequest request = HttpRequest.newBuilder(mockedUri).GET().build();
-		String responseBody = util.textFileToString("places/googleResponses/byText/coffeInLviv_NoType_Page1.json");
+		String responseBody = util.textFileToString("unit/service/place/googleResponses/byText/coffeInLviv_NoType_Page1.json");
 		HttpResponse<Object> mockedResponse = util.buildResponse(request, mockedUri, responseBody);
 		when(httpClient.send(eq(request), any())).thenReturn(mockedResponse);
 
@@ -180,7 +182,7 @@ public class PlaceServiceImpUnitTest {
 				.queryParam("key", apiKey)
 				.build().toUri();
 		HttpRequest request = HttpRequest.newBuilder(mockedUri).GET().build();
-		String responseBody = util.textFileToString("places/googleResponses/byText/coffeInLviv_CafeType_Page1.json");
+		String responseBody = util.textFileToString("unit/service/place/googleResponses/byText/coffeInLviv_CafeType_Page1.json");
 		HttpResponse<Object> mockedResponse = util.buildResponse(request, mockedUri, responseBody);
 		when(httpClient.send(eq(request), any())).thenReturn(mockedResponse);
 
@@ -208,7 +210,7 @@ public class PlaceServiceImpUnitTest {
 				.queryParam("key", apiKey)
 				.build().toUri();
 		HttpRequest request = HttpRequest.newBuilder(mockedUri).GET().build();
-		String responseBody = util.textFileToString("places/googleResponses/byText/coffeInLviv_CafeType_Page1.json");
+		String responseBody = util.textFileToString("unit/service/place/googleResponses/byText/coffeInLviv_CafeType_Page1.json");
 		HttpResponse<Object> mockedResponse = util.buildResponse(request, mockedUri, responseBody);
 		when(httpClient.send(eq(request), any())).thenReturn(mockedResponse);
 
@@ -249,7 +251,7 @@ public class PlaceServiceImpUnitTest {
 				.queryParam("key", apiKey)
 				.build().toUri();
 		HttpRequest request = HttpRequest.newBuilder(mockedUri).GET().build();
-		String responseBody = util.textFileToString("places/googleResponses/byText/coffeInLviv_NoType_Page2.json");
+		String responseBody = util.textFileToString("unit/service/place/googleResponses/byText/coffeInLviv_NoType_Page2.json");
 		HttpResponse<Object> mockedResponse = util.buildResponse(request, mockedUri, responseBody);
 		when(httpClient.send(eq(request), any())).thenReturn(mockedResponse);
 
@@ -326,7 +328,7 @@ public class PlaceServiceImpUnitTest {
 				.build().toUri();
 		HttpRequest request = HttpRequest.newBuilder(mockedUri).GET().build();
 		HttpResponse<Object> mockedResponse = util.buildResponse(request, mockedUri,
-				util.textFileToString("places/googleResponses/nearby/LvivCenter500m_NoTypes_Page1.json"));
+				util.textFileToString("unit/service/place/googleResponses/nearby/LvivCenter500m_NoTypes_Page1.json"));
 		when(httpClient.send(eq(request), any())).thenReturn(mockedResponse);
 
 		// execute
@@ -360,7 +362,7 @@ public class PlaceServiceImpUnitTest {
 				.build().toUri();
 		HttpRequest request = HttpRequest.newBuilder(mockedUri).GET().build();
 		HttpResponse<Object> mockedResponse = util.buildResponse(request, mockedUri,
-				util.textFileToString("places/googleResponses/nearby/LvivCenter500m_CafeType_Page1.json"));
+				util.textFileToString("unit/service/place/googleResponses/nearby/LvivCenter500m_CafeType_Page1.json"));
 		when(httpClient.send(eq(request), any())).thenReturn(mockedResponse);
 
 		// execute
@@ -396,7 +398,7 @@ public class PlaceServiceImpUnitTest {
 				.build().toUri();
 		HttpRequest request = HttpRequest.newBuilder(mockedUri).GET().build();
 		HttpResponse<Object> mockedResponse = util.buildResponse(request, mockedUri,
-				util.textFileToString("places/googleResponses/nearby/LvivCenter500m_CafeType_Page1.json"));
+				util.textFileToString("unit/service/place/googleResponses/nearby/LvivCenter500m_CafeType_Page1.json"));
 		when(httpClient.send(eq(request), any())).thenReturn(mockedResponse);
 
 		// places details requests
@@ -441,7 +443,7 @@ public class PlaceServiceImpUnitTest {
 				.build().toUri();
 		HttpRequest request = HttpRequest.newBuilder(mockedUri).GET().build();
 		HttpResponse<Object> mockedResponse = util.buildResponse(request, mockedUri,
-				util.textFileToString("places/googleResponses/nearby/LvivCenter500m_CafeType_Page2.json"));
+				util.textFileToString("unit/service/place/googleResponses/nearby/LvivCenter500m_CafeType_Page2.json"));
 		when(httpClient.send(eq(request), any())).thenReturn(mockedResponse);
 
 		// execute

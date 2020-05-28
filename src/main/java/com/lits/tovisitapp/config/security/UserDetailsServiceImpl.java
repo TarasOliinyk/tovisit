@@ -1,6 +1,7 @@
 package com.lits.tovisitapp.config.security;
 
 import com.lits.tovisitapp.dto.UserDTO;
+import com.lits.tovisitapp.exceptions.user.UserNotFoundException;
 import com.lits.tovisitapp.service.UserService;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -22,9 +23,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDTO userDTO = userService.getUserByUsername(username);
-        List<SimpleGrantedAuthority> userAuthorities =
-                Collections.singletonList(new SimpleGrantedAuthority(userService.getUserRole(userDTO.getId()).name()));
-        return new User(userDTO.getUsername(), userDTO.getPassword(), userAuthorities);
+        try {
+            UserDTO userDTO = userService.getUserByUsername(username);
+            List<SimpleGrantedAuthority> userAuthorities =
+                    Collections.singletonList(new SimpleGrantedAuthority(userService.getUserRole(userDTO.getId()).name()));
+            return new User(userDTO.getUsername(), userDTO.getPassword(), userAuthorities);
+        } catch (UserNotFoundException e) {
+            // Serhiy: throwing proper security exception here which was designed for it, and won't screw up console output
+            throw new UsernameNotFoundException("Wrong username or password", e);
+        }
     }
 }

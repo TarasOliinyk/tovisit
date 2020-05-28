@@ -14,6 +14,6 @@ public interface TripRepository extends CrudRepository<Trip, Long> {
 
     List<Trip> findAll();
 
-    List<Trip> findAllByAccountId(Long accountId);
+    List<Trip> findAllByUserId(Long userId);
 
 }

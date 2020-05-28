@@ -3,21 +3,20 @@ package com.lits.tovisitapp.config.security;
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lits.tovisitapp.dto.UserDTO;
-import com.lits.tovisitapp.exceptions.user.UserNotFoundException;
 import com.lits.tovisitapp.repository.UserRepository;
 import com.lits.tovisitapp.service.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Date;
 
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
@@ -28,7 +27,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     private final UserService userService;
     private final UserRepository userRepository;
 
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, UserService userService,
+    JWTAuthenticationFilter(AuthenticationManager authenticationManager, UserService userService,
                                    UserRepository userRepository) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
@@ -41,19 +40,17 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         try {
             UserDTO userDTO = new ObjectMapper().readValue(request.getInputStream(), UserDTO.class);
-            String username= userDTO.getUsername();
-            com.lits.tovisitapp.model.User user = userRepository.findOneByUsername(username).orElseThrow(
-                    () -> new UserNotFoundException("There is no user with username " + username));
+            String username = userDTO.getUsername();
             return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     username,
                     userDTO.getPassword(),
-                    Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()))));
+                    new ArrayList<>()
+                    ));
         } catch (Exception e) {
-
             if (e instanceof BadCredentialsException) {
-                throw new BadCredentialsException("Invalid login or password");
+                throw new UsernameNotFoundException(e.getMessage());
             } else {
-                throw new RuntimeException(e.getMessage());
+                throw new RuntimeException(e);
             }
         }
     }
@@ -66,8 +63,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         userDTO.setPassword(null);
 
         Long userId = userDTO.getId();
+
         com.lits.tovisitapp.model.User userEntity = userRepository.findOneById(userId)
-                .orElseThrow(() -> new UserNotFoundException("There is no user with id " + userId));
+                .orElseThrow(() -> new UsernameNotFoundException("There is no user with id " + userId));
 
         String token = JWT.create()
                 .withSubject(user.getUsername())

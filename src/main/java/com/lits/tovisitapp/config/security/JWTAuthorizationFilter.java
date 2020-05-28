@@ -3,9 +3,7 @@ package com.lits.tovisitapp.config.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.lits.tovisitapp.context.UserContextHolder;
 import com.lits.tovisitapp.data.UserRole;
-import org.hibernate.usertype.UserType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,13 +15,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Collections;
 
 import static com.lits.tovisitapp.config.security.SecurityConstants.*;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
-    public JWTAuthorizationFilter(AuthenticationManager authManager) {
+    JWTAuthorizationFilter(AuthenticationManager authManager) {
         super(authManager);
     }
 
@@ -49,14 +47,14 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                     .verify(token.replace(TOKEN_PREFIX, ""));
 
             String user = decoded.getSubject();
-            String role = decoded.getClaims().get(USER_AUTHORITY_PARAM).asString();
+            String role = decoded.getClaims().get(USER_ROLE_PARAM).asString();
 
             UserContextHolder.setUserId(decoded.getClaims().get(USER_ID_PARAM).asLong());
             UserContextHolder.setUserRole(UserRole.valueOf(role));
 
             if (user != null) {
                 return new UsernamePasswordAuthenticationToken(user, null,
-                        Arrays.asList(new SimpleGrantedAuthority(role)));
+                        Collections.singletonList(new SimpleGrantedAuthority(role)));
             }
             return null;
         }

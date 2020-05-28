@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class PlaceForTripDto {
+public class PlaceForTripDTO {
 
     private Long id;
     private String googlePlaceId;

@@ -10,12 +10,18 @@ import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.net.http.HttpClient;
 
 @Configuration
 public class Config implements WebMvcConfigurer {
+
+	@Bean
+	public BCryptPasswordEncoder geBbCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
 	@Bean
 	public ModelMapper mapper() {

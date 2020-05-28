@@ -1,4 +1,4 @@
-package com.lits.tovisitapp.util;
+package com.lits.tovisitapp.utils;
 
 import javax.net.ssl.SSLSession;
 import java.io.IOException;
@@ -56,7 +56,7 @@ public class PlaceTestUtil {
 				"ChIJD5h9sFzdOkcRT0ZKoAxDMyQ")
 				.collect(Collectors.toMap(
 						s -> s,
-						s -> textFileToString("places/googleResponses/details/coffeeInLviv_NoType/" + s + ".json")));
+						s -> textFileToString("unit/service/place/googleResponses/details/coffeeInLviv_NoType/" + s + ".json")));
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class PlaceTestUtil {
 				"ChIJZxADPGzdOkcR8F19RSXX8zM")
 				.collect(Collectors.toMap(
 						s -> s,
-						s -> textFileToString("places/googleResponses/details/LvivCenter500mCafeType/" + s + ".json")));
+						s -> textFileToString("unit/service/place/googleResponses/details/LvivCenter500mCafeType/" + s + ".json")));
 	}
 
 	/**

@@ -1,4 +1,4 @@
-package com.lits.tovisitapp.config.swagger;
+package com.lits.tovisitapp.config;
 
 import com.google.common.collect.Lists;
 import org.springframework.context.annotation.Bean;
@@ -38,7 +38,7 @@ public class SwaggerConfiguration {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.lits.com.lits.com.lits.tovisitapp.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.lits.tovisitapp.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo())

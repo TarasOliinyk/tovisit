@@ -1,4 +1,4 @@
-package com.lits.tovisitapp.context;
+package com.lits.tovisitapp.config.security;
 
 import com.lits.tovisitapp.data.UserRole;
 

@@ -1,10 +1,10 @@
 package com.lits.tovisitapp.controller;
 
-import com.lits.tovisitapp.dto.FullTripDto;
-import com.lits.tovisitapp.dto.PlaceForTripDto;
-import com.lits.tovisitapp.dto.ShortTripDto;
-import com.lits.tovisitapp.dto.TripDto;
-import com.lits.tovisitapp.unit.TripService;
+import com.lits.tovisitapp.dto.FullTripDTO;
+import com.lits.tovisitapp.dto.PlaceDTO;
+import com.lits.tovisitapp.dto.ShortTripDTO;
+import com.lits.tovisitapp.dto.TripDTO;
+import com.lits.tovisitapp.service.TripService;
 import lombok.extern.java.Log;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,46 +25,46 @@ public class TripController {
     }
 
     @PostMapping("/trip")
-    public TripDto create(@Valid @RequestBody TripDto tripDto) {
+    public TripDTO create(@Valid @RequestBody TripDTO tripDto) {
         log.info("Create new trip");
         return tripService.create(tripDto);
     }
 
     @GetMapping("/trip/{tripId}")
-    public FullTripDto getOne(@PathVariable(name = "tripId") Long tripId) {
+    public FullTripDTO getOne(@PathVariable(name = "tripId") Long tripId) {
         log.info(format("Get trip by tripId = %d", tripId));
         return tripService.getOne(tripId);
     }
 
     @GetMapping
-    public List<ShortTripDto> getAll() {
+    public List<ShortTripDTO> getAll() {
         log.info("Get all trips");
         return tripService.getAll();
     }
 
-    @GetMapping("/account/{accountId}")
-    public List<ShortTripDto> getAllByAccountId(@PathVariable(name = "accountId") Long accountId) {
-        log.info(format("Get all trips by accountId = %d", accountId));
-        return tripService.getAllByAccountId(accountId);
+    @GetMapping("/account/{userId}")
+    public List<ShortTripDTO> getAllByAccountId(@PathVariable(name = "userId") Long userId) {
+        log.info(format("Get all trips by accountId = %d", userId));
+        return tripService.getAllByUserId(userId);
     }
 
     @PutMapping("/trip/{tripId}")
-    public TripDto update(@PathVariable(name = "tripId") Long tripId, @Valid @RequestBody TripDto newTripDto) {
+    public TripDTO update(@PathVariable(name = "tripId") Long tripId, @Valid @RequestBody TripDTO newTripDto) {
         newTripDto.setId(tripId);
         log.info(format("Update trip by tripId = %d", tripId));
         return tripService.update(newTripDto);
     }
 
     @PutMapping("/trip/{tripId}/places")
-    public FullTripDto addPlacesToTrip(@PathVariable(name = "tripId") Long tripId, @RequestBody List<PlaceForTripDto> placeForTripDtos) {
+    public FullTripDTO addPlacesToTrip(@PathVariable(name = "tripId") Long tripId, @Valid @RequestBody List<PlaceDTO> placeDTOs) {
         log.info(format("Add places to trip by tripId = %d", tripId));
-        return tripService.addPlacesToTrip(tripId, placeForTripDtos);
+        return tripService.addPlacesToTrip(tripId, placeDTOs);
     }
 
     @PutMapping("/trip/{tripId}/place")
-    public FullTripDto addPlaceToTrip(@PathVariable(name = "tripId") Long tripId, @RequestBody PlaceForTripDto placeForTripDto) {
+    public FullTripDTO addPlaceToTrip(@PathVariable(name = "tripId") Long tripId, @Valid @RequestBody PlaceDTO placeDTO) {
         log.info(format("Add place to trip by tripId = %d", tripId));
-        return tripService.addPlaceToTrip(tripId, placeForTripDto);
+        return tripService.addPlaceToTrip(tripId, placeDTO);
     }
 
     @DeleteMapping("/trip/{tripId}")
@@ -74,7 +74,7 @@ public class TripController {
     }
 
     @DeleteMapping("/trip/{tripId}/places/{placeId}")
-    public FullTripDto deletePlacesFromTrip(@PathVariable(name = "tripId") Long tripId, @PathVariable(name = "placeId") Long placeId) {
+    public FullTripDTO deletePlacesFromTrip(@PathVariable(name = "tripId") Long tripId, @PathVariable(name = "placeId") Long placeId) {
         log.info(format("Delete place from trip by tripId = %d", tripId));
         return tripService.deletePlaceFromTrip(tripId, placeId);
     }

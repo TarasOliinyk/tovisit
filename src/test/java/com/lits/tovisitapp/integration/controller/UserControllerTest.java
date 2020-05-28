@@ -1,7 +1,8 @@
-package com.lits.tovisitapp.controller;
+package com.lits.tovisitapp.integration.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lits.tovisitapp.controller.UserController;
 import com.lits.tovisitapp.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;

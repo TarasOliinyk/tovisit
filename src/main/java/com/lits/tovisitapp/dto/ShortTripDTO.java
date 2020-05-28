@@ -6,6 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class ShortTripDto extends TripDto {
+public class ShortTripDTO extends TripDTO {
     private List<Long> placeIds = new ArrayList<>();
 }

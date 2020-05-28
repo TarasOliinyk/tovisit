@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import lombok.*;
+import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -13,7 +13,7 @@ import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 
 @Data
-public class TripDto {
+public class TripDTO {
 
     private Long id;
     @NotBlank(message = "Trip can not be created/updated because name is blank")
