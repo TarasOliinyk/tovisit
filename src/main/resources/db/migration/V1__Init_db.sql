@@ -52,3 +52,7 @@ CREATE TABLE `place_type` (
 	CONSTRAINT `FK_place_on_place_type` FOREIGN KEY (`place_id`) REFERENCES `type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
+INSERT INTO `user`
+(username, password, first_name, last_name, role)
+VALUES
+('chuck.norris', '$2a$10$hbq8AmKVSlN8Pe7JbWCKHetKe.hboM9s/fplE18tpH7AQnNTJDS6m', 'Chuck', 'Norris', 'ROLE_ADMIN')
