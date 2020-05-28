@@ -3,12 +3,12 @@
   "name": "Ukraine-5",
   "createdAt": "2020-05-22 10:42:11",
   "updatedAt": "2020-05-22 10:42:11",
-  "account": {
+  "user": {
     "id": 3,
     "firstName": "Piter",
     "lastName": "Pen",
     "username": "piter",
     "password": "123",
-    "role": "USER"
+    "role": "ROLE_USER"
   }
 }

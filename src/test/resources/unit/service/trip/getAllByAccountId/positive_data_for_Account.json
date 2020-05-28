@@ -4,5 +4,5 @@
   "lastName": "Pen",
   "username": "piter",
   "password": "123",
-  "role": "USER"
+  "role": "ROLE_USER"
 }

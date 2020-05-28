@@ -64,8 +64,8 @@ public class TripServiceImplUnitTest {
         TripDTO expected = ParseDataUtils
                 .prepareData("unit/service/trip/create/result.json", new TypeReference<>() {
                 });
+        when(userRepository.findOneById(tripDto.getUserId())).thenReturn(Optional.of(account));
         when(tripRepository.save(trip)).thenReturn(trip);
-        when(userRepository.findById(tripDto.getUserId())).thenReturn(Optional.of(account));
 
         TripDTO actual = tripService.create(tripDto);
 
@@ -88,7 +88,7 @@ public class TripServiceImplUnitTest {
                 });
         when(tripRepository.findById(tripDto.getId())).thenReturn(Optional.of(trip));
         when(tripRepository.save(trip)).thenReturn(trip);
-        when(userRepository.findById(tripDto.getUserId())).thenReturn(Optional.of(account));
+        when(userRepository.findOneById(tripDto.getUserId())).thenReturn(Optional.of(account));
 
         TripDTO actual = tripService.update(tripDto);
 
@@ -150,7 +150,7 @@ public class TripServiceImplUnitTest {
                 .prepareData("unit/service/trip/getAllByAccountId/positive_data_for_Account.json", new TypeReference<>() {
                 });
         when(tripRepository.findAllByUserId(eq(1L))).thenReturn(trips);
-        when(userRepository.findById(1L)).thenReturn(Optional.of(account));
+        when(userRepository.findOneById(1L)).thenReturn(Optional.of(account));
 
         List<TripDTO> actual = tripService.getAllByUserId(1L);
 

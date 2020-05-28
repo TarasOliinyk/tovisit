@@ -15,6 +15,8 @@ import com.lits.tovisitapp.repository.UserRepository;
 import com.lits.tovisitapp.service.PlaceService;
 import com.lits.tovisitapp.service.TripService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

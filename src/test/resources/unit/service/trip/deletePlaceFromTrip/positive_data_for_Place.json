@@ -13,13 +13,13 @@
     "name": "Ukraine-1",
     "createdAt": "2020-05-22 10:42:11",
     "updatedAt": "2020-05-22 10:42:11",
-    "account": {
+    "user": {
       "id": 1,
       "firstName": "Piter",
       "lastName": "Pen",
       "username": "piter",
       "password": "123",
-      "role": "USER"
+      "role": "ROLE_USER"
     },
     "places": [
       {

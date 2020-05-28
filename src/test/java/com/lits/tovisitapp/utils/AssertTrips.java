@@ -1,7 +1,7 @@
 package com.lits.tovisitapp.utils;
 
-import com.lits.tovisitapp.dto.PlaceDTO;
 import com.lits.tovisitapp.dto.TripPlaceDTO;
+import com.lits.tovisitapp.model.Place;
 import org.junit.Assert;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +17,8 @@ public class AssertTrips {
         Assert.assertEquals(expected.getUpdatedAt(), actual.getUpdatedAt());
         Assert.assertEquals(expected.getName(), actual.getName());
 
-        List<PlaceDTO> expectedPlaces = expected.getPlaces();
-        List<PlaceDTO> actualPlaces = actual.getPlaces();
+        List<Place> expectedPlaces = expected.getPlaces();
+        List<Place> actualPlaces = actual.getPlaces();
 
         Assert.assertEquals(expectedPlaces.size(), actualPlaces.size());
         for (int i = 0; i < expectedPlaces.size(); i++) {
