@@ -1,0 +1,69 @@
+{
+  "id": 1,
+  "name": "Ukraine-1",
+  "createdAt": "2020-05-22 10:42:11",
+  "updatedAt": "2020-05-22 10:42:11",
+  "accountId": 3,
+  "places": [
+    {
+      "id": 1,
+      "googlePlaceId": "Lviv-1",
+      "parentLocation": "Lviv-1",
+      "name": "Opera Hotel",
+      "formattedAddress": "Lviv",
+      "locationLat": 0.200000000000000,
+      "locationLng": 0.100000000000000,
+      "priceLevel": 4,
+      "rating": 5.0,
+      "types": []
+    },
+    {
+      "id": 2,
+      "googlePlaceId": "Lviv-2",
+      "parentLocation": "Lviv-2",
+      "name": "Astoria Hotel",
+      "formattedAddress": "Lviv",
+      "locationLat": 0.300000000000000,
+      "locationLng": 0.200000000000000,
+      "priceLevel": 4,
+      "rating": 5.0,
+      "types": []
+    },
+    {
+      "id": 3,
+      "googlePlaceId": "Lviv-3",
+      "parentLocation": "Lviv-3",
+      "name": "Grand Hotel",
+      "formattedAddress": "Lviv",
+      "locationLat": 0.400000000000000,
+      "locationLng": 0.300000000000000,
+      "priceLevel": 4,
+      "rating": 5.0,
+      "types": []
+    },
+    {
+      "id": 4,
+      "googlePlaceId": "Lviv-4",
+      "parentLocation": "Lviv-4",
+      "name": "Bank Hotel",
+      "formattedAddress": "Lviv",
+      "locationLat": 0.300000000000000,
+      "locationLng": 0.200000000000000,
+      "priceLevel": 5,
+      "rating": 5.0,
+      "types": []
+    },
+    {
+      "id": 5,
+      "googlePlaceId": "Lviv-5",
+      "parentLocation": "Lviv-5",
+      "name": "Rius Hotel",
+      "formattedAddress": "Lviv",
+      "locationLat": 0.500000000000000,
+      "locationLng": 0.600000000000000,
+      "priceLevel": 5,
+      "rating": 5.0,
+      "types": []
+    }
+  ]
+}

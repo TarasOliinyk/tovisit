@@ -1,0 +1,56 @@
+{
+	"html_attributions": [],
+	"result": {
+		"address_components": [
+			{
+				"long_name": "Lviv",
+				"short_name": "Lviv",
+				"types": [
+					"locality",
+					"political"
+				]
+			},
+			{
+				"long_name": "Halytskyi District",
+				"short_name": "Halytskyi District",
+				"types": [
+					"sublocality_level_1",
+					"sublocality",
+					"political"
+				]
+			},
+			{
+				"long_name": "L'vivs'ka city council",
+				"short_name": "L'vivs'ka city council",
+				"types": [
+					"administrative_area_level_3",
+					"political"
+				]
+			},
+			{
+				"long_name": "Lviv oblast",
+				"short_name": "Lviv oblast",
+				"types": [
+					"administrative_area_level_1",
+					"political"
+				]
+			},
+			{
+				"long_name": "Ukraine",
+				"short_name": "UA",
+				"types": [
+					"country",
+					"political"
+				]
+			},
+			{
+				"long_name": "79000",
+				"short_name": "79000",
+				"types": [
+					"postal_code"
+				]
+			}
+		]
+	},
+	"status": "OK"
+}

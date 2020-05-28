@@ -1,0 +1,26 @@
+[
+  {
+    "id": 4,
+    "googlePlaceId": "Lviv-4",
+    "parentLocation": "Lviv-4",
+    "name": "Bank Hotel",
+    "formattedAddress": "Lviv",
+    "locationLat": 0.300000000000000,
+    "locationLng": 0.200000000000000,
+    "priceLevel": 5,
+    "rating": 5.0,
+    "types": []
+  },
+  {
+    "id": 5,
+    "googlePlaceId": "Lviv-5",
+    "parentLocation": "Lviv-5",
+    "name": "Rius Hotel",
+    "formattedAddress": "Lviv",
+    "locationLat": 0.500000000000000,
+    "locationLng": 0.600000000000000,
+    "priceLevel": 5,
+    "rating": 5.0,
+    "types": []
+  }
+]

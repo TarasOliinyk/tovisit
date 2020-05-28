@@ -1,0 +1,45 @@
+{
+  "id": 5,
+  "name": "Ukraine-5",
+  "createdAt": "2020-05-22 10:42:11",
+  "updatedAt": "2020-05-22 10:42:11",
+  "accountId": 3,
+  "places": [
+    {
+      "id": 1,
+      "googlePlaceId": "Lviv-1",
+      "parentLocation": "Lviv-1",
+      "name": "Opera Hotel",
+      "formattedAddress": "Lviv",
+      "locationLat": 0.200000000000000,
+      "locationLng": 0.100000000000000,
+      "priceLevel": 4,
+      "rating": 5.0,
+      "types": []
+    },
+    {
+      "id": 2,
+      "googlePlaceId": "Lviv-2",
+      "parentLocation": "Lviv-2",
+      "name": "Astoria Hotel",
+      "formattedAddress": "Lviv",
+      "locationLat": 0.300000000000000,
+      "locationLng": 0.200000000000000,
+      "priceLevel": 4,
+      "rating": 5.0,
+      "types": []
+    },
+    {
+      "id": 3,
+      "googlePlaceId": "Lviv-3",
+      "parentLocation": "Lviv-3",
+      "name": "Grand Hotel",
+      "formattedAddress": "Lviv",
+      "locationLat": 0.400000000000000,
+      "locationLng": 0.300000000000000,
+      "priceLevel": 4,
+      "rating": 5.0,
+      "types": []
+    }
+  ]
+}

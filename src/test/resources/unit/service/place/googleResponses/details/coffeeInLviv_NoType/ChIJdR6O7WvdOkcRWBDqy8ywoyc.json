@@ -1,0 +1,70 @@
+{
+	"html_attributions": [],
+	"result": {
+		"address_components": [
+			{
+				"long_name": "1",
+				"short_name": "1",
+				"types": [
+					"street_number"
+				]
+			},
+			{
+				"long_name": "площа Митна",
+				"short_name": "площа Митна",
+				"types": [
+					"route"
+				]
+			},
+			{
+				"long_name": "Галицький район",
+				"short_name": "Галицький район",
+				"types": [
+					"sublocality_level_1",
+					"sublocality",
+					"political"
+				]
+			},
+			{
+				"long_name": "Львів",
+				"short_name": "Львів",
+				"types": [
+					"locality",
+					"political"
+				]
+			},
+			{
+				"long_name": "Львівська міськрада",
+				"short_name": "Львівська міськрада",
+				"types": [
+					"administrative_area_level_3",
+					"political"
+				]
+			},
+			{
+				"long_name": "Львівська область",
+				"short_name": "Львівська область",
+				"types": [
+					"administrative_area_level_1",
+					"political"
+				]
+			},
+			{
+				"long_name": "Ukraine",
+				"short_name": "UA",
+				"types": [
+					"country",
+					"political"
+				]
+			},
+			{
+				"long_name": "79000",
+				"short_name": "79000",
+				"types": [
+					"postal_code"
+				]
+			}
+		]
+	},
+	"status": "OK"
+}

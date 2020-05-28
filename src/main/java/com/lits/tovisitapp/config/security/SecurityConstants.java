@@ -7,7 +7,6 @@ public interface SecurityConstants {
     String HEADER = "Authorization";
     String USER_ID_PARAM = "userId";
     String USER_ROLE_PARAM = "userRole";
-    String USER_AUTHORITY_PARAM = "authority";
     String SIGN_UP_URL = "/users/sign-up";
     String[] SWAGGER_AUTH_WHITELIST = {
             // Swagger UI
