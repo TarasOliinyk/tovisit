@@ -1,7 +1,7 @@
 package com.lits.tovisitapp.unit.sevice;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.lits.tovisitapp.dto.UserDTO;
+import com.lits.tovisitapp.dto.user.UserDTO;
 import com.lits.tovisitapp.exceptions.user.UserNotFoundException;
 import com.lits.tovisitapp.model.User;
 import com.lits.tovisitapp.repository.UserRepository;

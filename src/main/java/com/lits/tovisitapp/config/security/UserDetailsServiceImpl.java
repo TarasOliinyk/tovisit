@@ -1,6 +1,6 @@
 package com.lits.tovisitapp.config.security;
 
-import com.lits.tovisitapp.dto.UserDTO;
+import com.lits.tovisitapp.dto.user.UserDTO;
 import com.lits.tovisitapp.exceptions.user.UserNotFoundException;
 import com.lits.tovisitapp.service.UserService;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,8 +25,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
             UserDTO userDTO = userService.getUserByUsername(username);
+            String userRole = userService.getUserRole(userDTO.getId()).getRole().name();
             List<SimpleGrantedAuthority> userAuthorities =
-                    Collections.singletonList(new SimpleGrantedAuthority(userService.getUserRole(userDTO.getId()).name()));
+                    Collections.singletonList(new SimpleGrantedAuthority(userRole));
             return new User(userDTO.getUsername(), userDTO.getPassword(), userAuthorities);
         } catch (UserNotFoundException e) {
             // Serhiy: throwing proper security exception here which was designed for it, and won't screw up console output

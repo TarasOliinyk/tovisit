@@ -1,13 +1,14 @@
 package com.lits.tovisitapp.service;
 
-import com.lits.tovisitapp.data.UserRole;
-import com.lits.tovisitapp.dto.UserDTO;
+import com.lits.tovisitapp.dto.user.UserCreateDTO;
+import com.lits.tovisitapp.dto.user.UserDTO;
+import com.lits.tovisitapp.dto.user.role.UserRoleDTO;
 
 import java.util.List;
 
 public interface UserService {
 
-    UserDTO createUser(UserDTO userDTO);
+    UserCreateDTO createUser(UserCreateDTO userDTO);
 
     UserDTO getUserById(Long userId);
 
@@ -17,9 +18,9 @@ public interface UserService {
 
     UserDTO updateUser(UserDTO userDTO);
 
-    UserDTO assignRole(Long userId, UserRole role);
+    UserDTO assignRole(Long userId, UserRoleDTO roleDTO);
 
-    UserRole getUserRole(Long userId);
+    UserRoleDTO getUserRole(Long userId);
 
     void deleteUser(Long userId);
 }

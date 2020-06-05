@@ -1,22 +1,14 @@
-package com.lits.tovisitapp.dto;
+package com.lits.tovisitapp.dto.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.lits.tovisitapp.model.Trip;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.constraints.*;
 
 @Data
-@EqualsAndHashCode(exclude = {"id", "password", "trips"})
-@ToString(exclude = {"password", "trips"})
-public class UserDTO {
-
-    private Long id;
+@EqualsAndHashCode(exclude = "password")
+@ToString(exclude = "password")
+public class UserCreateDTO {
 
     @NotBlank(message = "User first name cannot be blank or null")
     private String firstName;
@@ -31,8 +23,6 @@ public class UserDTO {
 
     @NotBlank(message = "User password cannot be blank or null")
     @Pattern(regexp = ".{6,}", message = "User password has to be at least 6 characters long")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
-
-    @JsonIgnore
-    private List<Trip> trips = new ArrayList<>();
 }
