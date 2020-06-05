@@ -45,7 +45,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.FOUND).body(userService.getUserById(id));
     }
 
-    @GetMapping("/list") // ToDo: need to return users without passwords!
+    @GetMapping("/list")
     public List<UserDTO> getAllUsers() {
         return userService.getAllUsers();
     }
