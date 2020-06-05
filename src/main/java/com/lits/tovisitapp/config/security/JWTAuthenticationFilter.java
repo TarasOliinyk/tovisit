@@ -2,7 +2,7 @@ package com.lits.tovisitapp.config.security;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lits.tovisitapp.dto.UserDTO;
+import com.lits.tovisitapp.dto.user.UserDTO;
 import com.lits.tovisitapp.repository.UserRepository;
 import com.lits.tovisitapp.service.UserService;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -1,8 +1,11 @@
 package com.lits.tovisitapp.controller;
 
 import com.lits.tovisitapp.annotation.role.IsAdmin;
-import com.lits.tovisitapp.data.UserRole;
-import com.lits.tovisitapp.dto.UserDTO;
+import com.lits.tovisitapp.config.security.UserContextHolder;
+import com.lits.tovisitapp.dto.user.UserCreateDTO;
+import com.lits.tovisitapp.dto.user.UserDTO;
+import com.lits.tovisitapp.dto.user.UserLoginDTO;
+import com.lits.tovisitapp.dto.user.role.UserRoleDTO;
 import com.lits.tovisitapp.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +28,13 @@ public class UserController {
 
     @PostMapping("/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<UserDTO> singUp(@RequestBody @Valid UserDTO userDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userDTO));
+    public ResponseEntity<UserCreateDTO> singUp(@RequestBody @Valid UserCreateDTO userCreateDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userCreateDTO));
     }
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public void login(@RequestBody @Valid UserDTO userDTO) {
+    public void login(@RequestBody @Valid UserLoginDTO userLoginDTO) {
         // Login processing (JWT token generation) is handled by JWTAuthenticationFilter, this endpoint is created for
         // exposing it to Swagger
     }
@@ -42,22 +45,22 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.FOUND).body(userService.getUserById(id));
     }
 
-    @GetMapping("/list")
+    @GetMapping("/list") // ToDo: need to return users without passwords!
     public List<UserDTO> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @IsAdmin
-    @PutMapping("/{userId}/addRole")
+    @PutMapping("/{userId}/role")
     public ResponseEntity<UserDTO> assignRole(@PathVariable(name = "userId")
                                               @Positive(message = "User id cannot be negative") Long userId,
-                                              @RequestBody UserRole role) {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.assignRole(userId, role));
+                                              @RequestBody UserRoleDTO roleDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.assignRole(userId, roleDTO));
     }
 
     @IsAdmin
-    @GetMapping("/{userId}/getRole")
-    public ResponseEntity<UserRole> getUserRole(@PathVariable(name = "userId")
+    @GetMapping("/{userId}/role")
+    public ResponseEntity<UserRoleDTO> getUserRole(@PathVariable(name = "userId")
                                                 @Positive(message = "User id cannot be negative") Long userId) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUserRole(userId));
     }
@@ -67,5 +70,6 @@ public class UserController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void deleteUser(@PathVariable(name = "id") @Positive(message = "User id cannot be negative") Long id) {
         userService.deleteUser(id);
+        UserContextHolder.clearContext();
     }
 }

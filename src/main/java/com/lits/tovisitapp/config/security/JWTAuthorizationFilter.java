@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 
 import static com.lits.tovisitapp.config.security.SecurityConstants.*;
 
@@ -30,6 +31,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                                     HttpServletResponse res,
                                     FilterChain chain) throws IOException, ServletException {
         String header = req.getHeader(HEADER);
+
         if (header == null || !header.startsWith(TOKEN_PREFIX)) {
             chain.doFilter(req, res);
             return;
@@ -38,25 +40,20 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(req, res);
     }
+
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-        String token = request.getHeader(HEADER);
-        if (token != null) {
-            // parse the token.
-            DecodedJWT decoded = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
-                    .build()
-                    .verify(token.replace(TOKEN_PREFIX, ""));
+        String header = request.getHeader(HEADER);
 
-            String user = decoded.getSubject();
-            String role = decoded.getClaims().get(USER_ROLE_PARAM).asString();
-
-            UserContextHolder.setUserId(decoded.getClaims().get(USER_ID_PARAM).asLong());
+        if (null != header) {
+            DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(SECRET.getBytes())).build()
+                    .verify(header.replace(TOKEN_PREFIX, ""));
+            String username = decodedJWT.getSubject();
+            Long userId = decodedJWT.getClaim(USER_ID_PARAM).asLong();
+            String role = decodedJWT.getClaim(USER_ROLE_PARAM).asString();
+            UserContextHolder.setUserId(userId);
             UserContextHolder.setUserRole(UserRole.valueOf(role));
-
-            if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null,
-                        Collections.singletonList(new SimpleGrantedAuthority(role)));
-            }
-            return null;
+            List<SimpleGrantedAuthority> userAuthorities = Collections.singletonList(new SimpleGrantedAuthority(role));
+            return null != username ? new UsernamePasswordAuthenticationToken(username, userId, userAuthorities) : null;
         }
         return null;
     }

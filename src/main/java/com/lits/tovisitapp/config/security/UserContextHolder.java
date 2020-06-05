@@ -3,7 +3,6 @@ package com.lits.tovisitapp.config.security;
 import com.lits.tovisitapp.data.UserRole;
 
 public class UserContextHolder {
-
     private static final ThreadLocal<Long> USER_ID = new ThreadLocal<>();
     private static final ThreadLocal<UserRole> USER_ROLE = new ThreadLocal<>();
 
